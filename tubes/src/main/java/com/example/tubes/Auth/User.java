@@ -1,4 +1,4 @@
-package com.example.tubes.Admin;
+package com.example.tubes.Auth;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +7,10 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
-    private int id;
+public class User {
+    private String id;
     private String nama;
     private String email;
     private String password;
+    private String role;
 }
