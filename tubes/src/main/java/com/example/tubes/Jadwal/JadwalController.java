@@ -49,9 +49,9 @@ public class JadwalController {
             dates.add(i);
 
         // 2. Ambil Data Database
-        List<Jadwal> listJadwal = jadwalRepository.findByDosenId(user.getId());
+        List<Jadwal> listJadwal = jadwalRepository.findByDosenId(user.getIdUser());
         List<Map<String, Object>> listRuangan = jadwalRepository.findAllRuangan();
-        List<Map<String, Object>> listMahasiswa = jadwalRepository.findMahasiswaByDosen(user.getId());
+        List<Map<String, Object>> listMahasiswa = jadwalRepository.findMahasiswaByDosen(user.getIdUser());
 
         model.addAttribute("currentMonth", now.getMonth().name());
         model.addAttribute("currentYear", now.getYear());
@@ -81,7 +81,7 @@ public class JadwalController {
         LocalDateTime end = LocalDateTime.parse(tanggal + "T" + jamSelesai);
 
         Jadwal jadwalBaru = new Jadwal();
-        jadwalBaru.setDosenId(user.getId());
+        jadwalBaru.setDosenId(user.getIdUser());
         jadwalBaru.setWaktuMulai(start);
         jadwalBaru.setWaktuSelesai(end);
 

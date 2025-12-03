@@ -10,10 +10,10 @@ description = 'Demo project for Spring Boot'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(20)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
-
+3
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

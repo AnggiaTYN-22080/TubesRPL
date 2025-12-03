@@ -23,7 +23,7 @@ public class MahasiswaController {
         }
 
         // 1. Ambil Jadwal Mahasiswa ini dari Database
-        List<Jadwal> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getId());
+        List<Jadwal> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getIdUser());
 
         // 2. Kirim ke HTML
         model.addAttribute("user", user);
