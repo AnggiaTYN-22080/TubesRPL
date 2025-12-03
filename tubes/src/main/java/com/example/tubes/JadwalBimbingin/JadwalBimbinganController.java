@@ -1,4 +1,4 @@
-package com.example.tubes.Jadwal;
+package com.example.tubes.JadwalBimbingin;
 
 import com.example.tubes.Auth.User;
 import jakarta.servlet.http.HttpSession;
@@ -16,10 +16,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/jadwal")
-public class JadwalController {
+public class JadwalBimbinganController {
 
     @Autowired
-    private JadwalRepository jadwalRepository;
+    private JadwalBimbinganRepository jadwalBimbinganRepository;
 
     @GetMapping("/kelola")
     public String kelolaJadwal(HttpSession session, Model model) {
@@ -49,9 +49,9 @@ public class JadwalController {
             dates.add(i);
 
         // 2. Ambil Data Database
-        List<Jadwal> listJadwal = jadwalRepository.findByDosenId(user.getIdUser());
-        List<Map<String, Object>> listRuangan = jadwalRepository.findAllRuangan();
-        List<Map<String, Object>> listMahasiswa = jadwalRepository.findMahasiswaByDosen(user.getIdUser());
+        List<JadwalBimbingan> listJadwal = jadwalBimbinganRepository.findByDosenId(user.getIdUser());
+        List<Map<String, Object>> listRuangan = jadwalBimbinganRepository.findAllRuangan();
+        List<Map<String, Object>> listMahasiswa = jadwalBimbinganRepository.findMahasiswaByDosen(user.getIdUser());
 
         model.addAttribute("currentMonth", now.getMonth().name());
         model.addAttribute("currentYear", now.getYear());
@@ -80,13 +80,13 @@ public class JadwalController {
         LocalDateTime start = LocalDateTime.parse(tanggal + "T" + jamMulai);
         LocalDateTime end = LocalDateTime.parse(tanggal + "T" + jamSelesai);
 
-        Jadwal jadwalBaru = new Jadwal();
+        JadwalBimbingan jadwalBaru = new JadwalBimbingan();
         jadwalBaru.setDosenId(user.getIdUser());
         jadwalBaru.setWaktuMulai(start);
         jadwalBaru.setWaktuSelesai(end);
 
         // Simpan dengan Mahasiswa dan Ruangan
-        jadwalRepository.save(jadwalBaru, mahasiswaId, ruanganId);
+        jadwalBimbinganRepository.save(jadwalBaru, mahasiswaId, ruanganId);
 
         return "redirect:/jadwal/kelola";
     }

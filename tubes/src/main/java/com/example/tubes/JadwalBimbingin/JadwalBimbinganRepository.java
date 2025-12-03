@@ -1,4 +1,4 @@
-package com.example.tubes.Jadwal;
+package com.example.tubes.JadwalBimbingin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class JadwalRepository {
+public class JadwalBimbinganRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     // Mapper: Mengubah hasil query database menjadi Objek Java
-    private Jadwal mapRowToJadwal(ResultSet rs, int rowNum) throws SQLException {
+    private JadwalBimbingan mapRowToJadwal(ResultSet rs, int rowNum) throws SQLException {
         // PERBAIKAN DI SINI:
         // Kita tidak lagi ambil "lokasi", tapi "nama_ruangan" hasil JOIN
-        return new Jadwal(
+        return new JadwalBimbingan(
                 rs.getInt("id"),
                 rs.getString("dosen_id"),
                 rs.getTimestamp("waktu_mulai").toLocalDateTime(),
@@ -27,7 +27,7 @@ public class JadwalRepository {
                 rs.getString("status"));
     }
 
-    public List<Jadwal> findByDosenId(String dosenId) {
+    public List<JadwalBimbingan> findByDosenId(String dosenId) {
         // PERBAIKAN QUERY:
         // Kita gunakan JOIN agar bisa mendapatkan 'nama_ruangan' berdasarkan
         // 'ruangan_id'
@@ -54,7 +54,7 @@ public class JadwalRepository {
     }
 
     // Simpan Jadwal Baru
-    public void save(Jadwal jadwal, String mahasiswaId, int ruanganId) {
+    public void save(JadwalBimbingan jadwal, String mahasiswaId, int ruanganId) {
         String sql = "INSERT INTO slot_jadwal (dosen_id, waktu_mulai, waktu_selesai, ruangan_id, mahasiswa_id, status) VALUES (?, ?, ?, ?, ?, 'TERJADWAL')";
 
         jdbcTemplate.update(sql,
