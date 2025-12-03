@@ -19,7 +19,7 @@ public class JdbcAdminRepo implements AdminRepository {
     private Admin mapRowToAdmin(ResultSet rs, int rowNum) throws SQLException {
         return new Admin(
                 rs.getInt("id"),
-                rs.getString("nama"),
+                rs.getString("name"),
                 rs.getString("email"),
                 rs.getString("password"));
     }
