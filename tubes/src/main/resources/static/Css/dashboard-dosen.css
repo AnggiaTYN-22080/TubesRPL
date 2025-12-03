@@ -69,3 +69,23 @@ body {
     justify-content: center;
     color: #333;
 }
+
+/* Styling Header Dashboard (Clean) */
+.dashboard-header {
+    background-color: white;
+    
+    /* GANTI BORDER TEBAL DENGAN GARIS HALUS */
+    border-bottom: 1px solid #e0e0e0; 
+    
+    /* Tambahkan sedikit shadow agar elegan */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    
+    /* Layout */
+    padding: 15px 40px; /* Padding kiri-kanan disesuaikan */
+    width: 100%;
+    
+    /* Sticky Position */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}

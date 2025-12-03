@@ -29,8 +29,21 @@ public class DosenController {
         model.addAttribute("user", user);
         model.addAttribute("dosenDetail", dataLengkapDosen);
 
-        // Hapus baris model.addAttribute("user", user); yang kedua (duplikat)
-
         return "Dosen/dashboard";
+    }
+
+    @GetMapping("/mahasiswa")
+    public String listMahasiswa() {
+        return "Dosen/daftar-mhs";
+    }
+
+    @GetMapping("/mahasiswa/detail/1")
+    public String detailMahasiswa() {
+        return "Dosen/detail-mahasiswa";
+    }
+
+    @GetMapping("/bimbingan/detail/1")
+    public String detailBimbingan() {
+        return "Dosen/detail-bimbingan";
     }
 }

@@ -1,46 +1,99 @@
-<h5 class="mb-3 mt-5 border-start border-4 border-primary ps-2">Jadwal Bimbingan Anda</h5>
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Dosen</title>
+    
+    <link rel="stylesheet" th:href="@{/Css/dashboard-dosen.css}">
+    <link rel="stylesheet" th:href="@{/Css/daftar-mhs-style.css}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
         
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-            <thead class="bg-light">
-                <tr>
-                    <th class="p-3">Tanggal</th>
-                    <th class="p-3">Waktu</th>
-                    <th class="p-3">Ruangan</th>
-                    <th class="p-3">Pembimbing</th>
-                    <th class="p-3">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="jadwal : ${jadwalList}">
-                    <td class="p-3 fw-bold" th:text="${#temporals.format(jadwal.waktuMulai, 'dd MMMM yyyy')}"></td>
-                    
-                    <td class="p-3">
-                        <span class="badge bg-info text-dark">
-                            <i class="far fa-clock me-1"></i>
-                            <span th:text="${#temporals.format(jadwal.waktuMulai, 'HH:mm')}"></span> - 
-                            <span th:text="${#temporals.format(jadwal.waktuSelesai, 'HH:mm')}"></span>
-                        </span>
-                    </td>
+        <div th:replace="~{layout/sidebar-dosen :: sidebar(activeTab='dashboard')}"></div>
 
-                    <td class="p-3" th:text="${jadwal.lokasi}">R.9122</td>
+        <div class="content">
+            
+            <div th:replace="~{layout/header-dosen :: header(title='Dashboard')}"></div>
 
-                    <td class="p-3" th:text="${jadwal.dosenId}">Pak Dosen</td>
+            <div class="page-container">
+                
+                <div class="mb-4">
+                    <h4 class="fw-bold text-secondary mb-0">Selamat Datang, <span th:text="${user.nama}">Dosen</span></h4>
+                    <p class="text-muted small">Berikut adalah ringkasan aktivitas bimbingan Anda.</p>
+                </div>
 
-                    <td class="p-3">
-                        <span class="badge bg-success">TERJADWAL</span>
-                    </td>
-                </tr>
+                <div class="stats-container p-4 mb-5">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="stat-title opacity-75">Mahasiswa Bimbingan</p>
+                                        <h1 class="stat-value display-4 mb-0" th:text="${dosenDetail != null ? dosenDetail.kuotaBimbingan : '0'}">0</h1>
+                                    </div>
+                                    <i class="fas fa-users fa-3x opacity-25"></i>
+                                </div>
+                                <div class="mt-3">
+                                    <span class="badge bg-light text-primary">Kuota Aktif</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="stat-title opacity-75">Pengajuan Masuk</p>
+                                        <h1 class="stat-value display-4 mb-0">0</h1>
+                                    </div>
+                                    <i class="fas fa-envelope-open-text fa-3x opacity-25"></i>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-light btn-sm text-primary fw-bold">Lihat Semua</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <tr th:if="${#lists.isEmpty(jadwalList)}">
-                    <td colspan="5" class="text-center py-5 text-muted">
-                        <i class="fas fa-calendar-times fa-3x mb-3 opacity-25"></i>
-                        <p>Belum ada jadwal bimbingan yang ditentukan oleh Dosen.</p>
-                        <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ajukan Request Jadwal</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                <h5 class="mb-3 fw-bold text-secondary ps-1">Akses Cepat</h5>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="menu-card d-flex align-items-center p-4 h-100 position-relative">
+                            <div class="icon-circle me-4 flex-shrink-0">
+                                <i class="far fa-calendar-check fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark">Jadwal Bimbingan</h5>
+                                <p class="text-muted small mb-0">Atur jadwal bimbingan Anda.</p>
+                                <a th:href="@{/jadwal/kelola}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="menu-card d-flex align-items-center p-4 h-100 position-relative">
+                            <div class="icon-circle me-4 flex-shrink-0">
+                                <i class="far fa-address-book fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark">Data Mahasiswa</h5>
+                                <p class="text-muted small mb-0">Lihat daftar mahasiswa bimbingan.</p>
+                                <a th:href="@{/dosen/mahasiswa}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -4,60 +4,57 @@
     <title>Jadwal Bimbingan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" th:href="@{/Css/daftar-mhs-style.css}">
     <link rel="stylesheet" th:href="@{/Css/calendar.css}">
 </head>
 <body>
 
-<div class="main-layout">
+<div class="main-wrapper">
     
-    <div class="sidebar">
-        <img th:src="@{/Images/LogoUnpar.png}" width="40" class="mb-4">
-        
-        <a th:href="@{/dosen/dashboard}" class="sidebar-icon" title="Home">
-            <i class="fas fa-home"></i>
-        </a>
-        <a href="#" class="sidebar-icon active" title="Jadwal">
-            <i class="far fa-clock"></i>
-        </a>
-        <a href="#" class="sidebar-icon" title="Laporan">
-            <i class="far fa-file-alt"></i>
-        </a>
-    </div>
+    <div th:replace="~{layout/sidebar-dosen :: sidebar(activeTab='jadwal')}"></div>
 
-    <div class="content-area">
-        <div class="d-flex justify-content-between mb-3">
-            <h4 class="text-secondary">Jadwal Bimbingan</h4>
-            <a th:href="@{/logout}" class="text-secondary text-decoration-none">Logout</a>
-        </div>
-
-        <div class="calendar-header">
-            <h2 th:text="${currentMonth + ' ' + currentYear}">October 2025</h2>
-        </div>
-
-        <div class="calendar-grid">
-            <div class="day-name">Sunday</div>
-            <div class="day-name">Monday</div>
-            <div class="day-name">Tuesday</div>
-            <div class="day-name">Wednesday</div>
-            <div class="day-name">Thursday</div>
-            <div class="day-name">Friday</div>
-            <div class="day-name">Saturday</div>
-
-            <div th:each="blank : ${blanks}" class="day-cell empty"></div>
-
-            <div th:each="date : ${dates}" class="day-cell" 
-                 th:onclick="'openModal(' + ${date} + ')'">
-                
-                <div class="date-number" th:text="${date}">1</div>
-
-                <div th:each="jadwal : ${listJadwal}">
-                    <div th:if="${jadwal.waktuMulai.dayOfMonth == date}" class="event-badge">
-                        <span th:text="${#temporals.format(jadwal.waktuMulai, 'HH:mm')}"></span>
-                        Bimbingan
-                    </div>
+    <div class="content">
+        <div class="page-container"> 
+            
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h4 class="fw-bold text-secondary mb-0">Jadwal Bimbingan</h4>
+                    <p class="text-muted small">Atur jadwal bimbingan Anda di sini.</p>
                 </div>
-
+                <a th:href="@{/logout}" class="text-dark text-decoration-none fw-bold small">Logout</a>
             </div>
+
+            <div class="calendar-header mb-4 text-center">
+                <h2 class="fw-bold text-dark" th:text="${currentMonth + ' ' + currentYear}">October 2025</h2>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="day-name">Sunday</div>
+                <div class="day-name">Monday</div>
+                <div class="day-name">Tuesday</div>
+                <div class="day-name">Wednesday</div>
+                <div class="day-name">Thursday</div>
+                <div class="day-name">Friday</div>
+                <div class="day-name">Saturday</div>
+
+                <div th:each="blank : ${blanks}" class="day-cell empty"></div>
+
+                <div th:each="date : ${dates}" class="day-cell" 
+                     th:onclick="'openModal(' + ${date} + ')'">
+                    
+                    <div class="date-number" th:text="${date}">1</div>
+
+                    <div th:each="jadwal : ${listJadwal}">
+                        <div th:if="${jadwal.waktuMulai.dayOfMonth == date}" class="event-badge">
+                            <span th:text="${#temporals.format(jadwal.waktuMulai, 'HH:mm')}"></span>
+                            Bimbingan
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -65,31 +62,31 @@
 <div class="modal fade" id="modalJadwal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Jadwalkan Bimbingan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form th:action="@{/jadwal/tambah}" method="post">
                 <div class="modal-body">
                     
                     <div class="mb-3">
-                        <label>Tanggal Terpilih</label>
+                        <label class="fw-bold small">Tanggal Terpilih</label>
                         <input type="date" id="inputTanggal" name="tanggal" class="form-control" readonly>
                     </div>
 
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <label>Jam Mulai</label>
+                            <label class="fw-bold small">Jam Mulai</label>
                             <input type="time" name="jamMulai" class="form-control" required>
                         </div>
                         <div class="col-6 mb-3">
-                            <label>Jam Selesai</label>
+                            <label class="fw-bold small">Jam Selesai</label>
                             <input type="time" name="jamSelesai" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label>Pilih Ruangan</label>
+                        <label class="fw-bold small">Pilih Ruangan</label>
                         <select name="ruanganId" class="form-select" required>
                             <option value="">-- Pilih Ruangan --</option>
                             <option th:each="ruang : ${listRuangan}" 
@@ -99,7 +96,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label>Pilih Mahasiswa</label>
+                        <label class="fw-bold small">Pilih Mahasiswa</label>
                         <select name="mahasiswaId" class="form-select" required>
                             <option value="">-- Pilih Mahasiswa --</option>
                             <option th:each="mhs : ${listMahasiswa}" 
@@ -109,8 +106,8 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan Jadwal</button>
+                <div class="modal-footer bg-light">
+                    <button type="submit" class="btn btn-primary w-100">Simpan Jadwal</button>
                 </div>
             </form>
         </div>
@@ -119,27 +116,19 @@
 
 <script>
     function openModal(day) {
-        // 1. Format tanggal hari ini biar sesuai input type="date" (YYYY-MM-DD)
         const year = "[[${currentYear}]]";
         const monthName = "[[${currentMonth}]]";
         
-        // Konversi nama bulan ke angka (Simple mapping)
         const monthMap = {
             "JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
             "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
             "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"
         };
         const month = monthMap[monthName];
-        
-        // Tambah 0 di depan angka hari jika satuan (1 -> 01)
         const dayString = day < 10 ? '0' + day : day;
-
         const fullDate = `${year}-${month}-${dayString}`;
 
-        // 2. Isi nilai ke input modal
         document.getElementById('inputTanggal').value = fullDate;
-
-        // 3. Buka Modal Bootstrap
         var myModal = new bootstrap.Modal(document.getElementById('modalJadwal'));
         myModal.show();
     }

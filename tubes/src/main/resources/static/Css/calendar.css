@@ -1,37 +1,7 @@
-/* Layout Halaman Utama */
-.main-layout {
-    display: flex;
-    height: 100vh;
-}
+/* HAPUS .main-layout, .sidebar, .sidebar-icon, .content-area dari sini 
+   karena sudah ada di daftar-mhs-style.css */
 
-/* Sidebar Kiri (Icon Only) */
-.sidebar {
-    width: 80px;
-    background-color: white;
-    border-right: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-}
-
-.sidebar-icon {
-    font-size: 24px;
-    margin-bottom: 30px;
-    color: #333;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.sidebar-icon:hover { color: #007bff; }
-.sidebar-icon.active { color: #007bff; border-right: 3px solid #007bff; width: 100%; text-align: center; }
-
-/* Konten Kanan */
-.content-area {
-    flex-grow: 1;
-    padding: 40px;
-    background-color: #ffffff;
-}
+/* --- MULAI DARI SINI SAJA (Grid Kalender Specific) --- */
 
 /* Header Kalender */
 .calendar-header {
@@ -44,13 +14,13 @@
 /* GRID KALENDER */
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 Kolom (Minggu-Sabtu) */
+    grid-template-columns: repeat(7, 1fr);
     gap: 1px;
-    background-color: #f0f0f0; /* Garis pemisah */
+    background-color: #f0f0f0;
     border: 1px solid #f0f0f0;
 }
 
-/* Header Hari (Mon, Tue, etc) */
+/* Header Hari */
 .day-name {
     background-color: white;
     padding: 15px;
@@ -62,7 +32,7 @@
 /* Kotak Tanggal */
 .day-cell {
     background-color: white;
-    min-height: 120px; /* Tinggi kotak */
+    min-height: 120px;
     padding: 10px;
     position: relative;
     cursor: pointer;
@@ -77,10 +47,10 @@
     margin-bottom: 10px;
 }
 
-/* Badge Bimbingan (Kuning/Pink) */
+/* Badge Bimbingan */
 .event-badge {
     display: block;
-    background-color: #fef9c3; /* Warna Kuning muda seperti gambar */
+    background-color: #fef9c3;
     color: #854d0e;
     padding: 4px 8px;
     border-radius: 12px;
@@ -90,5 +60,4 @@
     border-left: 3px solid #ca8a04;
 }
 
-/* Hari Kosong (Beda Bulan) */
 .day-cell.empty { background-color: #fafafa; cursor: default; }

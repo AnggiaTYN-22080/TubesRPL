@@ -1,11 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Data Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/daftar-mhs-style.css}">
 </head>
 <body>
-    
+
+<div class="main-wrapper">
+    <div th:replace="~{layout/sidebar-dosen :: sidebar(activeTab='mahasiswa')}"></div>
+
+    <div class="content">
+        <div class="top-header">
+            <h5 class="fw-bold mb-0">SIAP Bimbingan</h5>
+            <a th:href="@{/logout}" class="text-dark text-decoration-none fw-bold small">Logout</a>
+        </div>
+
+        <div class="page-container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold text-secondary mb-0">Daftar Mahasiswa</h4>
+                
+                <div class="input-group w-25">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari...">
+                </div>
+            </div>
+
+            <div class="table-responsive bg-white border rounded shadow-sm">
+                <table class="table custom-table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;" class="ps-4"><input type="checkbox" class="form-check-input"></th>
+                            <th>Mahasiswa</th>
+                            <th>Email Address</th>
+                            <th>Progress</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="mhs : ${listMahasiswa}" 
+                            th:onclick="'window.location.href=\'/dosen/mahasiswa/detail/' + ${mhs.npm} + '\''" 
+                            style="cursor: pointer;">
+                            
+                            <td class="ps-4"><input type="checkbox" class="form-check-input"></td>
+                            
+                            <td>
+                                <div class="avatar-group">
+                                    <div class="avatar-initial bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" 
+                                         style="width: 40px; height: 40px; font-weight: bold;">
+                                        <span th:text="${#strings.substring(mhs.nama, 0, 1)}">A</span>
+                                    </div>
+                                    <div>
+                                        <span class="user-name" th:text="${mhs.nama}">Nama Mahasiswa</span>
+                                        <span class="user-id" th:text="${mhs.npm}">NPM</span>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td th:text="${mhs.email}">email@unpar.ac.id</td>
+                            
+                            <td>
+                                <span class="badge bg-light text-dark border">
+                                    <span th:text="${mhs.progress != null ? mhs.progress : 'Belum Ada'}">Progress</span>
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge rounded-pill" 
+                                      th:classappend="${mhs.status == 'Siap Sidang' ? 'bg-success' : 'bg-secondary'}"
+                                      th:text="${mhs.status != null ? mhs.status : 'Belum Siap'}">Status</span>
+                            </td>
+                            
+                            <td class="text-end text-muted pe-4">
+                                <i class="far fa-trash-alt me-3 text-danger" title="Hapus"></i>
+                                <i class="far fa-edit text-primary" title="Edit"></i>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(listMahasiswa)}">
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <p class="mb-0">Belum ada mahasiswa bimbingan.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
