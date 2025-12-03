@@ -7,15 +7,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.example.tubes.Jadwal.Jadwal;
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
 
 public class JdbcMahasiswaRepo implements MahasiswaRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     // Mapper untuk Jadwal (Copy dari JadwalRepository biar cepat)
-    private Jadwal mapRowToJadwal(ResultSet rs, int rowNum) throws SQLException {
-        return new Jadwal(
+    private JadwalBimbingan mapRowToJadwal(ResultSet rs, int rowNum) throws SQLException {
+        return new JadwalBimbingan(
                 rs.getInt("id"),
                 rs.getString("dosen_id"),
                 rs.getTimestamp("waktu_mulai").toLocalDateTime(),
@@ -25,7 +25,7 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
     }
 
     // Cari jadwal bimbingan milik mahasiswa tertentu
-    public List<Jadwal> findJadwalByMahasiswaId(String npm) {
+    public List<JadwalBimbingan> findJadwalByMahasiswaId(String npm) {
         String sql = """
                     SELECT s.*, r.nama_ruangan
                     FROM slot_jadwal s
