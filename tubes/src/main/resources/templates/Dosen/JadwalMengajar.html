@@ -29,11 +29,12 @@
         <h3>SIAP Bimbingan</h3>
 
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon"></i>
+            <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
             <a href="#" class="logout">Logout</a>
         </div>
     </div>
 
+    <div id="notif-container"></div>
 
     <div class="content">
         <div class="card">
@@ -69,5 +70,30 @@
         </div>
     </div>
 
+    <script>
+        fetch("../Layout/panelNotif.html")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("notif-container").innerHTML = html;
+            });
+
+        function openNotif() {
+            const panel = document.getElementById("notif-panel");
+            const overlay = document.getElementById("notif-overlay");
+
+            panel.classList.add("open");
+            overlay.style.display = "block";
+
+            overlay.onclick = () => closeNotif();
+        }
+
+        function closeNotif() {
+            const panel = document.getElementById("notif-panel");
+            const overlay = document.getElementById("notif-overlay");
+
+            panel.classList.remove("open");
+            overlay.style.display = "none";
+        }
+    </script>
 </body>
 </html>

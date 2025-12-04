@@ -1,0 +1,44 @@
+.notif-panel {
+    width: 300px;
+    height: 100vh;
+    background: white;
+    position: fixed;
+    top: 0;
+    right: -320px;
+    padding: 20px;
+    transition: 0.3s ease-in-out;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+    z-index: 2002;
+}
+
+.notif-panel.open {
+    right: 0;
+}
+
+.notif-panel h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.notif-item {
+    margin-top: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.notif-item h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.notif-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0,0,0,0.35);
+    display: none;
+    z-index: 2001;
+}

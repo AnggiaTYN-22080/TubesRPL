@@ -72,54 +72,97 @@ body {
     color: black;
 }
 
-.content {
+.content-area {
     margin-left: 60px;
-    margin-top: 15px;
-    padding: 20px;
+    padding: 20px 30px;
 }
 
 .card {
     background: white;
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.06);
 }
 
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.list-header {
     margin-bottom: 10px;
 }
 
-.btn-edit-main {
-    background-color: #007bff;
-    color: white;
-    padding: 7px 18px;
-    border-radius: 5px;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
+.list-header h2 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 600;
 }
 
-.btn-edit-main:hover {
-    background-color: #0056b3;
-}
-
-table {
+.table-mahasiswa {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.12);
-    border-radius: 6px;
-    overflow: hidden;
+    margin-top: 5px;
+    font-size: 14px;
 }
 
-th, td {
-    padding: 12px;
-    text-align: left;
+.table-mahasiswa thead th {
+    background-color: #fafafa;
+    font-weight: 600;
+    padding: 10px 16px;
     border-bottom: 1px solid #eee;
 }
 
-th {
-    background-color: #f9f9f9;
-    font-weight: 600;
+.table-mahasiswa tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.table-mahasiswa tbody tr:hover td {
+    background-color: #f8f8f8;
+}
+
+.cell-name .name {
+    font-weight: 500;
+}
+
+.cell-name .npm {
+    font-size: 12px;
+    color: #777;
+}
+
+.cell-actions {
+    white-space: nowrap;
+}
+
+.table-mahasiswa input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.btn-icon i {
+    color: #666;
+}
+
+.btn-icon:hover i {
+    color: #d11; 
+}
+
+.btn-detail {
+    border: 1px solid #007bff;
+    background: white;
+    color: #007bff;
+    padding: 4px 12px;
+    font-size: 13px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.btn-detail:hover {
+    background: #007bff;
+    color: white;
 }
