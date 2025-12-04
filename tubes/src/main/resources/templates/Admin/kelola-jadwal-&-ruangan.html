@@ -1,11 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <title>Dosen Koordinator Kelola Jadwal & Ruangan</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    
+<body class="app-layout">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+      </div>
+      <ul class="sidebar-nav">
+        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
+        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
+        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
+        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
+        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
+        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
+      </ul>
+    </aside>
+    <div class="main-panel">
+      <div class="page-title-bar">
+        <span>Dosen Koordinator Kelola Jadwal & Ruangan</span>
+      </div>
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+          <span class="brand-text">SIAP Bimbingan</span>
+        </div>
+        <div class="header-center">
+          
+        </div>
+        <div class="header-right">
+          <img src="assets/icons/bell.svg" alt="Notifikasi" />
+          <span>Logout</span>
+        </div>
+      </header>
+      <main class="page-content">
+        
+  <div class="room-layout">
+    <div>
+      <div class="room-header-title">Kelola Jadwal dan Ruangan</div>
+      <div class="room-available-label">Ruang Tersedia</div>
+      <button class="btn-room-primary">Tambah Ruangan</button>
+
+      <div class="room-pill-list">
+        <div class="room-pill">
+          <span class="room-pill-label">R9210</span>
+          <span class="room-pill-indicator"></span>
+        </div>
+        <div class="room-pill">
+          <span class="room-pill-label">R9211</span>
+          <span class="room-pill-indicator busy"></span>
+        </div>
+        <div class="room-pill">
+          <span class="room-pill-label">R9212</span>
+          <span class="room-pill-indicator"></span>
+        </div>
+        <div class="room-pill">
+          <span class="room-pill-label">R9213</span>
+          <span class="room-pill-indicator"></span>
+        </div>
+        <div class="room-pill">
+          <span class="room-pill-label">R9214</span>
+          <span class="room-pill-indicator"></span>
+        </div>
+        <div class="room-pill">
+          <span class="room-pill-label">R9215</span>
+          <span class="room-pill-indicator"></span>
+        </div>
+      </div>
+
+      <div class="room-schedule-table">
+        <table class="list-table">
+          <thead>
+            <tr>
+              <th>Dosen</th>
+              <th>Tanggal</th>
+              <th>Jam</th>
+              <th>Ruang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>20160127 Keenan Adiwijaya Leman, S.T., M.T.</td>
+              <td>Selasa, 9 Oktober 2025</td>
+              <td>10:00 - 12:00</td>
+              <td>9211</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+  </div>
 </body>
 </html>
