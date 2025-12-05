@@ -1,0 +1,50 @@
+.pengajuan-wrapper {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.form-section {
+    flex: 2;
+    background-color: #DCE3F9;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.info-section {
+    flex: 1;
+    padding-top: 10px;
+}
+
+.info-label { color: #666; font-size: 14px; margin-bottom: 5px; }
+.info-value { font-weight: 600; color: #000; margin-bottom: 20px; line-height: 1.4; }
+
+.custom-form-control {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.form-label { font-weight: 600; color: #000; margin-bottom: 0; }
+
+.btn-submit-dark {
+    background-color: #333;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    float: right;
+    margin-top: 20px;
+}
+.btn-submit-dark:hover { background-color: #000; }
