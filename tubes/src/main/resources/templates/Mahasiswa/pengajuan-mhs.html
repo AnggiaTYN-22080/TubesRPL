@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Bimbingan</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../static/Css/daftar-mhs-style.css">
+    
+    <style>
+        .pengajuan-wrapper { display: flex; gap: 40px; margin-top: 20px; }
+        .form-section { flex: 2; background-color: #DCE3F9; border-radius: 12px; padding: 30px; }
+        .info-section { flex: 1; padding-top: 10px; }
+        .info-label { color: #666; font-size: 14px; margin-bottom: 5px; }
+        .info-value { font-weight: 600; color: #000; margin-bottom: 20px; line-height: 1.4; }
+        .custom-form-control { border: none; border-radius: 6px; padding: 10px 15px; width: 100%; margin-top: 5px; margin-bottom: 20px; font-size: 14px; color: #333; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; background: white; }
+        .form-label { font-weight: 600; color: #000; margin-bottom: 0; }
+        .btn-submit-dark { background-color: #333; color: white; padding: 10px 30px; border-radius: 8px; border: none; font-weight: 600; float: right; margin-top: 20px; }
+        .btn-submit-dark:hover { background-color: #000; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    
+    <div class="sidebar">
+        <img src="../../static/Images/LogoUnpar.png" width="40" class="mb-4" style="margin-top: 20px;" alt="Logo">
+        
+        <a href="dashboard-mhs.html" class="sidebar-icon" title="Dashboard">
+            <i class="fas fa-home"></i>
+        </a>
+        
+        <a href="jadwal-mhs.html" class="sidebar-icon" title="Pilih Jadwal">
+            <i class="far fa-calendar-alt"></i>
+        </a>
+        
+        <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="far fa-clock"></i>
+        </a>
+
+        <a href="#" class="sidebar-icon active" title="Pengajuan Bimbingan">
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="top-header" style="background-color: white; border-bottom: 1px solid #e0e0e0; height: 80px; padding: 0 40px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+            <div class="d-flex align-items-center">
+                <h5 class="fw-bold mb-0 text-dark">SIAP Bimbingan</h5>
+                <span class="text-muted mx-3">|</span>
+                <small class="text-secondary fw-bold">Pengajuan Bimbingan</small>
+            </div>
+            <div class="d-flex align-items-center gap-4">
+                <a href="#" class="text-dark text-decoration-none"><i class="far fa-bell fa-lg"></i></a>
+                <a href="login.html" class="text-dark text-decoration-none fw-bold small">Logout</a>
+            </div>
+        </div>
+
+        <div class="page-container">
+            <h3 class="text-center fw-bold mb-4">Pengajuan Bimbingan</h3>
+            <div class="pengajuan-wrapper">
+                
+                <div class="form-section">
+                    <form>
+                        <label class="form-label">1. Tanggal bimbingan</label>
+                        <div class="custom-form-control"><span>Pilih Tanggal</span><i class="far fa-calendar text-muted"></i></div>
+
+                        <label class="form-label">2. Jam Bimbingan</label>
+                        <div class="custom-form-control" style="width: 200px;"><span>Pilih Jam</span><i class="far fa-clock text-muted"></i></div>
+
+                        <label class="form-label">3. Note (Opsional)</label>
+                        <textarea class="custom-form-control" style="height: 100px; resize: none;"></textarea>
+
+                        <label class="form-label">4. File terkait (Opsional)</label>
+                        <div class="custom-form-control"><span class="text-muted">Upload File...</span><i class="fas fa-upload text-muted"></i></div>
+                    </form>
+                </div>
+
+                <div class="info-section">
+                    <div class="mb-4">
+                        <div class="info-label">Dosen pembimbing :</div>
+                        <div class="info-value">20160127 Keenan Adiwijaya Lemvan, S.T., M.T.</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="info-label">Topik :</div>
+                        <div class="info-value">KAL5902BCS</div>
+                    </div>
+                    <div>
+                        <div class="info-value" style="font-weight: 400; font-size: 14px;">Pembangunan Perangkat Lunak Kompresi File dengan Algoritma LZW dan Huffman Coding</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 100%; overflow: hidden;">
+                <button class="btn-submit-dark">Submit</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

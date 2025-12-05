@@ -1,95 +1,91 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<html lang="id">
 <head>
-    <title>Data Mahasiswa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Daftar Mahasiswa</title>
+    <link rel="stylesheet" href="../../static/Css/Dosen/listMhs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/Css/daftar-mhs-style.css}">
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div th:replace="~{layout/sidebar-dosen :: sidebar(activeTab='mahasiswa')}"></div>
+    <div class="sidebar">
+        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
 
-    <div class="content">
-        <div class="top-header">
-            <h5 class="fw-bold mb-0">SIAP Bimbingan</h5>
-            <a th:href="@{/logout}" class="text-dark text-decoration-none fw-bold small">Logout</a>
-        </div>
+        <a href="#" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
 
-        <div class="page-container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold text-secondary mb-0">Daftar Mahasiswa</h4>
-                
-                <div class="input-group w-25">
-                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari...">
-                </div>
-            </div>
+        <a href="#" class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
 
-            <div class="table-responsive bg-white border rounded shadow-sm">
-                <table class="table custom-table table-hover align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th style="width: 50px;" class="ps-4"><input type="checkbox" class="form-check-input"></th>
-                            <th>Mahasiswa</th>
-                            <th>Email Address</th>
-                            <th>Progress</th>
-                            <th>Status</th>
-                            <th class="text-end pe-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="mhs : ${listMahasiswa}" 
-                            th:onclick="'window.location.href=\'/dosen/mahasiswa/detail/' + ${mhs.npm} + '\''" 
-                            style="cursor: pointer;">
-                            
-                            <td class="ps-4"><input type="checkbox" class="form-check-input"></td>
-                            
-                            <td>
-                                <div class="avatar-group">
-                                    <div class="avatar-initial bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3" 
-                                         style="width: 40px; height: 40px; font-weight: bold;">
-                                        <span th:text="${#strings.substring(mhs.nama, 0, 1)}">A</span>
-                                    </div>
-                                    <div>
-                                        <span class="user-name" th:text="${mhs.nama}">Nama Mahasiswa</span>
-                                        <span class="user-id" th:text="${mhs.npm}">NPM</span>
-                                    </div>
-                                </div>
-                            </td>
-                            
-                            <td th:text="${mhs.email}">email@unpar.ac.id</td>
-                            
-                            <td>
-                                <span class="badge bg-light text-dark border">
-                                    <span th:text="${mhs.progress != null ? mhs.progress : 'Belum Ada'}">Progress</span>
-                                </span>
-                            </td>
+        <a href="#" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
+    </div>
 
-                            <td>
-                                <span class="badge rounded-pill" 
-                                      th:classappend="${mhs.status == 'Siap Sidang' ? 'bg-success' : 'bg-secondary'}"
-                                      th:text="${mhs.status != null ? mhs.status : 'Belum Siap'}">Status</span>
-                            </td>
-                            
-                            <td class="text-end text-muted pe-4">
-                                <i class="far fa-trash-alt me-3 text-danger" title="Hapus"></i>
-                                <i class="far fa-edit text-primary" title="Edit"></i>
-                            </td>
-                        </tr>
 
-                        <tr th:if="${#lists.isEmpty(listMahasiswa)}">
-                            <td colspan="6" class="text-center py-5 text-muted">
-                                <p class="mb-0">Belum ada mahasiswa bimbingan.</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon"></i>
+            <a href="#" class="logout">Logout</a>
         </div>
     </div>
-</div>
 
+
+    <div class="content-area">
+        <div class="card">
+
+            <div class="list-header">
+                <h2>Mahasiswa Bimbingan</h2>
+            </div>
+
+            <table class="table-mahasiswa">
+                <thead>
+                <tr>
+                    <th style="text-align:left;">Mahasiswa</th>
+                    <th style="text-align:left;">Email address</th>
+                    <th style="text-align:center; width:100px;">Aksi</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="cell-name">
+                            <div class="name">Anggia Tejaningtyas Yudha Negara</div>
+                            <div class="npm">6182201080</div>
+                        </div>
+                    </td>
+                    <td>6182201080@unpar.ac.id</td>
+                    <td class="cell-actions">
+                        <button class="btn-icon" title="Hapus">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        <button class="btn-detail">Detail</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="cell-name">
+                            <div class="name">Asep Protein</div>
+                            <div class="npm">6182201180</div>
+                        </div>
+                    </td>
+                    <td>6182201180@unpar.ac.id</td>
+                    <td class="cell-actions">
+                        <button class="btn-icon" title="Hapus">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        <button class="btn-detail">Detail</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
