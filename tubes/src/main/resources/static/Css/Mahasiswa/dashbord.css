@@ -6,6 +6,7 @@
     background-color: white;
     max-width: 400px;
     float: right;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .info-label {
@@ -23,19 +24,23 @@
 
 .topic-section h5 {
     font-weight: 700;
-    color: #333;
-    font-size: 16px;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .topic-section p {
     font-size: 18px;
     font-weight: 600;
-    color: #444;
+    color: #212529;
     max-width: 600px;
     line-height: 1.5;
 }
 
 /* menu */
+/* Kartu Menu Besar */
 .menu-card-mhs {
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -44,16 +49,17 @@
     height: 100%;
     transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
+    display: block; 
 }
 
 .menu-card-mhs:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
     border-color: #333;
 }
 
 .menu-icon-large {
-    font-size: 4rem;
+    font-size: 4rem; 
     color: #212529;
     margin-bottom: 20px;
 }
