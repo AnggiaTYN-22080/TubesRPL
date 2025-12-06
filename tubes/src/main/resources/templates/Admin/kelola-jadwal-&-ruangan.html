@@ -1,102 +1,227 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Dosen Koordinator Kelola Jadwal & Ruangan</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Kelola Jadwal dan Ruangan</title>
+    <link rel="stylesheet" href="../../static/Css/Admin/kelola-jadwal-ruangan.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="app-layout">
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-      </div>
-      <ul class="sidebar-nav">
-        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
-        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
-        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
-        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
-        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
-        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
-      </ul>
-    </aside>
-    <div class="main-panel">
-      <div class="page-title-bar">
-        <span>Dosen Koordinator Kelola Jadwal & Ruangan</span>
-      </div>
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-          <span class="brand-text">SIAP Bimbingan</span>
-        </div>
-        <div class="header-center">
-          
-        </div>
-        <div class="header-right">
-          <img src="assets/icons/bell.svg" alt="Notifikasi" />
-          <span>Logout</span>
-        </div>
-      </header>
-      <main class="page-content">
-        
-  <div class="room-layout">
-    <div>
-      <div class="room-header-title">Kelola Jadwal dan Ruangan</div>
-      <div class="room-available-label">Ruang Tersedia</div>
-      <button class="btn-room-primary">Tambah Ruangan</button>
+<body>
 
-      <div class="room-pill-list">
-        <div class="room-pill">
-          <span class="room-pill-label">R9210</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9211</span>
-          <span class="room-pill-indicator busy"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9212</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9213</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9214</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9215</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-      </div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
 
-      <div class="room-schedule-table">
-        <table class="list-table">
-          <thead>
+    <a href="DashboardAdmin.html" class="sidebar-icon" title="Home">
+        <i class="fa-solid fa-house"></i>
+    </a>
+    <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan">
+        <i class="fa-regular fa-clock"></i>
+    </a>
+    <a href="kelola-jadwal-&-ruangan.html" class="sidebar-icon active" title="Jadwal &amp; Ruangan">
+        <i class="fa-regular fa-calendar-days"></i>
+    </a>
+    <a href="persyaratan-sidang.html" class="sidebar-icon" title="Persyaratan Sidang">
+        <i class="fa-regular fa-file-circle-check"></i>
+    </a>
+    <a href="kelola-data-mhs-&-dosen.html" class="sidebar-icon" title="Kelola Data Mhs &amp; Dosen">
+        <i class="fa-regular fa-file-lines"></i>
+    </a>
+    <a href="periode-TA.html" class="sidebar-icon" title="Periode TA">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <h3 class="app-title">SIAP Bimbingan</h3>
+
+    <div class="header-right">
+        <i class="fa-regular fa-bell notif-icon"></i>
+        <a href="#" class="logout">Logout</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+    <!-- Judul di tengah -->
+    <h1 class="page-title">Kelola Jadwal dan Ruangan</h1>
+
+    <!-- Bagian Ruang Tersedia -->
+    <section class="section-room">
+
+        <div class="room-title-row">
+            <span class="section-label">Ruang Tersedia</span>
+        </div>
+
+        <!-- Bar biru full width -->
+        <div class="room-add-bar">
+            Tambah Ruangan
+        </div>
+
+        <!-- GRID WAKTU 07:00–18:00 & RUANG -->
+        <div class="room-grid-wrapper">
+
+            <!-- Header kolom waktu -->
+            <div class="room-grid-header">
+                <div class="room-header-label"></div>
+                <div class="time-header">07:00</div>
+                <div class="time-header">08:00</div>
+                <div class="time-header">09:00</div>
+                <div class="time-header">10:00</div>
+                <div class="time-header">11:00</div>
+                <div class="time-header">12:00</div>
+                <div class="time-header">13:00</div>
+                <div class="time-header">14:00</div>
+                <div class="time-header">15:00</div>
+                <div class="time-header">16:00</div>
+                <div class="time-header">17:00</div>
+                <div class="time-header">18:00</div>
+            </div>
+
+            <!-- Baris R9210 -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9210</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+            <!-- Baris R9211 (contoh: jam 10:00 diberi merah) -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9211</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot busy"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+            <!-- Baris R9212 -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9212</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+            <!-- Baris R9213 -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9213</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+            <!-- Baris R9214 -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9214</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+            <!-- Baris R9215 -->
+            <div class="room-grid-row">
+                <div class="room-label-cell">
+                    <button class="room-pill">R9215</button>
+                </div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+                <div class="slot-cell"><span class="slot-dot"></span></div>
+            </div>
+
+        </div><!-- /room-grid-wrapper -->
+
+    </section>
+
+    <!-- Tabel riwayat jadwal -->
+    <section class="section-table">
+        <table class="table-admin">
+            <thead>
             <tr>
-              <th>Dosen</th>
-              <th>Tanggal</th>
-              <th>Jam</th>
-              <th>Ruang</th>
+                <th>Dosen</th>
+                <th>Tanggal</th>
+                <th>Jam</th>
+                <th>Ruang</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr>
-              <td>20160127 Keenan Adiwijaya Leman, S.T., M.T.</td>
-              <td>Selasa, 9 Oktober 2025</td>
-              <td>10:00 - 12:00</td>
-              <td>9211</td>
+                <td>20160127 Keenan Adiwijaya Leman, S.T., M.T.</td>
+                <td>Selasa, 9 Oktober 2025</td>
+                <td>10:00 - 12:00</td>
+                <td class="col-room">9211</td>
             </tr>
-          </tbody>
+            </tbody>
         </table>
-      </div>
-    </div>
-  </div>
+    </section>
 
-      </main>
-    </div>
-  </div>
+</div>
+
 </body>
 </html>
