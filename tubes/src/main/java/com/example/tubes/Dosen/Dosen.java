@@ -8,9 +8,11 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Dosen {
+    // Dari tabel dosen
+    private int idDosen; // FK ke users
     private String nik;
+
+    // Dari tabel users
     private String nama;
     private String email;
-    private String password;
-    private int kuotaBimbingan;
 }

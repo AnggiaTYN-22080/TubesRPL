@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Jadwal Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../static/Css/Layout/layout-mhs.css">
+    <link rel="stylesheet" href="../../static/Css/Mahasiswa/jadwal.css">
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="sidebar">
+        <img src="../../static/Images/LogoUnpar.png" width="40" class="mb-4" style="margin-top: 20px;">
+        <a href="dashboard-mhs.html" class="sidebar-icon" title="Dashboard"><i class="fas fa-home"></i></a>
+        <a href="jadwal-mhs.html" class="sidebar-icon active" title="Pilih Jadwal"><i class="far fa-calendar-alt"></i></a>
+        <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan"><i class="far fa-clock"></i></a>
+        <a href="pengajuan-mhs.html" class="sidebar-icon" title="Pengajuan Bimbingan"><i class="fas fa-external-link-alt"></i></a>
+    </div>
+
+    <div class="content">
+        <div class="top-header">
+            <div class="d-flex align-items-center">
+                <h5 class="fw-bold mb-0 text-dark">SIAP Bimbingan</h5>
+                <span class="text-muted mx-3">|</span>
+                <small class="text-secondary fw-bold">Jadwal Mahasiswa</small>
+            </div>
+            <div class="d-flex align-items-center gap-4">
+                <a href="javascript:void(0)" onclick="toggleNotif()" class="text-dark text-decoration-none"><i class="far fa-bell fa-lg"></i></a>
+                <a href="login.html" class="text-dark text-decoration-none fw-bold small">Logout</a>
+            </div>
+        </div>
+
+        <div class="page-container"> 
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold text-secondary mb-0">Jadwal</h4>
+                <button class="btn btn-dark btn-sm">Jadwal Dosen</button>
+            </div>
+            <div class="calendar-header mb-4 text-center">
+                <h2 class="fw-bold text-dark">October 2025</h2>
+            </div>
+            <div class="calendar-grid">
+                <div class="day-name">Sunday</div><div class="day-name">Monday</div><div class="day-name">Tuesday</div><div class="day-name">Wednesday</div><div class="day-name">Thursday</div><div class="day-name">Friday</div><div class="day-name">Saturday</div>
+                <div class="day-cell empty"></div><div class="day-cell empty"></div><div class="day-cell empty"></div>
+                <div class="day-cell"><div class="date-number">1</div></div>
+                <div class="day-cell"><div class="date-number">17</div><div class="event-badge" style="background-color: #89CFF0; border-left-color: #007bff; color: #0056b3;"><span>10:00</span> Bimbingan</div></div>
+                <div class="day-cell empty"></div>
+            </div>
+            <a href="dashboard-mhs.html" class="text-dark text-decoration-none mt-4 d-inline-block"><i class="fas fa-arrow-right fa-flip-horizontal fa-lg"></i></a>
+        </div>
+    </div>
+</div>
+
+<div id="notif-overlay" class="notif-overlay" onclick="toggleNotif()"></div>
+<div id="notif-panel" class="notif-panel">
+    <div class="notif-header"><h4>Notifikasi</h4><i class="fas fa-times close-btn" onclick="toggleNotif()"></i></div>
+    <div class="notif-body">
+        <div class="notif-item unread"><div class="notif-icon bg-success bg-opacity-10 text-success"><i class="fas fa-check"></i></div><div class="notif-text"><p class="mb-1 fw-bold">Jadwal Disetujui</p><small class="text-muted">Pak Keenan menyetujui pengajuan bimbingan Anda.</small><span class="d-block mt-1 text-xs text-muted">Baru saja</span></div></div>
+    </div>
+</div>
+
+<script>
+    function toggleNotif() {
+        const panel = document.getElementById('notif-panel');
+        const overlay = document.getElementById('notif-overlay');
+        if (panel.classList.contains('open')) {
+            panel.classList.remove('open');
+            overlay.classList.remove('show');
+            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+        } else {
+            overlay.style.display = 'block';
+            setTimeout(() => { overlay.classList.add('show'); }, 10);
+            panel.classList.add('open');
+        }
+    }
+</script>
+
+</body>
+</html>

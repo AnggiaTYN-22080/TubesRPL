@@ -14,47 +14,19 @@ public class AuthRepository {
     private JdbcTemplate jdbcTemplate;
 
     public Optional<User> findUserByEmail(String email) {
-        // 1. Cek Tabel ADMIN
-        // PERBAIKAN: Mengubah "id_admin" menjadi "id" sesuai database
-        try {
-            String sql = "SELECT idUser, name, email, password, role FROM Users WHERE email = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
 
-            User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    String.valueOf(rs.getInt("idUser")), // Ubah disini juga
+        try {
+            User user = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
+                    rs.getInt("idUser"),
                     rs.getString("name"),
                     rs.getString("email"),
                     rs.getString("password"),
-                    "ADMIN"), email);
-            return Optional.ofNullable(u);
-        } catch (EmptyResultDataAccessException ignored) {
-        }
+                    rs.getString("role")), email);
 
-        // 2. Cek Tabel DOSEN (Tetap pakai 'nik')
-        try {
-            String sql = "SELECT idUser, name, email, password FROM Users WHERE email = ?";
-            User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    rs.getString("idUser"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    "DOSEN"), email);
-            return Optional.ofNullable(u);
-        } catch (EmptyResultDataAccessException ignored) {
+            return Optional.ofNullable(user);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty(); // Email tidak ditemukan
         }
-
-        // 3. Cek Tabel MAHASISWA (Tetap pakai 'npm')
-        try {
-            String sql = "SELECT idUser, name, email, password FROM mahasiswa WHERE email = ?";
-            User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    rs.getString("idUser"),
-                    rs.getString("nama"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    "MAHASISWA"), email);
-            return Optional.ofNullable(u);
-        } catch (EmptyResultDataAccessException ignored) {
-        }
-
-        return Optional.empty();
     }
 }

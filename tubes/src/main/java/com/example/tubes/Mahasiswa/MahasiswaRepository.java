@@ -1,6 +1,7 @@
 package com.example.tubes.Mahasiswa;
 
-public interface MahasiswaRepository {
+import java.util.Optional;
 
-    
-} 
+public interface MahasiswaRepository {
+    Optional<Mahasiswa> findByUserId(int idUser);
+}
