@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mahasiswa</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../../static/Css/Layout/layout-mhs.css">
+    <link rel="stylesheet" href="../../static/Css/Mahasiswa/dashboard.css">
+    <link rel="stylesheet" href="../../static/Css/dashboard-dosen.css">
+</head>
+<body>
+
+<div class="main-wrapper">
+
+    <div class="content">
+        <div class="top-header">
+            <div class="d-flex align-items-center">
+                <img src="../../static/Images/LogoUnpar.png" style="height: 40px; width: auto; margin-right: 15px;">
+                <h5 class="fw-bold mb-0 text-dark">SIAP Bimbingan</h5>
+            </div>
+            <div class="d-flex align-items-center gap-4">
+                <a href="javascript:void(0)" onclick="toggleNotif()" class="text-dark text-decoration-none">
+                    <i class="far fa-bell fa-lg"></i>
+                </a>
+                <a href="login.html" class="text-dark text-decoration-none fw-bold small">Logout</a>
+            </div>
+        </div>
+
+        <div class="page-container">
+            
+            <div class="row mb-5 align-items-start">
+                <div class="col-md-7 topic-section pt-2">
+                    <h5>Topik Tugas Akhir 1 :</h5>
+                    <p>KAL5902BCS Pembangunan Perangkat Lunak Kompresi File dengan Algoritma LZW dan Huffman Coding</p>
+                </div>
+                <div class="col-md-5">
+                    <div class="next-bimbingan-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="far fa-clock me-2 text-primary"></i>
+                            <span class="fw-bold text-dark">Bimbingan selanjutnya :</span>
+                        </div>
+                        <div class="ps-4 mb-3 text-secondary fw-bold">2 Hari 4 Jam 3 Menit 14 Detik</div>
+                        <div class="ps-4">
+                            <span class="fw-bold d-block text-dark small mb-1">Pada :</span>
+                            <span class="text-muted">Senin, 20 Oktober 2025, 10:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="fw-bold mb-4 text-secondary">Menu</h5>
+            
+            <div class="row g-4">
+                
+                <div class="col-md-4">
+                    <div class="menu-card d-flex align-items-center p-4 h-100 position-relative">
+                        <div class="icon-circle me-4 flex-shrink-0">
+                            <i class="far fa-calendar-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Jadwal</h5>
+                            <p class="text-muted small mb-0">Lihat jadwal bimbingan tersedia.</p>
+                            <a href="jadwal-mhs.html" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="menu-card d-flex align-items-center p-4 h-100 position-relative">
+                        <div class="icon-circle me-4 flex-shrink-0">
+                            <i class="far fa-clock fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Riwayat</h5>
+                            <p class="text-muted small mb-0">Pantau histori bimbingan Anda.</p>
+                            <a href="riwayat-bimbingan.html" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="menu-card d-flex align-items-center p-4 h-100 position-relative">
+                        <div class="icon-circle me-4 flex-shrink-0">
+                            <i class="fas fa-external-link-alt fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Pengajuan</h5>
+                            <p class="text-muted small mb-0">Ajukan permohonan bimbingan baru.</p>
+                            <a href="pengajuan-mhs.html" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="notif-overlay" class="notif-overlay" onclick="toggleNotif()"></div>
+<div id="notif-panel" class="notif-panel">
+    <div class="notif-header">
+        <h4>Notifikasi</h4>
+        <i class="fas fa-times close-btn" onclick="toggleNotif()"></i>
+    </div>
+    <div class="notif-body">
+        <div class="notif-item unread">
+            <div class="notif-icon bg-success bg-opacity-10 text-success"><i class="fas fa-check"></i></div>
+            <div class="notif-text">
+                <p class="mb-1 fw-bold">Jadwal Disetujui</p>
+                <small class="text-muted">Pak Keenan menyetujui pengajuan bimbingan Anda.</small>
+                <span class="d-block mt-1 text-xs text-muted">Baru saja</span>
+            </div>
+        </div>
+        <div class="notif-item">
+            <div class="notif-icon bg-primary bg-opacity-10 text-primary"><i class="fas fa-info"></i></div>
+            <div class="notif-text">
+                <p class="mb-1 fw-bold">Pengingat Bimbingan</p>
+                <small class="text-muted">Besok jam 10:00 ada jadwal bimbingan di R9211.</small>
+                <span class="d-block mt-1 text-xs text-muted">2 jam lalu</span>
+            </div>
+        </div>
+    </div>
+    <div class="notif-footer">
+        <a href="#" class="text-decoration-none small fw-bold">Lihat Semua</a>
+    </div>
+</div>
+
+<script>
+    function toggleNotif() {
+        const panel = document.getElementById('notif-panel');
+        const overlay = document.getElementById('notif-overlay');
+        if (panel.classList.contains('open')) {
+            panel.classList.remove('open');
+            overlay.classList.remove('show');
+            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+        } else {
+            overlay.style.display = 'block';
+            setTimeout(() => { overlay.classList.add('show'); }, 10);
+            panel.classList.add('open');
+        }
+    }
+</script>
+
+</body>
+</html>

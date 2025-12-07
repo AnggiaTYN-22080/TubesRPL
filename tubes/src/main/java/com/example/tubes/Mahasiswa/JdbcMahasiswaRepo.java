@@ -1,38 +1,41 @@
 package com.example.tubes.Mahasiswa;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 
+@Repository
 public class JdbcMahasiswaRepo implements MahasiswaRepository {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // Mapper untuk Jadwal (Copy dari JadwalRepository biar cepat)
-    private JadwalBimbingan mapRowToJadwal(ResultSet rs, int rowNum) throws SQLException {
-        return new JadwalBimbingan(
-                rs.getInt("id"),
-                rs.getString("dosen_id"),
-                rs.getTimestamp("waktu_mulai").toLocalDateTime(),
-                rs.getTimestamp("waktu_selesai").toLocalDateTime(),
-                rs.getString("nama_ruangan"),
-                rs.getString("status"));
+    private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
+        return new Mahasiswa(
+                rs.getInt("idMhs"),
+                rs.getString("npm"),
+                rs.getString("name"),
+                rs.getString("email"));
     }
 
-    // Cari jadwal bimbingan milik mahasiswa tertentu
-    public List<JadwalBimbingan> findJadwalByMahasiswaId(String npm) {
+    @Override
+    public Optional<Mahasiswa> findByUserId(int idUser) {
         String sql = """
-                    SELECT s.*, r.nama_ruangan
-                    FROM slot_jadwal s
-                    JOIN ruangan r ON s.ruangan_id = r.id
-                    WHERE s.mahasiswa_id = ?
-                    ORDER BY s.waktu_mulai ASC
+                    SELECT m.idMhs, m.npm, u.name, u.email
+                    FROM mahasiswa m
+                    JOIN users u ON m.idMhs = u.idUser
+                    WHERE u.idUser = ?
                 """;
-        return jdbcTemplate.query(sql, this::mapRowToJadwal, npm);
+
+        try {
+            Mahasiswa mhs = jdbcTemplate.queryForObject(sql, this::mapRowToMahasiswa, idUser);
+            return Optional.ofNullable(mhs);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

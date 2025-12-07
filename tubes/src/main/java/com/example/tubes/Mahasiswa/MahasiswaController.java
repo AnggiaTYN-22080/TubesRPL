@@ -1,34 +1,34 @@
 package com.example.tubes.Mahasiswa;
 
-import java.util.List;
-
+import com.example.tubes.Auth.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.tubes.Auth.User;
-import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
-
-import jakarta.servlet.http.HttpSession;
-
+@Controller
+@RequestMapping("/mahasiswa")
 public class MahasiswaController {
+
     @Autowired
-    private JdbcMahasiswaRepo mahasiswaRepository; // Pastikan nama variabel sesuai
+    private MahasiswaService mahasiswaService;
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"MAHASISWA".equals(user.getRole())) {
+
+        if (user == null || !"mahasiswa".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
-        // 1. Ambil Jadwal Mahasiswa ini dari Database
-        List<JadwalBimbingan> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getIdUser());
+        // Memanggil melewati service
+        Mahasiswa mhsDetail = mahasiswaService.getMahasiswaByUserId(user.getId()).orElse(null);
 
-        // 2. Kirim ke HTML
         model.addAttribute("user", user);
-        model.addAttribute("jadwalList", jadwalSaya);
+        model.addAttribute("mhsDetail", mhsDetail);
 
-        return "Mahasiswa/dashboard";
+        return "Mahasiswa/dashboard-mhs";
     }
 }

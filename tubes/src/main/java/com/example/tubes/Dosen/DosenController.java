@@ -17,20 +17,22 @@ public class DosenController {
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
+        // Mengambil user dari session
         User user = (User) session.getAttribute("currentUser");
 
-        // Cek Login & Role
-        if (user == null || !"DOSEN".equals(user.getRole())) {
+        // Melakukan validasi role
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
-        Dosen dataLengkapDosen = dosenService.getDosenByNik(user.getIdUser()).orElse(null);
+        // Mengambil detail dosen dari Database
+        Dosen dosenDetail = dosenService.getDosenByUserId(user.getId()).orElse(null);
 
+        // Mengirim data ke html
         model.addAttribute("user", user);
-        model.addAttribute("dosenDetail", dataLengkapDosen);
-
-        // Hapus baris model.addAttribute("user", user); yang kedua (duplikat)
+        model.addAttribute("dosenDetail", dosenDetail);
 
         return "Dosen/dashboard";
     }
+
 }

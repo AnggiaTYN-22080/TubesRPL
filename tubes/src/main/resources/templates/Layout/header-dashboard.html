@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="header" class="dashboard-header" style="background-color: white; border-bottom: 1px solid #e0e0e0; padding: 15px 40px; position: sticky; top: 0; z-index: 1000;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img th:src="@{/Images/LogoUnpar.png}" style="height: 40px; margin-right: 15px;">
+                <h5 class="fw-bold mb-0 text-dark">SIAP Bimbingan</h5>
+            </div>
+            <div class="d-flex align-items-center gap-4">
+                <a href="#" class="text-dark text-decoration-none"><i class="far fa-bell fa-lg"></i></a>
+                <a th:href="@{/logout}" class="text-dark text-decoration-none fw-bold small">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
