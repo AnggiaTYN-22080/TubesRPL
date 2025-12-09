@@ -1,97 +1,55 @@
-// package com.example.tubes.JadwalBimbingin;
+package com.example.tubes.JadwalBimbingin;
 
-// import com.example.tubes.Auth.User;
-// import jakarta.servlet.http.HttpSession;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.*;
+import com.example.tubes.Auth.User;
+import com.example.tubes.Notifikasi.NotifikasiService;
 
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-// import java.time.YearMonth;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Map;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-// @Controller
-// @RequestMapping("/jadwal")
-// public class JadwalBimbinganController {
+import java.util.List;
 
-// @Autowired
-// private JadwalBimbinganRepository jadwalBimbinganRepository;
+@Controller
+@RequestMapping("/dosen")
+public class JadwalBimbinganController {
 
-// @GetMapping("/kelola")
-// public String kelolaJadwal(HttpSession session, Model model) {
-// User user = (User) session.getAttribute("currentUser");
-// if (user == null || !"DOSEN".equals(user.getRole())) {
-// return "redirect:/login";
-// }
+    @Autowired
+    private JadwalBimbinganService service;
 
-// // 1. Logika Kalender (Default: Bulan Sekarang)
-// LocalDate now = LocalDate.now();
-// YearMonth yearMonth = YearMonth.from(now);
-// int daysInMonth = yearMonth.lengthOfMonth();
+    @Autowired
+    private NotifikasiService notifService;
 
-// // Cari tahu tanggal 1 hari apa (1=Senin, 7=Minggu)
-// // Kita mau kalender mulai Minggu, jadi sesuaikan offsetnya
-// int firstDayOfWeek = yearMonth.atDay(1).getDayOfWeek().getValue();
-// int blankDays = (firstDayOfWeek == 7) ? 0 : firstDayOfWeek; // Jika tgl 1
-// Minggu, blank 0. Jika Senin, blank 1.
+    @GetMapping("/pengajuan")
+    public String pengajuan(HttpSession session, Model model) {
 
-// // Buat List tanggal kosong untuk kotak abu-abu di awal bulan
-// List<Integer> blanks = new ArrayList<>();
-// for (int i = 0; i < blankDays; i++)
-// blanks.add(i);
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
 
-// // Buat List tanggal 1-30/31
-// List<Integer> dates = new ArrayList<>();
-// for (int i = 1; i <= daysInMonth; i++)
-// dates.add(i);
+        int idDosen = user.getId();
 
-// // 2. Ambil Data Database
-// List<JadwalBimbingan> listJadwal =
-// jadwalBimbinganRepository.findByDosenId(user.getIdUser());
-// List<Map<String, Object>> listRuangan =
-// jadwalBimbinganRepository.findAllRuangan();
-// List<Map<String, Object>> listMahasiswa =
-// jadwalBimbinganRepository.findMahasiswaByDosen(user.getIdUser());
+        // Data pengajuan
+        List<JadwalBimbingan> pengajuanList = service.getPengajuanByDosen(idDosen);
+        model.addAttribute("pengajuanList", pengajuanList);
 
-// model.addAttribute("currentMonth", now.getMonth().name());
-// model.addAttribute("currentYear", now.getYear());
-// model.addAttribute("blanks", blanks);
-// model.addAttribute("dates", dates);
+        // Notifikasi
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
 
-// model.addAttribute("listJadwal", listJadwal);
-// model.addAttribute("listRuangan", listRuangan);
-// model.addAttribute("listMahasiswa", listMahasiswa);
-// model.addAttribute("user", user);
+        return "Dosen/pengajuan-bimbingan";
+    }
 
-// return "Dosen/kelola-jadwal";
-// }
+    @PostMapping("/pengajuan/{id}/approve")
+    public String approve(@PathVariable int id) {
+        service.setStatus(id, "approved");
+        return "redirect:/dosen/pengajuan";
+    }
 
-// @PostMapping("/tambah")
-// public String tambahJadwal(
-// @RequestParam("tanggal") String tanggal,
-// @RequestParam("jamMulai") String jamMulai,
-// @RequestParam("jamSelesai") String jamSelesai,
-// @RequestParam("ruanganId") int ruanganId,
-// @RequestParam("mahasiswaId") String mahasiswaId,
-// HttpSession session) {
-
-// User user = (User) session.getAttribute("currentUser");
-
-// LocalDateTime start = LocalDateTime.parse(tanggal + "T" + jamMulai);
-// LocalDateTime end = LocalDateTime.parse(tanggal + "T" + jamSelesai);
-
-// JadwalBimbingan jadwalBaru = new JadwalBimbingan();
-// jadwalBaru.setDosenId(user.getIdUser());
-// jadwalBaru.setWaktuMulai(start);
-// jadwalBaru.setWaktuSelesai(end);
-
-// // Simpan dengan Mahasiswa dan Ruangan
-// jadwalBimbinganRepository.save(jadwalBaru, mahasiswaId, ruanganId);
-
-// return "redirect:/jadwal/kelola";
-// }
-// }
+    @PostMapping("/pengajuan/{id}/reject")
+    public String reject(@PathVariable int id) {
+        service.setStatus(id, "rejected");
+        return "redirect:/dosen/pengajuan";
+    }
+}
