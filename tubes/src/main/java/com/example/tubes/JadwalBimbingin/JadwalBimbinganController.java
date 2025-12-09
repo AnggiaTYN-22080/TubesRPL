@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.example.tubes.JadwalBimbingin;
 
 import com.example.tubes.Auth.User;
@@ -53,3 +55,4 @@ public class JadwalBimbinganController {
         return "redirect:/dosen/pengajuan";
     }
 }
+>>>>>>> 64dada559d9be840697add6885afae55c39ee148

@@ -31,7 +31,8 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
         try {
             j.setNamaMahasiswa(rs.getString("name"));
             j.setNpm(rs.getString("npm"));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         return j;
     }
@@ -40,13 +41,13 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     public List<JadwalBimbingan> findPengajuanByDosen(int idDosen) {
 
         String sql = """
-                SELECT j.*, u.name, m.npm
-                FROM jadwal_bimbingan j
-                JOIN mahasiswa m ON j.idMhs = m.idMhs
-                JOIN users u ON u.idUser = m.idMhs
-                WHERE j.idDosen = ? AND j.status = 'pending'
-                ORDER BY j.tanggal ASC
-        """;
+                        SELECT j.*, u.name, m.npm
+                        FROM jadwal_bimbingan j
+                        JOIN mahasiswa m ON j.idMhs = m.idMhs
+                        JOIN users u ON u.idUser = m.idMhs
+                        WHERE j.idDosen = ? AND j.status = 'pending'
+                        ORDER BY j.tanggal ASC
+                """;
 
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen);
     }
@@ -61,12 +62,12 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     public List<JadwalBimbingan> findByMonth(int idDosen, int year, int month) {
 
         String sql = """
-            SELECT * FROM jadwal_bimbingan
-            WHERE idDosen = ? 
-              AND EXTRACT(YEAR FROM tanggal) = ?
-              AND EXTRACT(MONTH FROM tanggal) = ?
-            ORDER BY tanggal
-        """;
+                    SELECT * FROM jadwal_bimbingan
+                    WHERE idDosen = ?
+                      AND EXTRACT(YEAR FROM tanggal) = ?
+                      AND EXTRACT(MONTH FROM tanggal) = ?
+                    ORDER BY tanggal
+                """;
 
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen, year, month);
     }

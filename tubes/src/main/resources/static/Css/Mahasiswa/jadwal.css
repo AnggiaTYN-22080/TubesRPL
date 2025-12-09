@@ -50,3 +50,11 @@
     margin-bottom: 4px;
     border-left: 3px solid #ca8a04;
 }
+
+.btn {
+    background-color: #001db1; color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #4059D7; color: #ffffff;
+}

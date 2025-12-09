@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.example.tubes.JadwalBimbingin;
 
 import java.time.LocalDate;
@@ -22,3 +24,4 @@ public class JadwalBimbingan {
     private String namaMahasiswa;
     private String npm;
 }
+>>>>>>> 64dada559d9be840697add6885afae55c39ee148

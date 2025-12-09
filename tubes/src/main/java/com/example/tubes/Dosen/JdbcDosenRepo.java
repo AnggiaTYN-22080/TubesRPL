@@ -18,8 +18,7 @@ public class JdbcDosenRepo implements DosenRepository {
                 rs.getInt("idDosen"),
                 rs.getString("nik"),
                 rs.getString("name"),
-                rs.getString("email")
-        );
+                rs.getString("email"));
     }
 
     @Override
@@ -41,20 +40,20 @@ public class JdbcDosenRepo implements DosenRepository {
 
     public int countMahasiswaBimbingan(int idDosen) {
         String sql = """
-            SELECT COUNT(*)
-            FROM penugasan_ta p
-            JOIN ta t ON t.idTA = p.idTA
-            WHERE t.idDosen = ?
-        """;
+                    SELECT COUNT(*)
+                    FROM penugasan_ta p
+                    JOIN ta t ON t.idTA = p.idTA
+                    WHERE t.idDosen = ?
+                """;
         return jdbcTemplate.queryForObject(sql, Integer.class, idDosen);
     }
 
     public int countPengajuanBimbingan(int idDosen) {
         String sql = """
-            SELECT COUNT(*)
-            FROM jadwal_bimbingan
-            WHERE idDosen = ? AND status = 'pending'
-        """;
+                    SELECT COUNT(*)
+                    FROM jadwal_bimbingan
+                    WHERE idDosen = ? AND status = 'pending'
+                """;
         return jdbcTemplate.queryForObject(sql, Integer.class, idDosen);
     }
 }

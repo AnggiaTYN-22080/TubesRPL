@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.example.tubes.Dosen;
 import com.example.tubes.Auth.User;
 import com.example.tubes.Notifikasi.Notifikasi;
@@ -58,3 +60,4 @@ public class DosenController {
         return "redirect:/login";
     }
 }
+>>>>>>> 64dada559d9be840697add6885afae55c39ee148
