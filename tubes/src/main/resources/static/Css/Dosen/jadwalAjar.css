@@ -92,7 +92,7 @@ body {
 }
 
 .btn-edit-main {
-    background-color: #007bff;
+    background-color: #001db1;
     color: white;
     padding: 7px 18px;
     border-radius: 5px;
@@ -102,7 +102,7 @@ body {
 }
 
 .btn-edit-main:hover {
-    background-color: #0056b3;
+    background-color: #4059d7;
 }
 
 table {
