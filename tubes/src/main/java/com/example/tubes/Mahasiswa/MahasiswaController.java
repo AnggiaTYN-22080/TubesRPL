@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.tubes.Auth.User;
-import com.example.tubes.Jadwal.Jadwal;
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,7 +23,7 @@ public class MahasiswaController {
         }
 
         // 1. Ambil Jadwal Mahasiswa ini dari Database
-        List<Jadwal> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getId());
+        List<JadwalBimbingan> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getIdUser());
 
         // 2. Kirim ke HTML
         model.addAttribute("user", user);

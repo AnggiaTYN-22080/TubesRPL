@@ -24,7 +24,7 @@ public class DosenController {
             return "redirect:/login";
         }
 
-        Dosen dataLengkapDosen = dosenService.getDosenByNik(user.getId()).orElse(null);
+        Dosen dataLengkapDosen = dosenService.getDosenByNik(user.getIdUser()).orElse(null);
 
         model.addAttribute("user", user);
         model.addAttribute("dosenDetail", dataLengkapDosen);

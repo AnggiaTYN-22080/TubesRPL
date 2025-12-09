@@ -1,4 +1,4 @@
-package com.example.tubes.Jadwal;
+package com.example.tubes.JadwalBimbingin;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Jadwal {
+public class JadwalBimbingan {
     private int id;
     private String dosenId;
     private LocalDateTime waktuMulai;

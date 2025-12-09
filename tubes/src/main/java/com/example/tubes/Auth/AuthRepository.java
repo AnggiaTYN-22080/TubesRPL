@@ -17,11 +17,11 @@ public class AuthRepository {
         // 1. Cek Tabel ADMIN
         // PERBAIKAN: Mengubah "id_admin" menjadi "id" sesuai database
         try {
-            String sql = "SELECT id, nama, email, password FROM admin WHERE email = ?";
+            String sql = "SELECT idUser, name, email, password, role FROM Users WHERE email = ?";
 
             User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    String.valueOf(rs.getInt("id")), // Ubah disini juga
-                    rs.getString("nama"),
+                    String.valueOf(rs.getInt("idUser")), // Ubah disini juga
+                    rs.getString("name"),
                     rs.getString("email"),
                     rs.getString("password"),
                     "ADMIN"), email);
@@ -31,10 +31,10 @@ public class AuthRepository {
 
         // 2. Cek Tabel DOSEN (Tetap pakai 'nik')
         try {
-            String sql = "SELECT nik, nama, email, password FROM dosen WHERE email = ?";
+            String sql = "SELECT idUser, name, email, password FROM Users WHERE email = ?";
             User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    rs.getString("nik"),
-                    rs.getString("nama"),
+                    rs.getString("idUser"),
+                    rs.getString("name"),
                     rs.getString("email"),
                     rs.getString("password"),
                     "DOSEN"), email);
@@ -44,9 +44,9 @@ public class AuthRepository {
 
         // 3. Cek Tabel MAHASISWA (Tetap pakai 'npm')
         try {
-            String sql = "SELECT npm, nama, email, password FROM mahasiswa WHERE email = ?";
+            String sql = "SELECT idUser, name, email, password FROM mahasiswa WHERE email = ?";
             User u = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new User(
-                    rs.getString("npm"),
+                    rs.getString("idUser"),
                     rs.getString("nama"),
                     rs.getString("email"),
                     rs.getString("password"),

@@ -1,11 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Periode TA</title>
+    <link rel="stylesheet" href="../../static/Css/Admin/periode-TA.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    
+
+<div class="sidebar">
+    <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+
+    <a href="DashboardAdmin.html" class="sidebar-icon" title="Home">
+        <i class="fa-solid fa-house"></i>
+    </a>
+    <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan">
+        <i class="fa-regular fa-clock"></i>
+    </a>
+    <a href="kelola-jadwal-&-ruangan.html" class="sidebar-icon" title="Jadwal &amp; Ruangan">
+        <i class="fa-regular fa-calendar-days"></i>
+    </a>
+    <a href="persyaratan-sidang.html" class="sidebar-icon" title="Persyaratan Sidang">
+        <i class="fa-regular fa-file-circle-check"></i>
+    </a>
+    <a href="kelola-data-mhs-&-dosen.html" class="sidebar-icon" title="Kelola Data Mhs &amp; Dosen">
+        <i class="fa-regular fa-file-lines"></i>
+    </a>
+    <a href="periode-TA.html" class="sidebar-icon active" title="Periode TA">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+</div>
+
+<div class="header">
+    <h3 class="app-title">SIAP Bimbingan</h3>
+
+    <div class="header-right">
+        <i class="fa-regular fa-bell notif-icon"></i>
+        <a href="#" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="content-area">
+    <h1 class="page-title">Periode TA</h1>
+
+    <div class="card periode-card">
+        <h3 class="section-title">Atur Periode TA</h3>
+
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Start</th>
+                <th>End</th>
+                <th class="col-actions">Aksi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>TA1 ganjil 2025</td>
+                <td>2024-01-06</td>
+                <td>2025-01-01</td>
+                <td class="cell-actions">
+                    <button class="btn-icon" title="Hapus">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3 class="section-title section-space">Tambah Periode</h3>
+
+        <form class="periode-form">
+            <label class="form-field">
+                <span>Nama periode</span>
+                <input type="text" placeholder="TA1 ganjil 2025">
+            </label>
+
+            <div class="form-row">
+                <label class="form-field">
+                    <span>Start</span>
+                    <input type="date">
+                </label>
+                <label class="form-field">
+                    <span>End</span>
+                    <input type="date">
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary">Simpan</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
