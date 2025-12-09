@@ -15,4 +15,6 @@ public class Mahasiswa {
     // Dari tabel users
     private String nama;
     private String email;
+    private String password;
+    private String role;
 }
