@@ -1,18 +1,24 @@
 package com.example.tubes.JadwalBimbingin;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class JadwalBimbingan {
-    private int id;
-    private String dosenId;
-    private LocalDateTime waktuMulai;
-    private LocalDateTime waktuSelesai;
-    private String lokasi;
+
+    private int idJadwal;
+    private LocalDate tanggal;
+    private LocalTime waktuMulai;
+    private LocalTime waktuSelesai;
     private String status;
+
+    private int idMhs;
+    private int idDosen;
+    private int idRuangan;
+
+    // Dipakai untuk halaman pengajuan
+    private String namaMahasiswa;
+    private String npm;
 }

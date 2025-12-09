@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Dosen</title>
-    <link rel="stylesheet" href="../../static/Css/Dosen/dashboard-dosen.css">
+    <link rel="stylesheet" href="/Css/Dosen/dashboard-dosen.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
+    <script src="/js/notif.js" defer></script>
 </head>
 <body>
 
     <div class="header">
         <div class="header-left">
-            <img src="../../static/Images/LogoUnpar.png" class="header-logo">
+            <img src="/Images/LogoUnpar.png" class="header-logo">
             <h3>SIAP Bimbingan</h3>
         </div>
 
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon"></i>
-            <a href="login.html" class="logout">Logout</a>
+            <div style="position: relative;">
+                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+                <span th:if="${notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
+            </div>
+            <a href="/logout" class="logout">Logout</a>
         </div>
     </div>
 
@@ -27,12 +34,12 @@
         <div class="stats-wrapper">
             <div class="stat-card">
                 <p class="stat-label">Jumlah Mahasiswa Bimbingan</p>
-                <div class="stat-value">10</div>
+                <div class="stat-value" th:text="${jumlahMahasiswa}">0</div>
             </div>
             <div class="stat-card">
                 <p class="stat-label">Pengajuan Bimbingan</p>
-                <div class="stat-value">1</div>
-                <a href="pengajuan-bimbingan.html">Cek</a>
+                <div class="stat-value" th:text="${totalPengajuan}">0</div>
+                <a th:href="@{/dosen/pengajuan}">Cek</a>
             </div>
         </div>
 
@@ -62,6 +69,7 @@
             </div>
         </div>
 
+        <div th:replace="~{Layout/panelnotif}"></div>
     </div>
 
 </body>
