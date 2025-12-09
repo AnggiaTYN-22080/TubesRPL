@@ -1,11 +1,14 @@
 package com.example.tubes.Mahasiswa;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -16,26 +19,60 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
 
     private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
         return new Mahasiswa(
-                rs.getInt("idMhs"),
+                rs.getInt("idUser"),
                 rs.getString("npm"),
                 rs.getString("name"),
-                rs.getString("email"));
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("role"));
     }
 
     @Override
     public Optional<Mahasiswa> findByUserId(int idUser) {
         String sql = """
-                    SELECT m.idMhs, m.npm, u.name, u.email
-                    FROM mahasiswa m
-                    JOIN users u ON m.idMhs = u.idUser
+                    SELECT u.idUser, u.name, u.email, u.password, u.role, m.npm
+                    FROM users u
+                    JOIN mahasiswa m ON u.idUser = m.idMhs
                     WHERE u.idUser = ?
                 """;
 
         try {
             Mahasiswa mhs = jdbcTemplate.queryForObject(sql, this::mapRowToMahasiswa, idUser);
             return Optional.ofNullable(mhs);
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public Map<String, Object> findTopikTA(int idMhs) {
+        String sql = """
+                    SELECT t.TopikTA
+                    FROM penugasan_ta p
+                    JOIN ta t ON p.idTA = t.idTA
+                    WHERE p.idMhs = ?
+                """;
+        try {
+            return jdbcTemplate.queryForMap(sql, idMhs);
+        } catch (EmptyResultDataAccessException e) {
+            return Collections.emptyMap();
+        }
+    }
+
+    @Override
+    public Map<String, Object> findNextBimbingan(int idMhs) {
+        // Mengambil jadwal bimbingan mendatang yang statusnya 'approved' atau 'pending'
+        String sql = """
+                    SELECT tanggal, waktuMulai
+                    FROM jadwal_bimbingan
+                    WHERE idMhs = ? AND tanggal >= CURRENT_DATE
+                    ORDER BY tanggal ASC, waktuMulai ASC
+                    LIMIT 1
+                """;
+        try {
+            return jdbcTemplate.queryForMap(sql, idMhs);
+        } catch (EmptyResultDataAccessException e) {
+            return Collections.emptyMap();
         }
     }
 }
