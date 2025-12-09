@@ -23,4 +23,12 @@ public class MahasiswaService {
     public Map<String, Object> getNextBimbingan(int idMhs) {
         return mahasiswaRepository.findNextBimbingan(idMhs);
     }
+
+    public Optional<String> getNamaDosenPembimbing(int idMhs) {
+        return mahasiswaRepository.findNamaDosenPembimbing(idMhs);
+    }
+
+    public int getIdDosenPembimbing(int idMhs) {
+        return mahasiswaRepository.findIdDosenPembimbing(idMhs).orElse(0);
+    }
 }
