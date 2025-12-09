@@ -5,83 +5,115 @@
     <title>Riwayat Bimbingan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="../../static/Css/Layout/layout-mhs.css">
     <link rel="stylesheet" href="../../static/Css/Mahasiswa/riwayat.css">
 </head>
 <body>
 
-<div class="main-wrapper">
     <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" width="40" class="mb-4" style="margin-top: 20px;">
-        <a href="dashboard-mhs.html" class="sidebar-icon" title="Dashboard"><i class="fas fa-home"></i></a>
-        <a href="jadwal-mhs.html" class="sidebar-icon" title="Pilih Jadwal"><i class="far fa-calendar-alt"></i></a>
-        <a href="#" class="sidebar-icon active" title="Riwayat Bimbingan"><i class="far fa-clock"></i></a>
-        <a href="pengajuan-mhs.html" class="sidebar-icon" title="Pengajuan Bimbingan"><i class="fas fa-external-link-alt"></i></a>
+        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
+
+        <a href="dashboard-mhs.html" class="sidebar-icon" title="Dashboard">
+            <i class="fas fa-home"></i>
+        </a>
+        
+        <a href="jadwal-mhs.html" class="sidebar-icon" title="Pilih Jadwal">
+            <i class="far fa-calendar-alt"></i>
+        </a>
+
+        <a href="#" class="sidebar-icon active" title="Riwayat">
+            <i class="far fa-clock"></i>
+        </a>
+
+        <a href="pengajuan-mhs.html" class="sidebar-icon" title="Pengajuan">
+            <i class="fas fa-external-link-alt"></i>
+        </a>
     </div>
 
-    <div class="content">
-        <div class="top-header">
-            <div class="d-flex align-items-center">
-                <h5 class="fw-bold mb-0 text-dark">SIAP Bimbingan</h5>
-                <span class="text-muted mx-3">|</span>
-                <small class="text-secondary fw-bold">Riwayat Bimbingan</small>
-            </div>
-            <div class="d-flex align-items-center gap-4">
-                <a href="javascript:void(0)" onclick="toggleNotif()" class="text-dark text-decoration-none"><i class="far fa-bell fa-lg"></i></a>
-                <a href="login.html" class="text-dark text-decoration-none fw-bold small">Logout</a>
-            </div>
+    <div class="header">
+        <div class="header-left">
+            <h3>SIAP Bimbingan</h3>
         </div>
 
-        <div class="page-container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold text-secondary mb-0">Riwayat Bimbingan</h4>
-                <div class="input-group w-25">
-                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari topik...">
-                </div>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" onclick="toggleNotif()"></i>
+            <a href="login.html" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            
+            <div class="page-header d-flex justify-content-between align-items-center">
+                <h2>Riwayat Bimbingan</h2>
+                <input type="text" class="form-control w-25" placeholder="Cari topik...">
             </div>
-            <div class="table-responsive bg-white border rounded shadow-sm">
-                <table class="table custom-table table-hover align-middle mb-0">
-                    <thead><tr><th class="ps-4">No</th><th>Tanggal</th><th>Topik / Materi</th><th>Dosen Pembimbing</th><th>Status</th><th class="text-end pe-4">Catatan</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td class="ps-4 fw-bold text-secondary">1</td>
-                            <td><div class="fw-bold text-dark">20 Oktober 2025</div><small class="text-muted">10.00 - 11.00</small></td>
-                            <td>Revisi Bab 1 (Latar Belakang)</td>
-                            <td><div class="d-flex align-items-center"><div class="avatar-group me-2"><img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=random" class="rounded-circle" width="30"></div><span>Pak Budi</span></div></td>
-                            <td><span class="badge bg-success bg-opacity-10 text-success border border-success">Selesai</span></td>
-                            <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary"><i class="far fa-file-alt"></i> Lihat</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <table class="table-riwayat">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Topik / Materi</th>
+                        <th>Dosen Pembimbing</th>
+                        <th>Status</th>
+                        <th style="text-align: center;">Catatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>20 Oktober 2025<br><span style="color:#777; font-size:12px;">10.00 - 11.00</span></td>
+                        <td>Revisi Bab 1 (Latar Belakang)</td>
+                        <td>Pak Budi Santoso</td>
+                        <td><span class="badge badge-success" style="background-color:#d1fae5; color:#065f46;">Selesai</span></td>
+                        <td style="text-align: center;">
+                            <a href="#" class="btn-detail">Lihat</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>12 Oktober 2025<br><span style="color:#777; font-size:12px;">13.00 - 14.00</span></td>
+                        <td>Pengajuan Judul & Topik</td>
+                        <td>Pak Budi Santoso</td>
+                        <td><span class="badge badge-success" style="background-color:#d1fae5; color:#065f46;">Selesai</span></td>
+                        <td style="text-align: center;">
+                            <a href="#" class="btn-detail">Lihat</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div id="notif-overlay" class="notif-overlay" onclick="toggleNotif()"></div>
+    <div id="notif-panel" class="notif-panel">
+        <div class="notif-header">
+            <h4>Notifikasi</h4>
+            <i class="fas fa-times close-btn" onclick="toggleNotif()"></i>
+        </div>
+        <div class="notif-body">
+            <div class="notif-item">
+                <span class="notif-title">Jadwal Disetujui</span>
+                <span class="notif-desc">Pak Keenan menyetujui pengajuan.</span>
             </div>
         </div>
     </div>
-</div>
 
-<div id="notif-overlay" class="notif-overlay" onclick="toggleNotif()"></div>
-<div id="notif-panel" class="notif-panel">
-    <div class="notif-header"><h4>Notifikasi</h4><i class="fas fa-times close-btn" onclick="toggleNotif()"></i></div>
-    <div class="notif-body">
-        <div class="notif-item unread"><div class="notif-icon bg-success bg-opacity-10 text-success"><i class="fas fa-check"></i></div><div class="notif-text"><p class="mb-1 fw-bold">Jadwal Disetujui</p><small class="text-muted">Pak Keenan menyetujui pengajuan bimbingan Anda.</small><span class="d-block mt-1 text-xs text-muted">Baru saja</span></div></div>
-    </div>
-</div>
-
-<script>
-    function toggleNotif() {
-        const panel = document.getElementById('notif-panel');
-        const overlay = document.getElementById('notif-overlay');
-        if (panel.classList.contains('open')) {
-            panel.classList.remove('open');
-            overlay.classList.remove('show');
-            setTimeout(() => { overlay.style.display = 'none'; }, 300);
-        } else {
-            overlay.style.display = 'block';
-            setTimeout(() => { overlay.classList.add('show'); }, 10);
-            panel.classList.add('open');
+    <script>
+        function toggleNotif() {
+            const panel = document.getElementById('notif-panel');
+            const overlay = document.getElementById('notif-overlay');
+            if (panel.classList.contains('open')) {
+                panel.classList.remove('open');
+                overlay.style.display = 'none';
+            } else {
+                panel.classList.add('open');
+                overlay.style.display = 'block';
+            }
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
