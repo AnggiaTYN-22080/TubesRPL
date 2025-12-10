@@ -43,13 +43,33 @@ public class JadwalBimbinganController {
 
     @PostMapping("/pengajuan/{id}/approve")
     public String approve(@PathVariable int id) {
+
+        // Ubah status di jadwal_bimbingan
         service.setStatus(id, "approved");
+
+        // Ambil data jadwal untuk cari idMhs
+        service.getById(id).ifPresent(j -> {
+            int idMhs = j.getIdMhs();
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing.");
+        });
+
         return "redirect:/dosen/pengajuan";
     }
 
     @PostMapping("/pengajuan/{id}/reject")
     public String reject(@PathVariable int id) {
+
+        // Ubah status di jadwal_bimbingan
         service.setStatus(id, "rejected");
+
+        // Ambil data jadwal untuk cari idMhs
+        service.getById(id).ifPresent(j -> {
+            int idMhs = j.getIdMhs();
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain.");
+        });
+
         return "redirect:/dosen/pengajuan";
     }
 }

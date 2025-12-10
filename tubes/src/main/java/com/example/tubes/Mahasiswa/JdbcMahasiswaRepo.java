@@ -75,4 +75,42 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
             return Collections.emptyMap();
         }
     }
+
+    @Override
+    public Optional<String> findNamaDosenPembimbing(int idMhs) {
+        String sql = """
+                SELECT u.name AS namaDosen
+                FROM penugasan_ta p
+                JOIN ta t ON p.idTA = t.idTA
+                JOIN dosen d ON t.idDosen = d.idDosen
+                JOIN users u ON d.idDosen = u.idUser
+                WHERE p.idMhs = ?
+                LIMIT 1
+                """;
+
+        try {
+            String nama = jdbcTemplate.queryForObject(sql, String.class, idMhs);
+            return Optional.ofNullable(nama);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Integer> findIdDosenPembimbing(int idMhs) {
+        String sql = """
+                SELECT t.idDosen
+                FROM penugasan_ta p
+                JOIN ta t ON p.idTA = t.idTA
+                WHERE p.idMhs = ?
+                LIMIT 1
+                """;
+
+        try {
+            Integer id = jdbcTemplate.queryForObject(sql, Integer.class, idMhs);
+            return Optional.ofNullable(id);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
 }
