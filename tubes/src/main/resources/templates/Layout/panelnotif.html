@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Notifikasi</title>
-
     <link rel="stylesheet" href="../../static/Css/Layout/panelNotif.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-
     <div id="notif-panel" class="notif-panel">
-        <h3>Notifikasi</h3>
+        <h4>Notifikasi</h4>
 
-        <div class="notif-item">
-            <h4>Pengajuan bimbingan diterima</h4>
-            <p>Mahasiswa mengajukan permintaan bimbingan baru.</p>
-        </div>
-
-        <div class="notif-item">
-            <h4>Permintaan Pengajuan Bimbingan</h4>
-            <p>Silakan cek halaman pengajuan bimbingan.</p>
+        <div class="notif-list">
+            <div class="notif-item" 
+                th:each="n : ${notifList}">
+                
+                <strong th:text="${n.tipeNotif}"></strong>
+                <p th:text="${n.keterangan}"></p>
+                <small th:text="${n.waktu}"></small>
+            </div>
         </div>
     </div>
 

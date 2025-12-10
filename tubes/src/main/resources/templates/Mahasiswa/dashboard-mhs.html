@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mahasiswa</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/layout-mhs.css}">
+    <link rel="stylesheet" th:href="@{/Css/Mahasiswa/dashbord.css}">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+    <script src="/js/notif.js" defer></script>
+</head>
+<body>
+
+    <div class="header" style="margin-left: 0;">
+        <div class="header-left">
+            <img th:src="@{/Images/LogoUnpar.png}" class="header-logo">
+            <h3>SIAP Bimbingan</h3>
+        </div>
+        <div class="header-right">
+            <div style="position: relative;">
+                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+                <span th:if="${notifList != null and notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
+            </div>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="content-area" style="margin-left: 0;">
+        <h2 class="page-title">Dashboard Mahasiswa</h2>
+
+        <div class="stats-wrapper">
+            <div class="stat-card card-topic">
+                <p class="stat-label">Topik Tugas Akhir 1</p>
+                <div class="stat-value">
+                    <span th:text="${topik != null} ? ${topik.get('topikTA')} : 'Belum mengambil topik'">KAL5902BCS Pembangunan Perangkat Lunak...</span>
+                </div>
+            </div>
+            <div class="stat-card card-info">
+                <p class="stat-label">Bimbingan Selanjutnya</p>
+                <div class="stat-value">
+                    <span th:text="${nextBimbingan != null} ? ${nextBimbingan.get('tanggal')} : 'Belum ada jadwal'">Senin, 20 Okt 10:00</span>
+                </div>
+                <div class="stat-subtext">
+                    <i class="fa-regular fa-clock me-1"></i> 
+                    <span th:text="${nextBimbingan != null} ? 'Segera hadir' : '-'">2 Hari lagi</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Menu</h3>
+        
+        <div class="menu-wrapper">
+            <div class="menu-card-mhs">
+                <div class="menu-icon"><i class="fa-regular fa-calendar"></i></div>
+                <div class="menu-text"><h4>Jadwal</h4><p>Lihat jadwal bimbingan.</p></div>
+                <a th:href="@{/mahasiswa/jadwal}" class="menu-link"></a>
+            </div>
+            
+            <div class="menu-card-mhs">
+                <div class="menu-icon"><i class="fa-regular fa-clock"></i></div>
+                <div class="menu-text"><h4>Riwayat</h4><p>Pantau histori bimbingan.</p></div>
+                <a th:href="@{/mahasiswa/riwayat}" class="menu-link"></a>
+            </div>
+            
+            <div class="menu-card-mhs">
+                <div class="menu-icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                <div class="menu-text"><h4>Pengajuan</h4><p>Ajukan permohonan bimbingan.</p></div>
+                <a th:href="@{/mahasiswa/pengajuan}" class="menu-link"></a>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
+</body>
+</html>

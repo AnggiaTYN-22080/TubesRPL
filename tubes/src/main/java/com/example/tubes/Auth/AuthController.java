@@ -17,7 +17,7 @@ public class AuthController {
     // Menampilkan Halaman Login
     @GetMapping("/login")
     public String loginPage() {
-        return "Auth/login"; // Benar: Mengarah ke templates/Auth/login.html
+        return "Auth/login";
     }
 
     // Memproses Login
@@ -33,21 +33,21 @@ public class AuthController {
             // Simpan User di Session
             session.setAttribute("currentUser", user);
 
-            // Redirect sesuai Role (Gunakan huruf KECIL agar sesuai standar URL)
-            switch (user.getRole()) {
-                case "ADMIN":
-                    return "redirect:/admin/dashboard"; // Ubah jadi kecil
-                case "DOSEN":
-                    return "redirect:/dosen/dashboard"; // Ubah jadi kecil
-                case "MAHASISWA":
-                    return "redirect:/mahasiswa/dashboard"; // Ubah jadi kecil
+            // Role yang di gunakan!! (Sesuaikan dengan data di database: 'admin', 'dosen',
+            // 'mahasiswa')
+            switch (user.getRole().toLowerCase()) {
+                case "admin":
+                    return "redirect:/admin/dashboard"; // Pastikan Anda punya AdminController
+                case "dosen":
+                    return "redirect:/dosen/dashboard";
+                case "mahasiswa":
+                    return "redirect:/mahasiswa/dashboard";
                 default:
                     return "redirect:/";
             }
         } else {
             model.addAttribute("error", "Email atau Password Salah!");
-            // PERBAIKAN PENTING DISINI:
-            return "Auth/login"; // Harus pakai "Auth/" biar tidak error 404 saat salah password
+            return "Auth/login";
         }
     }
 

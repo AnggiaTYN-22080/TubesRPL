@@ -1,93 +1,75 @@
 package com.example.tubes.JadwalBimbingin;
 
 import com.example.tubes.Auth.User;
+import com.example.tubes.Notifikasi.NotifikasiService;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
-@RequestMapping("/jadwal")
+@RequestMapping("/dosen")
 public class JadwalBimbinganController {
 
     @Autowired
-    private JadwalBimbinganRepository jadwalBimbinganRepository;
+    private JadwalBimbinganService service;
 
-    @GetMapping("/kelola")
-    public String kelolaJadwal(HttpSession session, Model model) {
+    @Autowired
+    private NotifikasiService notifService;
+
+    @GetMapping("/pengajuan")
+    public String pengajuan(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"DOSEN".equals(user.getRole())) {
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
-        // 1. Logika Kalender (Default: Bulan Sekarang)
-        LocalDate now = LocalDate.now();
-        YearMonth yearMonth = YearMonth.from(now);
-        int daysInMonth = yearMonth.lengthOfMonth();
+        int idDosen = user.getId();
 
-        // Cari tahu tanggal 1 hari apa (1=Senin, 7=Minggu)
-        // Kita mau kalender mulai Minggu, jadi sesuaikan offsetnya
-        int firstDayOfWeek = yearMonth.atDay(1).getDayOfWeek().getValue();
-        int blankDays = (firstDayOfWeek == 7) ? 0 : firstDayOfWeek; // Jika tgl 1 Minggu, blank 0. Jika Senin, blank 1.
+        // Data pengajuan
+        List<JadwalBimbingan> pengajuanList = service.getPengajuanByDosen(idDosen);
+        model.addAttribute("pengajuanList", pengajuanList);
 
-        // Buat List tanggal kosong untuk kotak abu-abu di awal bulan
-        List<Integer> blanks = new ArrayList<>();
-        for (int i = 0; i < blankDays; i++)
-            blanks.add(i);
+        // Notifikasi
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
 
-        // Buat List tanggal 1-30/31
-        List<Integer> dates = new ArrayList<>();
-        for (int i = 1; i <= daysInMonth; i++)
-            dates.add(i);
-
-        // 2. Ambil Data Database
-        List<JadwalBimbingan> listJadwal = jadwalBimbinganRepository.findByDosenId(user.getIdUser());
-        List<Map<String, Object>> listRuangan = jadwalBimbinganRepository.findAllRuangan();
-        List<Map<String, Object>> listMahasiswa = jadwalBimbinganRepository.findMahasiswaByDosen(user.getIdUser());
-
-        model.addAttribute("currentMonth", now.getMonth().name());
-        model.addAttribute("currentYear", now.getYear());
-        model.addAttribute("blanks", blanks);
-        model.addAttribute("dates", dates);
-
-        model.addAttribute("listJadwal", listJadwal);
-        model.addAttribute("listRuangan", listRuangan);
-        model.addAttribute("listMahasiswa", listMahasiswa);
-        model.addAttribute("user", user);
-
-        return "Dosen/kelola-jadwal";
+        return "Dosen/pengajuan-bimbingan";
     }
 
-    @PostMapping("/tambah")
-    public String tambahJadwal(
-            @RequestParam("tanggal") String tanggal,
-            @RequestParam("jamMulai") String jamMulai,
-            @RequestParam("jamSelesai") String jamSelesai,
-            @RequestParam("ruanganId") int ruanganId,
-            @RequestParam("mahasiswaId") String mahasiswaId,
-            HttpSession session) {
+    @PostMapping("/pengajuan/{id}/approve")
+    public String approve(@PathVariable int id) {
 
-        User user = (User) session.getAttribute("currentUser");
+        // Ubah status di jadwal_bimbingan
+        service.setStatus(id, "approved");
 
-        LocalDateTime start = LocalDateTime.parse(tanggal + "T" + jamMulai);
-        LocalDateTime end = LocalDateTime.parse(tanggal + "T" + jamSelesai);
+        // Ambil data jadwal untuk cari idMhs
+        service.getById(id).ifPresent(j -> {
+            int idMhs = j.getIdMhs();
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing."
+            );
+        });
 
-        JadwalBimbingan jadwalBaru = new JadwalBimbingan();
-        jadwalBaru.setDosenId(user.getIdUser());
-        jadwalBaru.setWaktuMulai(start);
-        jadwalBaru.setWaktuSelesai(end);
+        return "redirect:/dosen/pengajuan";
+    }
 
-        // Simpan dengan Mahasiswa dan Ruangan
-        jadwalBimbinganRepository.save(jadwalBaru, mahasiswaId, ruanganId);
+    @PostMapping("/pengajuan/{id}/reject")
+    public String reject(@PathVariable int id) {
 
-        return "redirect:/jadwal/kelola";
+        // Ubah status di jadwal_bimbingan
+        service.setStatus(id, "rejected");
+
+        // Ambil data jadwal untuk cari idMhs
+        service.getById(id).ifPresent(j -> {
+            int idMhs = j.getIdMhs();
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain."
+            );
+        });
+
+        return "redirect:/dosen/pengajuan";
     }
 }

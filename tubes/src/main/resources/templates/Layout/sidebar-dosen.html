@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="sidebar(activeTab)" class="sidebar">
+        
+    <img th:src="@{/Images/LogoUnpar.png}" width="40" class="mb-4">  
+          
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon" 
+           th:classappend="${activeTab == 'dashboard' ? 'active' : ''}" 
+           title="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        
+        <a th:href="@{/jadwal/kelola}" class="sidebar-icon" 
+           th:classappend="${activeTab == 'jadwal' ? 'active' : ''}" 
+           title="Jadwal">
+            <i class="far fa-clock"></i>
+        </a>
+        
+        <a th:href="@{/dosen/mahasiswa}" class="sidebar-icon" 
+           th:classappend="${activeTab == 'mahasiswa' ? 'active' : ''}" 
+           title="Data Mahasiswa">
+            <i class="far fa-file-alt"></i>
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pengajuan Bimbingan</title>
-    <link rel="stylesheet" href="../../static/Css/Dosen/ajubimbingan.css">
+    <link rel="stylesheet" href="/Css/Dosen/ajubimbingan.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
+    <script src="/js/notif.js" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
+        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
 
-        <a href="#" class="sidebar-icon active" title="Home">
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
             <i class="fa-solid fa-house"></i>
         </a>
 
@@ -29,8 +31,13 @@
         <h3>SIAP Bimbingan</h3>
 
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon"></i>
-            <a href="#" class="logout">Logout</a>
+            <div style="position: relative;">
+                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+                <span th:if="${notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
+            </div>
+            <a href="/logout" class="logout">Logout</a>
         </div>
     </div>
 
@@ -54,48 +61,44 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>
-                        <div class="cell-name">
-                            <div class="name">Anggia Tejaningtyas Yudha Negara</div>
-                            <div class="npm">6182201080</div>
-                        </div>
-                    </td>
-                    <td>Senin</td>
-                    <td>10-12-2025</td>
-                    <td>09.00 – 10.00</td>
-                    <td class="cell-actions">
-                        <button class="btn-reject" title="Tolak">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                        <button class="btn-accept" title="Terima">
-                            <i class="fa-solid fa-check"></i>
-                        </button>
+                <tr th:if="${pengajuanList.size()} == 0">
+                    <td colspan="5" style="text-align:center; padding:20px;">
+                        Tidak ada pengajuan bimbingan
                     </td>
                 </tr>
-
-                <tr>
+                <tr th:each="p : ${pengajuanList}">
                     <td>
                         <div class="cell-name">
-                            <div class="name">Asep Protein</div>
-                            <div class="npm">6182201180</div>
-                        </div>
+                        <div class="name" th:text="${p.namaMahasiswa}">Nama Mahasiswa</div>
+                        <div class="npm" th:text="${p.npm}">0000000000</div>
+                    </div>
                     </td>
-                    <td>Rabu</td>
-                    <td>11-12-2025</td>
-                    <td>13.00 – 14.00</td>
+                    <td th:text="${#temporals.dayOfWeekName(p.tanggal)}">Senin</td>
+
+                    <td th:text="${#temporals.format(p.tanggal, 'dd-MM-yyyy')}">10-12-2025</td>
+
+                    <td>
+                        <span th:text="${p.waktuMulai}"></span> – 
+                        <span th:text="${p.waktuSelesai}"></span>
+                    </td>
                     <td class="cell-actions">
-                        <button class="btn-reject" title="Tolak">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                        <button class="btn-accept" title="Terima">
-                            <i class="fa-solid fa-check"></i>
-                        </button>
+                        <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/reject'}" method="post" style="display:inline;">
+                            <button class="btn-reject" title="Tolak">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </form>
+                            <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/approve'}" method="post" style="display:inline;">
+                            <button class="btn-accept" title="Terima">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
 </body>
 </html>
