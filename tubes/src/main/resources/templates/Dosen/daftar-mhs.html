@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Mahasiswa</title>
+    <link rel="stylesheet" href="/static/Css/Dosen/listMhs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="/static/Images/LogoUnpar.png" class="sidebar-logo">
+
+        <a href="#" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a href="#" class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+
+        <a href="#" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
+    </div>
+
+
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon"></i>
+            <a href="#" class="logout">Logout</a>
+        </div>
+    </div>
+
+
+    <div class="content-area">
+        <div class="card">
+
+            <div class="list-header">
+                <h2>Mahasiswa Bimbingan</h2>
+            </div>
+
+            <table class="table-mahasiswa">
+                <thead>
+                <tr>
+                    <th style="text-align:left;">Mahasiswa</th>
+                    <th style="text-align:left;">Email address</th>
+                    <th style="text-align:center; width:100px;">Aksi</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="cell-name">
+                            <div class="name">Anggia Tejaningtyas Yudha Negara</div>
+                            <div class="npm">6182201080</div>
+                        </div>
+                    </td>
+                    <td>6182201080@unpar.ac.id</td>
+                    <td class="cell-actions">
+                        <button class="btn-icon" title="Hapus">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        <button class="btn-detail">Detail</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="cell-name">
+                            <div class="name">Asep Protein</div>
+                            <div class="npm">6182201180</div>
+                        </div>
+                    </td>
+                    <td>6182201180@unpar.ac.id</td>
+                    <td class="cell-actions">
+                        <button class="btn-icon" title="Hapus">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                        <button class="btn-detail">Detail</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

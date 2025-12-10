@@ -1,0 +1,26 @@
+.table-riwayat {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    font-size: 14px;
+}
+.table-riwayat thead th {
+    background-color: #fafafa;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+.table-riwayat tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+.table-riwayat tbody tr:hover td { background-color: #f8f8f8; }
+.badge { padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block; }
+.badge-success { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+.btn-detail {
+    border: 1px solid #007bff; background: white; color: #007bff;
+    padding: 4px 12px; font-size: 13px; border-radius: 999px; cursor: pointer; text-decoration: none; display: inline-block;
+}
+.btn-detail:hover { background: #007bff; color: white; }

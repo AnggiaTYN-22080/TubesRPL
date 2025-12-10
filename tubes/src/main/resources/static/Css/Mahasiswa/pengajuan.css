@@ -1,0 +1,42 @@
+.pengajuan-wrapper { 
+    display: flex; gap: 30px; margin-top: 10px; 
+}
+
+    
+.form-section { 
+    flex: 2; background-color: #DCE3F9; border-radius: 12px; padding: 30px; 
+} 
+
+.info-section { 
+    flex: 1; padding: 10px; 
+}
+
+.form-group { 
+    margin-bottom: 20px; 
+}
+
+.form-label { 
+    font-weight: 600; font-size: 14px; color: #000; margin-bottom: 8px; display: block; 
+}
+.custom-input {
+    border: none; border-radius: 6px; padding: 10px 12px; width: 100%; font-size: 14px; color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); background: white; box-sizing: border-box;
+}
+
+.info-label { 
+    color: #666; 
+    font-size: 13px; 
+    margin-bottom: 4px; 
+}
+.info-value { 
+    font-weight: 600; 
+    color: #000; 
+    font-size: 15px; 
+    margin-bottom: 20px; 
+    line-height: 1.4; 
+}
+
+.btn-submit {
+    background-color: #001db1; color: white; padding: 10px 30px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; float: right; margin-top: 20px;
+}
+.btn-submit:hover { background-color: #4059D7; }

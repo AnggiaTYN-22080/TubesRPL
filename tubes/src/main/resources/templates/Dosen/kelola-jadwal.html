@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Jadwal Bimbingan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" th:href="@{/Css/daftar-mhs-style.css}">
+    <link rel="stylesheet" th:href="@{/Css/calendar.css}">
+</head>
+<body>
+
+<div class="main-wrapper">
+    
+    <div th:replace="~{layout/sidebar-dosen :: sidebar(activeTab='jadwal')}"></div>
+
+    <div class="content">
+        <div class="page-container"> 
+            
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h4 class="fw-bold text-secondary mb-0">Jadwal Bimbingan</h4>
+                    <p class="text-muted small">Atur jadwal bimbingan Anda di sini.</p>
+                </div>
+                <a th:href="@{/logout}" class="text-dark text-decoration-none fw-bold small">Logout</a>
+            </div>
+
+            <div class="calendar-header mb-4 text-center">
+                <h2 class="fw-bold text-dark" th:text="${currentMonth + ' ' + currentYear}">October 2025</h2>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="day-name">Sunday</div>
+                <div class="day-name">Monday</div>
+                <div class="day-name">Tuesday</div>
+                <div class="day-name">Wednesday</div>
+                <div class="day-name">Thursday</div>
+                <div class="day-name">Friday</div>
+                <div class="day-name">Saturday</div>
+
+                <div th:each="blank : ${blanks}" class="day-cell empty"></div>
+
+                <div th:each="date : ${dates}" class="day-cell" 
+                     th:onclick="'openModal(' + ${date} + ')'">
+                    
+                    <div class="date-number" th:text="${date}">1</div>
+
+                    <div th:each="jadwal : ${listJadwal}">
+                        <div th:if="${jadwal.waktuMulai.dayOfMonth == date}" class="event-badge">
+                            <span th:text="${#temporals.format(jadwal.waktuMulai, 'HH:mm')}"></span>
+                            Bimbingan
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalJadwal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Jadwalkan Bimbingan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/jadwal/tambah}" method="post">
+                <div class="modal-body">
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold small">Tanggal Terpilih</label>
+                        <input type="date" id="inputTanggal" name="tanggal" class="form-control" readonly>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="fw-bold small">Jam Mulai</label>
+                            <input type="time" name="jamMulai" class="form-control" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="fw-bold small">Jam Selesai</label>
+                            <input type="time" name="jamSelesai" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold small">Pilih Ruangan</label>
+                        <select name="ruanganId" class="form-select" required>
+                            <option value="">-- Pilih Ruangan --</option>
+                            <option th:each="ruang : ${listRuangan}" 
+                                    th:value="${ruang.id}" 
+                                    th:text="${ruang.nama_ruangan}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bold small">Pilih Mahasiswa</label>
+                        <select name="mahasiswaId" class="form-select" required>
+                            <option value="">-- Pilih Mahasiswa --</option>
+                            <option th:each="mhs : ${listMahasiswa}" 
+                                    th:value="${mhs.npm}" 
+                                    th:text="${mhs.nama + ' (' + mhs.npm + ')'}"></option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="submit" class="btn btn-primary w-100">Simpan Jadwal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(day) {
+        const year = "[[${currentYear}]]";
+        const monthName = "[[${currentMonth}]]";
+        
+        const monthMap = {
+            "JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
+            "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
+            "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"
+        };
+        const month = monthMap[monthName];
+        const dayString = day < 10 ? '0' + day : day;
+        const fullDate = `${year}-${month}-${dayString}`;
+
+        document.getElementById('inputTanggal').value = fullDate;
+        var myModal = new bootstrap.Modal(document.getElementById('modalJadwal'));
+        myModal.show();
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

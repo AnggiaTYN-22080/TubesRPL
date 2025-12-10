@@ -1,253 +1,109 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard SIAP Bimbingan</title>
-    <style>
-        /* Gaya Dasar */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
-
-        /* Header (Navbar) */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            height: 40px; 
-            margin-right: 10px;
-        }
-
-        .app-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-right: 15px;
-            color: #555;
-        }
-
-        .logout {
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-        }
-
-        /* Konten Utama */
-        .container {
-            padding: 30px;
-        }
-
-        .menu-title {
-            font-size: 2em;
-            font-weight: 500;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        /* Tata Letak Kartu (Dashboard) */
-        /* Flexbox akan membuat 3 kartu di baris pertama dan 2 sisanya otomatis turun */
-        .dashboard-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Jarak antar kartu */
-            /* Jika Anda ingin baris kedua berada di tengah, Anda bisa menambahkan:
-            justify-content: center; 
-            Tapi ini akan membuat semua kartu (termasuk baris pertama) cenderung ke tengah.
-            Untuk kasus 3-2 yang sederhana, pengaturan default sudah cukup. */
-            justify-content: center;
-        }
-
-        /* Gaya Kartu */
-        .card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            /* Mengatur lebar agar 3 kartu muat dalam satu baris: 
-               (100% - 2*gap) / 3 ≈ 32%
-               Kita gunakan 30% dan biarkan flexbox yang mengurus sisanya. */
-            width: calc((100% - 40px) / 3); 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-icon {
-            margin-bottom: 20px;
-        }
-
-        .card-icon svg {
-            width: 60px; 
-            height: 60px;
-            stroke: #333; 
-            stroke-width: 1; 
-            fill: none;
-        }
-
-        .card-title {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .card-body {
-            font-size: 0.9em;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .card {
-                width: calc((100% - 20px) / 2); /* 2 kartu per baris */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                width: 100%; /* 1 kartu per baris */
-            }
-            .header {
-                padding: 15px 20px;
-            }
-            .container {
-                padding: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Dashboard Dosen Koordinator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
-    <header class="header">
-        <div class="header-left">
-            <img src="E:\RPL Sem 9\TubesRPL\tubes\src\main\resources\static\Images\LogoUnpar.png" alt="Logo UNPAR" class="logo">
-            <span class="app-name">SIAP Bimbingan</span>
+<body class="app-layout">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+      </div>
+      <ul class="sidebar-nav">
+        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets admin/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
+        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
+        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
+        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
+        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
+        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
+      </ul>
+    </aside>
+    <div class="main-panel">
+      <div class="page-title-bar">
+        <span>Dashboard Dosen Koordinator</span>l
+      </div>
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+          <span class="brand-text">SIAP Bimbingan</span>
+        </div>
+        <div class="header-center">
+          
         </div>
         <div class="header-right">
-            <button class="icon-btn" aria-label="Notifikasi">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-            </button>
-            <a href="#" class="logout">Logout</a>
+          <img src="assets/icons/bell.svg" alt="Notifikasi" />
+          <span>Logout</span>
         </div>
-    </header>
+      </header>
+      <main class="page-content">
+        
+  <h1 class="section-title">Menu</h1>
+  <div class="card-grid">
+    <a class="menu-card" href="kelola-jadwal-&-ruangan.html">
+      <div class="menu-card-icon">
+        <svg viewBox="0 0 24 24" stroke="#111827" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="5" width="16" height="14" rx="2" />
+          <path d="M4 10h16" />
+          <path d="M9 3v4" />
+          <path d="M15 3v4" />
+        </svg>
+      </div>
+      <div class="menu-card-title">Kelola Jadwal &amp; Ruangan</div>
+      <div class="menu-card-body">Atur jadwal bimbingan dan ruangan yang tersedia.</div>
+    </a>
+    <a class="menu-card" href="riwayat-bimbingan.html">
+      <div class="menu-card-icon">
+        <svg viewBox="0 0 24 24" stroke="#111827" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 7v5l3 2" />
+        </svg>
+      </div>
+      <div class="menu-card-title">Riwayat Bimbingan</div>
+      <div class="menu-card-body">Lihat daftar riwayat bimbingan mahasiswa.</div>
+    </a>
+    <a class="menu-card" href="periode-TA.html">
+      <div class="menu-card-icon">
+        <svg viewBox="0 0 24 24" stroke="#111827" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 19l7-7 4 4" />
+          <path d="M5 11l4 4 10-10" />
+        </svg>
+      </div>
+      <div class="menu-card-title">Periode TA</div>
+      <div class="menu-card-body">Kelola periode Tugas Akhir yang sedang berjalan.</div>
+    </a>
+  </div>
+  <div class="card-grid card-grid-row-2">
+    <a class="menu-card" href="persyaratan-sidang.html">
+      <div class="menu-card-icon">
+        <svg viewBox="0 0 24 24" stroke="#111827" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="3" width="14" height="18" rx="2" />
+          <path d="M8 8h6" />
+          <path d="M8 12h3" />
+          <path d="M8 16h5" />
+          <path d="M17 15.5l2 2.5 3-4" />
+        </svg>
+      </div>
+      <div class="menu-card-title">Persyaratan Sidang</div>
+      <div class="menu-card-body">Pantau pemenuhan persyaratan sidang mahasiswa.</div>
+    </a>
+    <a class="menu-card" href="kelola-data-mhs-&-dosen.html">
+      <div class="menu-card-icon">
+        <svg viewBox="0 0 24 24" stroke="#111827" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="9" r="3" />
+          <circle cx="16" cy="9" r="3" />
+          <path d="M4 19c.4-2.3 2.2-4 4-4s3.6 1.7 4 4" />
+          <path d="M12 19c.4-2.3 2.2-4 4-4s3.6 1.7 4 4" />
+        </svg>
+      </div>
+      <div class="menu-card-title">Kelola Data Mahasiswa &amp; Dosen</div>
+      <div class="menu-card-body">Kelola daftar akun mahasiswa dan dosen pembimbing.</div>
+    </a>
+  </div>
 
-    <div class="container">
-    <h1 class="menu-title">Menu</h1>
-
-    <div class="dashboard-grid">
-
-        <!-- Kelola Jadwal & Ruangan -->
-        <a href="kelola-jadwal-&-ruangan.html" class="card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Kelola Jadwal & Ruangan</div>
-                <p class="card-body">Body text for whatever you'd like to say...</p>
-            </div>
-        </a>
-
-        <!-- Riwayat Bimbingan -->
-        <a href="riwayat-bimbingan.html" class="card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Riwayat Bimbingan</div>
-                <p class="card-body">Body text for whatever you'd like to say...</p>
-            </div>
-        </a>
-
-        <!-- Periode TA -->
-        <a href="periode-TA.html" class="card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Periode TA</div>
-                <p class="card-body">Body text for whatever you'd like to say...</p>
-            </div>
-        </a>
-
-        <!-- Persyaratan Sidang -->
-        <a href="persyaratan-sidang.html" class="card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <polyline points="9 16 12 19 19 12"></polyline>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Persyaratan Sidang</div>
-                <p class="card-body">Body text for whatever you'd like to say...</p>
-            </div>
-        </a>
-
-        <!-- Kelola Data Mahasiswa & Dosen -->
-        <a href="kelola-data-mhs-&-dosen.html" class="card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <line x1="10" y1="9" x2="8" y2="9"></line>
-                </svg>
-            </div>
-            <div class="card-content">
-                <div class="card-title">Kelola Data Mahasiswa & Dosen</div>
-                <p class="card-body">Body text for whatever you'd like to say...</p>
-            </div>
-        </a>
-
+      </main>
     </div>
-</div>
-
-
+  </div>
 </body>
 </html>

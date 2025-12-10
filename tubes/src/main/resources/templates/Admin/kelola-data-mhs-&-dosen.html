@@ -1,118 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Kelola Data Mahasiswa &amp; Dosen</title>
-    <link rel="stylesheet" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <title>Dosen Koordinator Kelola Data Mahasiswa</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
-<div class="sidebar">
-    <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
-
-    <a href="DashboardAdmin.html" class="sidebar-icon" title="Home">
-        <i class="fa-solid fa-house"></i>
-    </a>
-    <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan">
-        <i class="fa-regular fa-clock"></i>
-    </a>
-    <a href="kelola-jadwal-&-ruangan.html" class="sidebar-icon" title="Jadwal &amp; Ruangan">
-        <i class="fa-regular fa-calendar-days"></i>
-    </a>
-    <a href="persyaratan-sidang.html" class="sidebar-icon" title="Persyaratan Sidang">
-        <i class="fa-regular fa-file-circle-check"></i>
-    </a>
-    <a href="kelola-data-mhs-&-dosen.html" class="sidebar-icon active"
-       title="Kelola Data Mhs &amp; Dosen">
-        <i class="fa-regular fa-file-lines"></i>
-    </a>
-    <a href="periode-TA.html" class="sidebar-icon" title="Periode TA">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-    </a>
-</div>
-
-<div class="header">
-    <h3 class="app-title">SIAP Bimbingan</h3>
-
-    <div class="header-right">
-        <i class="fa-regular fa-bell notif-icon"></i>
-        <a href="#" class="logout">Logout</a>
-    </div>
-</div>
-
-<div class="content-area">
-    <h1 class="page-title">Kelola Data Mahasiswa &amp; Dosen</h1>
-
-    <div class="card">
-        <div class="tab-bar">
-            <a href="#" class="tab-link active">Mahasiswa</a>
-            <a href="#" class="tab-link">Dosen</a>
+<body class="app-layout">
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+      </div>
+      <ul class="sidebar-nav">
+        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
+        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
+        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
+        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
+        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
+        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
+      </ul>
+    </aside>
+    <div class="main-panel">
+      <div class="page-title-bar">
+        <span>Dosen Koordinator Kelola Data Mahasiswa</span>
+      </div>
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
+          <span class="brand-text">SIAP Bimbingan</span>
         </div>
+        <div class="header-center">
+          
+<span class="header-tab active">Mahasiswa</span>
+<span class="header-tab">Dosen</span>
 
-        <table class="table-admin">
-            <thead>
-            <tr>
-                <th class="col-checkbox"><input type="checkbox"></th>
-                <th>Mahasiswa</th>
-                <th>Email address</th>
-                <th class="col-actions">Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Olivia Rhye</span>
-                        <span class="npm">i220001</span>
-                    </div>
-                </td>
-                <td>i220001@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Phoenix Baker</span>
-                        <span class="npm">i220015</span>
-                    </div>
-                </td>
-                <td>i220015@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Lana Steiner</span>
-                        <span class="npm">i210007</span>
-                    </div>
-                </td>
-                <td>i210007@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        </div>
+        <div class="header-right">
+          <img src="assets/icons/bell.svg" alt="Notifikasi" />
+          <span>Logout</span>
+        </div>
+      </header>
+      <main class="page-content">
+        
+  <div class="list-table-wrapper">
+    <table class="list-table">
+      <thead>
+        <tr>
+          <th>
+            <div class="table-header-checkbox">
+              <input type="checkbox" class="table-checkbox" />
+              <span>Mahasiswa</span>
+            </div>
+          </th>
+          <th>Email address</th>
+          <th class="text-right">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar"><img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Olivia" /></div>
+              <div>
+                <div class="user-text-main">Olivia Rhye</div>
+                <div class="user-text-sub">i20001</div>
+              </div>
+            </div>
+          </td>
+          <td>i22001@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar"><img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Phoenix" /></div>
+              <div>
+                <div class="user-text-main">Phoenix Baker</div>
+                <div class="user-text-sub">i20015</div>
+              </div>
+            </div>
+          </td>
+          <td>i22015@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar"><img src="https://images.pexels.com/photos/712521/pexels-photo-712521.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Lana" /></div>
+              <div>
+                <div class="user-text-main">Lana Steiner</div>
+                <div class="user-text-sub">i21007</div>
+              </div>
+            </div>
+          </td>
+          <td>i21007@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar"><img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Demi" /></div>
+              <div>
+                <div class="user-text-main">Demi Wilkinson</div>
+                <div class="user-text-sub">i21009</div>
+              </div>
+            </div>
+          </td>
+          <td>i21009@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar">CW</div>
+              <div>
+                <div class="user-text-main">Candice Wu</div>
+                <div class="user-text-sub">i22003</div>
+              </div>
+            </div>
+          </td>
+          <td>i22023@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <input type="checkbox" class="table-checkbox" />
+              <div class="user-avatar"><img src="https://images.pexels.com/photos/428340/pexels-photo-428340.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Natali" /></div>
+              <div>
+                <div class="user-text-main">Natali Craig</div>
+                <div class="user-text-sub">i22011</div>
+              </div>
+            </div>
+          </td>
+          <td>i22011@unpar.com</td>
+          <td class="action-cell">
+            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
+            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+      </main>
     </div>
-</div>
-
+  </div>
 </body>
 </html>
