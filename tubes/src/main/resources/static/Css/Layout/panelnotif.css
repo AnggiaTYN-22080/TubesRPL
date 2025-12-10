@@ -1,0 +1,101 @@
+.notif-panel {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 260px;
+    max-height: 78vh;
+    background-color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 15px 18px;
+    z-index: 9999;
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease-out;
+}
+
+.notif-panel.open {
+    right: 20px;
+    opacity: 1; 
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.notif-panel h4 {
+    margin: 0 0 20px;
+    font-weight: bold;
+    color: #001DB1;
+    text-align: center;
+}
+
+.notif-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 9998;
+    display: none; 
+}
+
+.notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.notif-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #e3e3e3;
+    transition: 0.2s;
+}
+
+.notif-item:hover {
+    background: #eef2ff;
+    border-color: #001DB1;
+}
+
+.notif-item strong {
+    font-size: 14px;
+    color: #001DB1;
+}
+
+.notif-item p {
+    margin: 5px 0 10px;
+    font-size: 13px;
+    color: #333;
+}
+
+.notif-item small {
+    font-size: 11px;
+    color: #777;
+}
+
+.close-notif-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-notif-btn:hover {
+    color: red;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}

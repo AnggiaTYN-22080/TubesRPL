@@ -1,34 +1,83 @@
 package com.example.tubes.Mahasiswa;
 
-import java.util.List;
-
+import com.example.tubes.Auth.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.tubes.Auth.User;
-import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
+import java.util.Map;
 
-import jakarta.servlet.http.HttpSession;
-
+@Controller
+@RequestMapping("/mahasiswa")
 public class MahasiswaController {
+
     @Autowired
-    private JdbcMahasiswaRepo mahasiswaRepository; // Pastikan nama variabel sesuai
+    private MahasiswaService mahasiswaService;
+
+    // Helper untuk cek login
+    private User cekLogin(HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"mahasiswa".equalsIgnoreCase(user.getRole())) {
+            return null;
+        }
+        return user;
+    }
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"MAHASISWA".equals(user.getRole())) {
+        User user = cekLogin(session);
+        if (user == null)
             return "redirect:/login";
+
+        // Ambil Data
+        Mahasiswa mhsDetail = mahasiswaService.getMahasiswaByUserId(user.getId()).orElse(null);
+
+        // Cek null pointer jika data belum lengkap
+        if (mhsDetail != null) {
+            Map<String, Object> topik = mahasiswaService.getTopikTA(mhsDetail.getIdMhs());
+            Map<String, Object> nextBimbingan = mahasiswaService.getNextBimbingan(mhsDetail.getIdMhs());
+
+            model.addAttribute("topik", topik);
+            model.addAttribute("nextBimbingan", nextBimbingan);
+            model.addAttribute("mhsDetail", mhsDetail);
         }
 
-        // 1. Ambil Jadwal Mahasiswa ini dari Database
-        List<JadwalBimbingan> jadwalSaya = mahasiswaRepository.findJadwalByMahasiswaId(user.getIdUser());
-
-        // 2. Kirim ke HTML
         model.addAttribute("user", user);
-        model.addAttribute("jadwalList", jadwalSaya);
+        return "Mahasiswa/dashboard-mhs";
+    }
 
-        return "Mahasiswa/dashboard";
+    @GetMapping("/jadwal")
+    public String jadwal(HttpSession session, Model model) {
+        User user = cekLogin(session);
+        if (user == null)
+            return "redirect:/login";
+
+        model.addAttribute("user", user);
+        // Nanti bisa tambah logic ambil data jadwal disini
+        return "Mahasiswa/jadwal-mhs";
+    }
+
+    @GetMapping("/riwayat")
+    public String riwayat(HttpSession session, Model model) {
+        User user = cekLogin(session);
+        if (user == null)
+            return "redirect:/login";
+
+        model.addAttribute("user", user);
+        // Nanti bisa tambah logic ambil data riwayat disini
+        return "Mahasiswa/riwayat-bimbingan";
+    }
+
+    @GetMapping("/pengajuan")
+    public String pengajuan(HttpSession session, Model model) {
+        User user = cekLogin(session);
+        if (user == null)
+            return "redirect:/login";
+
+        model.addAttribute("user", user);
+        return "Mahasiswa/pengajuan-mhs";
     }
 }

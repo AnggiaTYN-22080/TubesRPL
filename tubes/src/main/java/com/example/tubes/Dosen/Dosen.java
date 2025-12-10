@@ -8,9 +8,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Dosen {
+    private int idDosen;
     private String nik;
     private String nama;
     private String email;
-    private String password;
-    private int kuotaBimbingan;
 }
