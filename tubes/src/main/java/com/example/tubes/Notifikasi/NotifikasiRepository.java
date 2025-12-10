@@ -25,6 +25,7 @@ public class NotifikasiRepository {
         String sql = """
             SELECT * FROM notifikasi
             WHERE idUser = ?
+            ORDER BY waktu DESC
         """;
 
         return jdbc.query(sql, (rs, rowNum) -> {
