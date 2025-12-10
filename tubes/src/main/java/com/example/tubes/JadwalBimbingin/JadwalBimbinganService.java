@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package com.example.tubes.JadwalBimbingin;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +23,3 @@ public class JadwalBimbinganService {
         return repo.findByMonth(idDosen, year, month);
     }
 }
->>>>>>> 64dada559d9be840697add6885afae55c39ee148
