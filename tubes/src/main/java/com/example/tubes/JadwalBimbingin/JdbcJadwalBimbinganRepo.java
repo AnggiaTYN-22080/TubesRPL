@@ -6,7 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
@@ -70,5 +73,35 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
                 """;
 
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen, year, month);
+    }
+
+    @Override
+    public void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
+        String sql = """
+                INSERT INTO jadwal_bimbingan (idMhs, idDosen, tanggal, waktuMulai, waktuSelesai, status)
+                VALUES (?, ?, ?, ?, ?, 'pending')
+                """;
+
+        jdbc.update(sql, idMhs, idDosen, tanggal, mulai, selesai);
+    }
+
+    @Override
+    public Optional<JadwalBimbingan> findById(int idJadwal) {
+
+        String sql = """
+                SELECT * FROM jadwal_bimbingan
+                WHERE idJadwal = ?
+                """;
+
+        try {
+            JadwalBimbingan j = jdbc.queryForObject(
+                    sql,
+                    (rs, rowNum) -> mapRow(rs),
+                    idJadwal
+            );
+            return Optional.ofNullable(j);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

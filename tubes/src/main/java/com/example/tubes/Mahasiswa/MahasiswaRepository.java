@@ -9,4 +9,9 @@ public interface MahasiswaRepository {
     Map<String, Object> findTopikTA(int idMhs);
 
     Map<String, Object> findNextBimbingan(int idMhs);
+
+    Optional<String> findNamaDosenPembimbing(int idMhs);
+
+    Optional<Integer> findIdDosenPembimbing(int idMhs);
+
 }
