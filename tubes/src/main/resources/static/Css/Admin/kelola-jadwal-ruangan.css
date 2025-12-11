@@ -1,94 +1,53 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #111827;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
 }
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* SIDEBAR */
 
 .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 68px;
-    background-color: #ffffff;
-    border-right: 1px solid #e5e7eb;
+    width: 60px;
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    gap: 28px;
-    z-index: 15;
+    padding-top: 25px;
+    gap: 35px;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 .sidebar-logo {
     width: 40px;
-    height: 40px;
-    object-fit: contain;
-    margin-bottom: 4px;
-}
-
-.sidebar-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .sidebar-icon i {
-    font-size: 20px;
-    color: #111827;
-    transition: color .2s ease, background-color .2s ease;
+    font-size: 26px;
+    color: black;
+    transition: 0.2s ease;
 }
 
-.sidebar-icon:hover {
-    background-color: #eef2ff;
-}
-
-.sidebar-icon.active {
-    background-color: #e0e7ff;
+.sidebar-icon:hover i {
+    color: #444;
 }
 
 .sidebar-icon.active i {
-    color: #1d4ed8;
+    color: black;
+    font-weight: bold;
 }
 
-/* HEADER */
-
 .header {
-    position: fixed;
-    top: 0;
-    left: 68px;
-    right: 0;
+    margin-left: 70px;
     height: 60px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 10;
-}
-
-.app-title {
-    font-size: 18px;
-    font-weight: 600;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
 }
 
 .header-right {
@@ -99,185 +58,379 @@ a {
 
 .notif-icon {
     font-size: 20px;
-    color: #111827;
+    color: black;
     cursor: pointer;
-    transition: color .2s ease;
+    transition: 0.2s;
 }
 
 .notif-icon:hover {
-    color: #4b5563;
+    color: #555;
 }
 
 .logout {
-    font-size: 14px;
-    font-weight: 500;
+    text-decoration: none;
+    color: black;
 }
-
-/* CONTENT AREA */
 
 .content-area {
-    margin-left: 68px;
-    padding: 72px 48px 40px 48px; /* 60 header + 12 jarak */
+    margin-left: 60px;
+    padding: 24px 40px 32px;
+    background: #f5f7fb;
+    min-height: calc(100vh - 60px);
+    box-sizing: border-box;
 }
 
-/* TITLE */
+.schedule-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
 
-.page-title {
-    font-size: 20px;
+/* card kalendar bulan */
+
+.calendar-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 24px 32px 28px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.calendar-month-title {
+    font-size: 18px;
     font-weight: 600;
+    color: #111827;
+}
+
+.calendar-nav-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.calendar-nav-btn i {
+    font-size: 16px;
+    color: #6366f1;
+}
+
+.calendar-nav-btn:hover {
+    background: rgba(99, 102, 241, 0.08);
+    transform: translateY(-1px);
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    text-decoration: underline;
-    margin-bottom: 28px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-bottom: 8px;
 }
 
-/* SECTION RUANG */
-
-.section-room {
-    margin-bottom: 40px;
+.calendar-weekdays span {
+    padding: 4px 0;
 }
 
-/* label "Ruang Tersedia" dengan garis tipis di atas */
-.room-title-row {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 6px;
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-day {
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-size: 13px;
+    cursor: pointer;
+    color: #374151;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.calendar-day.muted {
+    color: #d1d5db;
+}
+
+.calendar-day.selected {
+    background: #6366f1;
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.calendar-day:hover:not(.selected) {
+    background: #eef2ff;
+    color: #4f46e5;
+    transform: translateY(-1px);
+}
+
+/* weekly schedule card */
+.week-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 20px 24px 24px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+/* header week & hari */
+.week-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    align-items: center;
+    column-gap: 16px;
+    margin-bottom: 16px;
+}
+
+.week-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #9ca3af;
+}
+
+.week-days {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.week-day {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.week-day-date {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.week-day-name {
+    font-size: 11px;
+}
+
+.week-day.active .week-day-date,
+.week-day.active .week-day-name {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+.week-day-date.weekend,
+.week-day-name.weekend {
+    color: #f97316;
+}
+
+.week-selected-date {
+    justify-self: end;
+    text-align: right;
+}
+
+.week-selected-number {
+    font-size: 24px;
+    font-weight: 600;
+    color: #4f46e5;
+    line-height: 1;
+}
+
+.week-selected-text {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* strip ruang tersedia */
+.room-strip {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 12px;
+    align-items: flex-start;
     margin-bottom: 10px;
 }
 
-.section-label {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-/* bar biru "Tambah Ruangan" */
-.room-add-bar {
-    width: 100%;
-    background-color: #0037c1;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 18px;
-}
-
-/* GRID WAKTU & RUANG */
-
-.room-grid-wrapper {
-    background-color: #ffffff;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    padding: 16px 16px 12px;
-    overflow-x: auto;
-}
-
-/* baris header waktu */
-.room-grid-header {
-    display: grid;
-    grid-template-columns: 120px repeat(12, minmax(40px, 1fr));
-    column-gap: 8px;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.room-header-label {
-    font-size: 13px;
-}
-
-.time-header {
-    font-size: 11px;
-    color: #6b7280;
-    text-align: center;
-}
-
-/* setiap baris ruangan */
-.room-grid-row {
-    display: grid;
-    grid-template-columns: 120px repeat(12, minmax(40px, 1fr));
-    column-gap: 8px;
-    align-items: center;
-    padding: 6px 0;
-    border-top: 1px solid #f3f4f6;
-}
-
-/* sel label ruangan */
-.room-label-cell {
+.room-strip-label {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    flex-direction: column;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #9ca3af;
+    padding-top: 6px;
 }
 
-/* pill ruangan */
-.room-pill {
-    min-width: 80px;
-    padding: 8px 16px;
+/* tombol pill ruangan (pakai daftarRuangan) */
+.room-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.room-pill-btn {
     border-radius: 999px;
     border: none;
-    background-color: #e0edff;
-    color: #1f2937;
-    font-size: 13px;
-    cursor: default;
+    padding: 6px 14px;
+    font-size: 12px;
+    background: #e0ebff;
+    color: #1d4ed8;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
 }
 
-/* sel slot jam */
-.slot-cell {
+.room-pill-btn:hover {
+    background: #c7d2fe;
+    transform: translateY(-1px);
+}
+
+/* status ruangan (pakai statusRuangan) */
+.room-legend {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-left: 80px; /* sejajar dengan grid jadwal */
+    font-size: 11px;
+}
+
+.room-legend-item {
+    display: inline-flex;
     align-items: center;
+    gap: 6px;
 }
 
-/* lingkaran status */
-.slot-dot {
-    width: 16px;
-    height: 16px;
+.room-legend-dot {
+    width: 10px;
+    height: 10px;
     border-radius: 999px;
-    background-color: #d1d5db; /* abu default */
+    background: #bbf7d0; /* default: tidak penuh */
+    border: 1px solid #22c55e;
 }
 
-.slot-dot.busy {
-    background-color: #ef4444; /* merah */
+.room-legend-dot.busy {
+    background: #fee2e2;
+    border-color: #ef4444;
 }
 
-/* SECTION TABEL BAWAH */
+/* grid jadwal */
 
-.section-table {
-    margin-top: 40px;
+.schedule-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 12px;
 }
 
-.table-admin {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
+/* kolom jam di kiri */
+.time-column {
+    display: grid;
+    grid-template-rows: repeat(12, 40px);
+    font-size: 11px;
+    color: #9ca3af;
 }
 
-.table-admin thead tr {
-    background-color: #f9fafb;
+.time-cell {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-right: 4px;
 }
 
-.table-admin th,
-.table-admin td {
-    padding: 12px 16px;
-    font-size: 14px;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: left;
+.time-cell::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #e5e7eb;
 }
 
-.table-admin th {
+/* kolom hari-hari (7 kolom) */
+.day-columns {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 8px;
+}
+
+/* masing-masing kolom memakai grid 12 baris (per jam) */
+.day-column {
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(12, 40px);
+    row-gap: 4px;
+}
+
+/* garis horizontal */
+.day-column::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    background-size: 100% 40px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* blok jadwal */
+.schedule-block {
+    position: relative;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+    box-shadow: 0 4px 10px rgba(148, 163, 184, 0.35);
+    z-index: 1;
+}
+
+.block-blue {
+    background: rgba(129, 140, 248, 0.65);
+    color: #111827;
+}
+
+.block-pink {
+    background: rgba(244, 114, 182, 0.60);
+    color: #111827;
+}
+
+.schedule-title {
     font-weight: 600;
-    color: #4b5563;
 }
 
-.table-admin tbody tr:last-child td {
-    border-bottom: none;
+.schedule-sub {
+    font-size: 10px;
+    opacity: 0.85;
 }
 
-.table-admin tbody tr:hover {
-    background-color: #f9fafb;
+.schedule-time {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.col-room {
-    font-weight: 600;
+.schedule-time::before {
+    content: "\f017";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 9px;
 }

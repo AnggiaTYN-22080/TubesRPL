@@ -1,170 +1,159 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Dosen Koordinator Kelola Data Mahasiswa</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Kelola Data Mahasiswa & Dosen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
-<body class="app-layout">
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-      </div>
-      <ul class="sidebar-nav">
-        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
-        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
-        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
-        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
-        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
-        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
-      </ul>
-    </aside>
-    <div class="main-panel">
-      <div class="page-title-bar">
-        <span>Dosen Koordinator Kelola Data Mahasiswa</span>
-      </div>
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-          <span class="brand-text">SIAP Bimbingan</span>
-        </div>
-        <div class="header-center">
-          
-<span class="header-tab active">Mahasiswa</span>
-<span class="header-tab">Dosen</span>
 
-        </div>
-        <div class="header-right">
-          <img src="assets/icons/bell.svg" alt="Notifikasi" />
-          <span>Logout</span>
-        </div>
-      </header>
-      <main class="page-content">
-        
-  <div class="list-table-wrapper">
-    <table class="list-table">
-      <thead>
-        <tr>
-          <th>
-            <div class="table-header-checkbox">
-              <input type="checkbox" class="table-checkbox" />
-              <span>Mahasiswa</span>
-            </div>
-          </th>
-          <th>Email address</th>
-          <th class="text-right">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Olivia" /></div>
-              <div>
-                <div class="user-text-main">Olivia Rhye</div>
-                <div class="user-text-sub">i20001</div>
-              </div>
-            </div>
-          </td>
-          <td>i22001@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Phoenix" /></div>
-              <div>
-                <div class="user-text-main">Phoenix Baker</div>
-                <div class="user-text-sub">i20015</div>
-              </div>
-            </div>
-          </td>
-          <td>i22015@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/712521/pexels-photo-712521.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Lana" /></div>
-              <div>
-                <div class="user-text-main">Lana Steiner</div>
-                <div class="user-text-sub">i21007</div>
-              </div>
-            </div>
-          </td>
-          <td>i21007@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Demi" /></div>
-              <div>
-                <div class="user-text-main">Demi Wilkinson</div>
-                <div class="user-text-sub">i21009</div>
-              </div>
-            </div>
-          </td>
-          <td>i21009@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar">CW</div>
-              <div>
-                <div class="user-text-main">Candice Wu</div>
-                <div class="user-text-sub">i22003</div>
-              </div>
-            </div>
-          </td>
-          <td>i22023@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/428340/pexels-photo-428340.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Natali" /></div>
-              <div>
-                <div class="user-text-main">Natali Craig</div>
-                <div class="user-text-sub">i22011</div>
-              </div>
-            </div>
-          </td>
-          <td>i22011@unpar.com</td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-      </main>
+<body>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
     </div>
-  </div>
+
+    <!-- header -->
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- content -->
+    <div class="content-area">
+        <div class="page-container">
+            <!-- navbar mahasiswa dosen -->
+            <div class="tab-nav">
+                <button class="tab-link active" data-tab="mahasiswa">Mahasiswa</button>
+                <button class="tab-link" data-tab="dosen">Dosen</button>
+            </div>
+            <!-- tab mahasiswa -->
+            <div id="tab-mahasiswa" class="tab-content active">
+                <!-- Ttombol tambah -->
+                <div class="toolbar-row">
+                    <button type="button" class="btn-primary" th:onclick="'location.href=\'/admin/mahasiswa/tambah\''">
+                        Tambah
+                    </button>
+                </div>
+                <!-- tabel mahasiswa - dosen pembimbing -->
+                <div class="card table-card">
+                    <table class="table-users">
+                        <thead>
+                            <tr>
+                                <th>Mahasiswa</th>
+                                <th>Dosen Pembimbing</th>
+                                <th class="col-actions">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="b : ${daftarBimbingan}">
+                                <td>
+                                    <div class="cell-name">
+                                        <div>
+                                            <div class="name" th:text="${b.namaMahasiswa}">
+                                                Bram Matthew Pasaribu
+                                            </div>
+                                            <div class="npm" th:text="${b.npmMahasiswa}">
+                                                6182101043
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="name" th:text="${b.namaDosen}">
+                                        Keenan Adiwijaya Leman, S.T., M.T.
+                                    </div>
+                                </td>
+                                <td class="cell-actions">
+                                    <button class="btn-icon" title="Hapus" th:onclick="'location.href=\'/admin/bimbingan/hapus/\' + ' + ${b.id}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                    <button class="btn-icon" title="Edit" th:onclick="'location.href=\'/admin/bimbingan/edit/\' + ' + ${b.id}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- tab dosen -->
+            <div id="tab-dosen" class="tab-content">
+                <!-- tombol tambah dosen -->
+                <div class="toolbar-row">
+                    <button type="button" class="btn-primary" th:onclick="'location.href=\'/admin/dosen/tambah\''">
+                        Tambah
+                    </button>
+                </div>
+                <!-- tabel dosen - email -->
+                <div class="card table-card">
+                    <table class="table-users">
+                        <thead>
+                            <tr>
+                                <th>Dosen</th>
+                                <th>Email address</th>
+                                <th class="col-actions">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="d : ${daftarDosen}">
+                                <td>
+                                    <div class="cell-name">
+                                        <div>
+                                            <div class="name" th:text="${d.nama}">
+                                                Keenan Adiwijaya Leman, S.T., M.T.
+                                            </div>
+                                            <div class="npm" th:text="${d.kode}">
+                                                20160127
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td th:text="${d.email}">
+                                    KeenanLeman@gmail.com
+                                </td>
+                                <td class="cell-actions">
+                                    <button class="btn-icon" title="Hapus" th:onclick="'location.href=\'/admin/dosen/hapus/\' + ' + ${d.id}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                    <button class="btn-icon" title="Edit" th:onclick="'location.href=\'/admin/dosen/edit/\' + ' + ${d.id}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
+
 </body>
+
 </html>

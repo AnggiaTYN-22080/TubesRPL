@@ -1,102 +1,265 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Dosen Koordinator Kelola Jadwal & Ruangan</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Kelola Jadwal & Ruangan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-jadwal-ruangan.css}" href="../../static/Css/Admin/kelola-jadwal-ruangan.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
-<body class="app-layout">
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-      </div>
-      <ul class="sidebar-nav">
-        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
-        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
-        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
-        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
-        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
-        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
-      </ul>
-    </aside>
-    <div class="main-panel">
-      <div class="page-title-bar">
-        <span>Dosen Koordinator Kelola Jadwal & Ruangan</span>
-      </div>
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-          <span class="brand-text">SIAP Bimbingan</span>
-        </div>
-        <div class="header-center">
-          
-        </div>
+
+<body>
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+    </div>
+    <div class="header">
+        <h3>Kelola Jadwal &amp; Ruangan</h3>
         <div class="header-right">
-          <img src="assets/icons/bell.svg" alt="Notifikasi" />
-          <span>Logout</span>
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
         </div>
-      </header>
-      <main class="page-content">
-        
-  <div class="room-layout">
-    <div>
-      <div class="room-header-title">Kelola Jadwal dan Ruangan</div>
-      <div class="room-available-label">Ruang Tersedia</div>
-      <button class="btn-room-primary">Tambah Ruangan</button>
-
-      <div class="room-pill-list">
-        <div class="room-pill">
-          <span class="room-pill-label">R9210</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9211</span>
-          <span class="room-pill-indicator busy"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9212</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9213</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9214</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-        <div class="room-pill">
-          <span class="room-pill-label">R9215</span>
-          <span class="room-pill-indicator"></span>
-        </div>
-      </div>
-
-      <div class="room-schedule-table">
-        <table class="list-table">
-          <thead>
-            <tr>
-              <th>Dosen</th>
-              <th>Tanggal</th>
-              <th>Jam</th>
-              <th>Ruang</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>20160127 Keenan Adiwijaya Leman, S.T., M.T.</td>
-              <td>Selasa, 9 Oktober 2025</td>
-              <td>10:00 - 12:00</td>
-              <td>9211</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
-  </div>
+    <div class="content-area">
+        <div class="schedule-layout">
+            <!-- card kalendar bulan -->
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <div class="calendar-month-title">February</div>
+                    <button class="calendar-nav-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="calendar-weekdays">
+                    <span>S</span>
+                    <span>M</span>
+                    <span>T</span>
+                    <span>W</span>
+                    <span>T</span>
+                    <span>F</span>
+                    <span>S</span>
+                </div>
+                <!-- grid tanggal -->
+                <div class="calendar-grid">
+                    <!-- baris 1 -->
+                    <button class="calendar-day muted">31</button>
+                    <button class="calendar-day">1</button>
+                    <button class="calendar-day">2</button>
+                    <button class="calendar-day">3</button>
+                    <button class="calendar-day">4</button>
+                    <button class="calendar-day">5</button>
+                    <button class="calendar-day">6</button>
+                    <!-- baris 2 -->
+                    <button class="calendar-day">7</button>
+                    <button class="calendar-day">8</button>
+                    <button class="calendar-day">9</button>
+                    <button class="calendar-day">10</button>
+                    <button class="calendar-day">11</button>
+                    <button class="calendar-day">12</button>
+                    <button class="calendar-day">13</button>
+                    <!-- baris 3 -->
+                    <button class="calendar-day">14</button>
+                    <button class="calendar-day">15</button>
+                    <button class="calendar-day selected">16</button>
+                    <button class="calendar-day">17</button>
+                    <button class="calendar-day">18</button>
+                    <button class="calendar-day">19</button>
+                    <button class="calendar-day">20</button>
+                    <!-- baris 4 -->
+                    <button class="calendar-day">21</button>
+                    <button class="calendar-day">22</button>
+                    <button class="calendar-day">23</button>
+                    <button class="calendar-day">24</button>
+                    <button class="calendar-day">25</button>
+                    <button class="calendar-day">26</button>
+                    <button class="calendar-day">27</button>
+                    <!-- baris 5 -->
+                    <button class="calendar-day">28</button>
+                    <button class="calendar-day muted">1</button>
+                    <button class="calendar-day muted">2</button>
+                    <button class="calendar-day muted">3</button>
+                    <button class="calendar-day muted">4</button>
+                    <button class="calendar-day muted">5</button>
+                    <button class="calendar-day muted">6</button>
+                </div>
+            </div>
+            <!-- card weekly schedule -->
+            <div class="week-card">
+                <!-- header minggu & hari -->
+                <div class="week-header">
+                    <div class="week-label">Week</div>
+                    <div class="week-days">
+                        <div class="week-day">
+                            <div class="week-day-date">14</div>
+                            <div class="week-day-name">Sun</div>
+                        </div>
+                        <div class="week-day">
+                            <div class="week-day-date">15</div>
+                            <div class="week-day-name">Mon</div>
+                        </div>
+                        <div class="week-day active">
+                            <div class="week-day-date">16</div>
+                            <div class="week-day-name">Tue</div>
+                        </div>
+                        <div class="week-day">
+                            <div class="week-day-date">17</div>
+                            <div class="week-day-name">Wed</div>
+                        </div>
+                        <div class="week-day">
+                            <div class="week-day-date">18</div>
+                            <div class="week-day-name">Thu</div>
+                        </div>
+                        <div class="week-day">
+                            <div class="week-day-date">19</div>
+                            <div class="week-day-name">Fri</div>
+                        </div>
+                        <div class="week-day">
+                            <div class="week-day-date weekend">20</div>
+                            <div class="week-day-name weekend">Sat</div>
+                        </div>
+                    </div>
 
-      </main>
+                    <div class="week-selected-date">
+                        <div class="week-selected-number">16</div>
+                        <div class="week-selected-text">Tue</div>
+                    </div>
+                </div>
+
+                <!-- baris ruang tersedia dan pilih ruangan -->
+                <div class="room-strip">
+                    <div class="room-strip-label">
+                        <span>Ruang</span>
+                        <span>Tersedia</span>
+                    </div>
+                    <div class="room-pill-row">
+                        <button class="room-pill-btn" th:each="ruang : ${daftarRuangan}" th:text="${ruang.nama}">
+                            R9210
+                        </button>
+                        <button class="room-pill-btn">R9211</button>
+                        <button class="room-pill-btn">R9212</button>
+                        <button class="room-pill-btn">R9213</button>
+                        <button class="room-pill-btn">R9214</button>
+                        <button class="room-pill-btn">R9215</button>
+                        <button class="room-pill-btn">R9216</button>
+                    </div>
+                </div>
+                <!-- status ruangan -->
+                <div class="room-legend">
+                    <div class="room-legend-item" th:each="ruang : ${statusRuangan}">
+                        <span class="room-legend-dot" th:classappend="${ruang.penuh} ? ' busy' : ''"></span>
+                        <span class="room-legend-label" th:text="${ruang.nama}">R9210</span>
+                    </div>
+                </div>
+                <!-- grid jadwal -->
+                <div class="schedule-grid">
+                    <!-- kolom jam -->
+                    <div class="time-column">
+                        <div class="time-cell">07:00</div>
+                        <div class="time-cell">08:00</div>
+                        <div class="time-cell">09:00</div>
+                        <div class="time-cell">10:00</div>
+                        <div class="time-cell">11:00</div>
+                        <div class="time-cell">12:00</div>
+                        <div class="time-cell">13:00</div>
+                        <div class="time-cell">14:00</div>
+                        <div class="time-cell">15:00</div>
+                        <div class="time-cell">16:00</div>
+                        <div class="time-cell">17:00</div>
+                        <div class="time-cell">18:00</div>
+                    </div>
+                    <!-- kolom hari (7 kolom) -->
+                    <div class="day-columns">
+                        <!-- tiap kolom hari berupa grid-row 12 baris (jam) -->
+                        <div class="day-column">
+                            <!-- contoh kosong (Minggu) -->
+                        </div>
+                        <div class="day-column">
+                            <!-- Senin -->
+                            <div class="schedule-block block-pink" style="grid-row: 2 / 4;">
+                                <div class="schedule-title">Kelas PADS</div>
+                                <div class="schedule-sub">Dosen: …</div>
+                                <div class="schedule-time">08:00 - 10:00</div>
+                            </div>
+                        </div>
+                        <div class="day-column">
+                            <!-- Selasa -->
+                            <div class="schedule-block block-blue" style="grid-row: 2 / 4;">
+                                <div class="schedule-title">Perwalian</div>
+                                <div class="schedule-sub">Dosen: …</div>
+                                <div class="schedule-time">07:00 - 09:00</div>
+                            </div>
+                            <div class="schedule-block block-pink" style="grid-row: 5 / 7;">
+                                <div class="schedule-title">Kelas PBW</div>
+                                <div class="schedule-sub">Mahasiswa: …</div>
+                                <div class="schedule-time">11:00 - 13:00</div>
+                            </div>
+                            <div class="schedule-block block-blue" style="grid-row: 9 / 11;">
+                                <div class="schedule-title">Kelas RPL</div>
+                                <div class="schedule-sub">Dosen: …</div>
+                                <div class="schedule-time">15:00 - 17:00</div>
+                            </div>
+                        </div>
+                        <div class="day-column">
+                            <!-- Rabu -->
+                            <div class="schedule-block block-blue" style="grid-row: 3 / 5;">
+                                <div class="schedule-title">Perwalian</div>
+                                <div class="schedule-sub">Dosen: …</div>
+                                <div class="schedule-time">09:00 - 11:00</div>
+                            </div>
+                        </div>
+                        <div class="day-column">
+                            <!-- Kamis -->
+                            <div class="schedule-block block-pink" style="grid-row: 4 / 6;">
+                                <div class="schedule-title">Kelas ASD</div>
+                                <div class="schedule-sub">Mahasiswa: …</div>
+                                <div class="schedule-time">10:00 - 12:00</div>
+                            </div>
+                        </div>
+                        <div class="day-column">
+                            <!-- Jumat -->
+                            <div class="schedule-block block-blue" style="grid-row: 6 / 8;">
+                                <div class="schedule-title">Perwalian</div>
+                                <div class="schedule-sub">Dosen: …</div>
+                                <div class="schedule-time">12:00 - 14:00</div>
+                            </div>
+                        </div>
+                        <div class="day-column">
+                            <!-- Sabtu -->
+                            <div class="schedule-block block-pink" style="grid-row: 8 / 10;">
+                                <div class="schedule-title">Tutor Daspro</div>
+                                <div class="schedule-sub">Mahasiswa: …</div>
+                                <div class="schedule-time">14:00 - 16:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- end week-card -->
+        </div> <!-- end schedule-layout -->
     </div>
-  </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
 </body>
+
 </html>
