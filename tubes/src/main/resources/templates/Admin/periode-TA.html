@@ -1,88 +1,140 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Dosen Koordinator Periode TA</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Periode TA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/Css/Admin/periode-TA.css}" href="../../static/Css/Admin/periode-TA.css">
+  <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
-<body class="app-layout">
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-      </div>
-      <ul class="sidebar-nav">
-        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
-        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
-        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
-        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
-        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
-        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
-      </ul>
-    </aside>
-    <div class="main-panel">
-      <div class="page-title-bar">
-        <span>Dosen Koordinator Periode TA</span>
-      </div>
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-          <span class="brand-text">SIAP Bimbingan</span>
-        </div>
-        <div class="header-center">
-          
-        </div>
-        <div class="header-right">
-          <img src="assets/icons/bell.svg" alt="Notifikasi" />
-          <span>Logout</span>
-        </div>
-      </header>
-      <main class="page-content">
-        
-  <h1 class="section-title" style="text-align:center; margin-bottom:24px;">Periode TA</h1>
 
-  <section style="margin-bottom:32px;">
-    <div class="period-section-title">Atur Periode TA</div>
-    <div class="list-table-wrapper" style="max-width:720px;">
-      <table class="list-table">
-        <thead>
-          <tr>
-            <th>Nama</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>TA1 ganjil 2025</td>
-            <td>2024-01-06</td>
-            <td>2025-01-01</td>
-            <td>-</td>
-          </tr>
-        </tbody>
-      </table>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+      alt="Logo Unpar">
+
+    <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+      <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+      <i class="fa-solid fa-users"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+      <i class="fa-solid fa-calendar-days"></i>
+    </a>
+
+    <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+      <i class="fa-solid fa-list-check"></i>
+    </a>
+
+    <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+      <i class="fa-solid fa-file-lines"></i>
+    </a>
+
+    <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+      <i class="fa-regular fa-clock"></i>
+    </a>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-center">
+      <span class="header-page-title">Periode TA</span>
     </div>
-  </section>
-
-  <section>
-    <div class="period-section-title">Tambah Periode</div>
-    <div class="period-card">
-      <div class="form-field-inline">
-        <input type="text" class="input-underline" placeholder="TA1 ganjil 2025" />
-      </div>
-      <div class="form-field-inline">
-        <input type="text" class="input-underline" placeholder="mm/dd/yy" />
-      </div>
-      <div class="form-field-inline">
-        <input type="text" class="input-underline" placeholder="mm/dd/yy" />
-      </div>
-      <button class="btn-save">Simpan</button>
-    </div>
-  </section>
-
-      </main>
+    <div class="header-right">
+      <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+      <a th:href="@{/logout}" class="logout">Logout</a>
     </div>
   </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- TA1 / TA2 + SEARCH -->
+    <div class="ta-toolbar">
+      <div class="ta-toolbar-center">
+        <div class="ta-pill-row">
+          <button type="button" class="ta-pill ta-pill-active">TA 1</button>
+          <button type="button" class="ta-pill">TA 2</button>
+        </div>
+      </div>
+
+      <div class="ta-toolbar-right">
+        <div class="ta-search-box">
+          <i class="fa-solid fa-magnifying-glass ta-search-icon"></i>
+          <input type="text" class="ta-search-input" placeholder="Search">
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ATUR PERIODE TA -->
+    <section class="section-periode">
+      <h4 class="section-title">Atur Periode TA</h4>
+
+      <div class="table-wrapper">
+        <table class="table-periode">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="periode : ${daftarPeriode}">
+              <td th:text="${periode.nama}">TA1 ganjil 2025</td>
+              <td th:text="${periode.tanggalMulai}">2024-01-06</td>
+              <td th:text="${periode.tanggalSelesai}">2025-01-01</td>
+              <td class="cell-actions">
+                <!-- silakan ganti ke th:href edit / delete sendiri -->
+                <button type="button" class="btn-icon">
+                  <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button type="button" class="btn-icon">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAMBAH PERIODE -->
+    <section class="section-periode section-add">
+      <h4 class="section-title">Tambah Periode</h4>
+
+      <form th:action="@{/admin/periode-ta/simpan}" method="post">
+        <div class="period-card">
+          <input type="text" class="input-period-name" placeholder="TA1 ganjil 2025" th:field="*{nama}" />
+
+          <!-- tanggal mulai -->
+          <div class="form-field-inline">
+            <input type="text" class="input-underline" placeholder="mm/dd/yy" th:field="*{tanggalMulai}" />
+          </div>
+
+          <!-- tanggal selesai -->
+          <div class="form-field-inline">
+            <input type="text" class="input-underline" placeholder="mm/dd/yy" th:field="*{tanggalSelesai}" />
+          </div>
+        </div>
+
+        <button class="btn-save" type="submit">Simpan</button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- PANEL NOTIF -->
+  <div th:replace="~{Layout/panelnotif}"></div>
+
 </body>
+
 </html>

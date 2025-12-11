@@ -1,0 +1,299 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+/* ==== SIDEBAR ==== */
+
+.sidebar {
+    width: 60px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25px;
+    gap: 35px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-logo {
+    width: 40px;
+    margin-bottom: 15px;
+}
+
+.sidebar-icon i {
+    font-size: 26px;
+    color: #000;
+    transition: 0.2s ease;
+}
+
+.sidebar-icon:hover i {
+    color: #444;
+}
+
+/* ==== HEADER ==== */
+
+.header {
+    margin-left: 70px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    border-bottom: 1px solid #ddd;
+    background-color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header-page-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.notif-icon {
+    font-size: 20px;
+    color: #000;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.notif-icon:hover {
+    color: #555;
+}
+
+.logout {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+/* ==== CONTENT ==== */
+
+.content-area {
+    margin-left: 60px;
+    padding: 24px 40px 40px 40px;
+}
+
+/* ==== TA1 / TA2 + SEARCH ==== */
+
+.ta-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 24px;
+}
+
+.ta-toolbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* TA1 / TA2 */
+.ta-pill-row {
+    display: inline-flex;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid #999;
+}
+
+.ta-pill {
+    width: 120px;
+    height: 34px;
+    border: none;
+    background-color: #d9d9dd;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.ta-pill + .ta-pill {
+    border-left: 1px solid #999;
+}
+
+.ta-pill-active {
+    background-color: #727cd6;
+    color: #ffffff;
+}
+
+.ta-toolbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.ta-search-box {
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    height: 40px;
+    border-radius: 999px;
+    background-color: #1b2f4c;
+    color: #ffffff;
+    min-width: 200px;
+}
+
+.ta-search-icon {
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.ta-search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.ta-search-input::placeholder {
+    color: #e5e7eb;
+}
+
+
+.section-periode {
+    margin-top: 8px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 12px 0 10px 0;
+}
+
+/* ==== TABLE ATUR PERIODE ==== */
+
+.table-wrapper {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+
+.table-periode {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table-periode thead th {
+    padding: 10px 18px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 500;
+    text-align: left;
+}
+
+.table-periode tbody td {
+    padding: 10px 18px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table-periode tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-periode tbody tr:hover td {
+    background-color: #f9fafb;
+}
+
+.cell-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 16px;
+}
+
+.btn-icon i {
+    color: #6b7280;
+    transition: 0.15s;
+}
+
+.btn-icon:hover i {
+    color: #111827;
+}
+
+.section-add {
+    margin-top: 32px;
+}
+
+.period-card {
+    background-color: #fbfbfb;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    padding: 18px 22px 22px 22px;
+    max-width: 900px;
+}
+
+.input-period-name {
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: #f5f5f5;
+    padding: 10px 12px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.form-field-inline {
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.input-underline {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #b4b4b4;
+    padding: 10px 0 6px 0;
+    font-size: 13px;
+    outline: none;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+.input-underline::placeholder {
+    color: #9ca3af;
+}
+
+.btn-save {
+    margin-top: 16px;
+    padding: 9px 40px;
+    border-radius: 6px;
+    border: none;
+    background-color: #003fb3;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #002f8a;
+}

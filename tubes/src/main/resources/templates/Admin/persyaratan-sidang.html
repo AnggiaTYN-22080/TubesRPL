@@ -1,147 +1,150 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Dosen Koordinator Persyaratan Sidang</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Persyaratan Sidang</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/Css/Admin/persyaratan-sidang.css}"
+    href="../../static/Css/Admin/persyaratan-sidang.css">
+  <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
-<body class="app-layout">
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-      </div>
-      <ul class="sidebar-nav">
-        <li><a class="sidebar-link" href="DashboardAdmin.html"><img src="assets/icons/home.svg" class="sidebar-icon" alt="Home" /></a></li>
-        <li><a class="sidebar-link" href="riwayat-bimbingan.html"><img src="assets/icons/clock.svg" class="sidebar-icon" alt="Riwayat" /></a></li>
-        <li><a class="sidebar-link" href="kelola-jadwal-&-ruangan.html"><img src="assets/icons/calendar.svg" class="sidebar-icon" alt="Jadwal" /></a></li>
-        <li><a class="sidebar-link" href="persyaratan-sidang.html"><img src="assets/icons/checklist.svg" class="sidebar-icon" alt="Persyaratan" /></a></li>
-        <li><a class="sidebar-link" href="periode-TA.html"><img src="assets/icons/document.svg" class="sidebar-icon" alt="Periode" /></a></li>
-        <li><a class="sidebar-link" href="kelola-data-mhs-&-dosen.html"><img src="assets/icons/arrow-up-right.svg" class="sidebar-icon" alt="Data" /></a></li>
-      </ul>
-    </aside>
-    <div class="main-panel">
-      <div class="page-title-bar">
-        <span>Dosen Koordinator Persyaratan Sidang</span>
-      </div>
-      <header class="topbar">
-        <div class="brand">
-          <img src="assets/logounpar.png" alt="Logo SIAP" class="logo-circle" />
-          <span class="brand-text">SIAP Bimbingan</span>
-        </div>
-        <div class="header-center">
-          
-        </div>
-        <div class="header-right">
-          <img src="assets/icons/bell.svg" alt="Notifikasi" />
-          <span>Logout</span>
-        </div>
-      </header>
-      <main class="page-content">
-        
-  <h1 class="section-title" style="text-align:center; margin-bottom:20px;">Persyaratan Sidang</h1>
-  <div class="list-table-wrapper">
-    <table class="list-table">
-      <thead>
-        <tr>
-          <th>
-            <div class="table-header-checkbox">
-              <input type="checkbox" class="table-checkbox" />
-              <span>Mahasiswa</span>
-            </div>
-          </th>
-          <th>Email address</th>
-          <th class="text-right">Status</th>
-          <th class="text-right">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Olivia" /></div>
-              <div>
-                <div class="user-text-main">Olivia Rhye</div>
-                <div class="user-text-sub">i20001</div>
-              </div>
-            </div>
-          </td>
-          <td>i22001@unpar.com</td>
-          <td class="text-right">
-            <span class="badge badge-fulfilled">TERPENUHI</span>
-          </td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Phoenix" /></div>
-              <div>
-                <div class="user-text-main">Phoenix Baker</div>
-                <div class="user-text-sub">i20015</div>
-              </div>
-            </div>
-          </td>
-          <td>i22015@unpar.com</td>
-          <td class="text-right">
-            <span class="badge badge-unfulfilled">BELUM TERPENUHI</span>
-          </td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar">CW</div>
-              <div>
-                <div class="user-text-main">Candice Wu</div>
-                <div class="user-text-sub">i22003</div>
-              </div>
-            </div>
-          </td>
-          <td>i22023@unpar.com</td>
-          <td class="text-right">
-            <span class="badge badge-unfulfilled">BELUM TERPENUHI</span>
-          </td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="user-cell">
-              <input type="checkbox" class="table-checkbox" />
-              <div class="user-avatar"><img src="https://images.pexels.com/photos/428340/pexels-photo-428340.jpeg?auto=compress&cs=tinysrgb&w=60" alt="Natali" /></div>
-              <div>
-                <div class="user-text-main">Natali Craig</div>
-                <div class="user-text-sub">i22011</div>
-              </div>
-            </div>
-          </td>
-          <td>i22011@unpar.com</td>
-          <td class="text-right">
-            <span class="badge badge-unfulfilled">BELUM TERPENUHI</span>
-          </td>
-          <td class="action-cell">
-            <button title="Hapus"><img src="assets/icons/trash.svg" alt="Hapus" /></button>
-            <button title="Edit"><img src="assets/icons/edit.svg" alt="Edit" /></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+      alt="Logo Unpar">
+
+    <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+      <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+      <i class="fa-solid fa-users"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+      <i class="fa-solid fa-calendar-days"></i>
+    </a>
+
+    <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+      <i class="fa-solid fa-list-check"></i>
+    </a>
+
+    <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+      <i class="fa-solid fa-file-lines"></i>
+    </a>
+
+    <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+      <i class="fa-regular fa-clock"></i>
+    </a>
   </div>
 
-      </main>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-center">
+      <span class="header-page-title">Persyaratan Sidang</span>
+    </div>
+    <div class="header-right">
+      <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+      <a th:href="@{/logout}" class="logout">Logout</a>
     </div>
   </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- pill TA1/TA2 + tombol Search -->
+    <div class="ta-toolbar">
+      <div class="ta-toolbar-center">
+        <div class="ta-selector-wrapper">
+
+          <!-- bar TA 1 / TA 2 -->
+          <div class="ta-pill-row">
+            <button type="button" class="ta-pill ta-pill-active">TA 1</button>
+            <button type="button" class="ta-pill">TA 2</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH-->
+      <div class="ta-toolbar-right">
+        <div class="ta-search-box">
+          <i class="fa-solid fa-magnifying-glass ta-search-icon"></i>
+          <input type="text" class="ta-search-input" placeholder="Search">
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD TABEL -->
+    <div class="card table-card">
+      <table class="table-persyaratan">
+        <thead>
+          <tr>
+            <th class="col-mahasiswa">
+              <div class="header-with-checkbox">
+                <input type="checkbox" class="header-checkbox">
+                <span>Mahasiswa</span>
+              </div>
+            </th>
+            <th class="col-email">Email address</th>
+            <th class="col-status">Status</th>
+            <th class="col-actions"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="syarat : ${daftarPersyaratan}">
+            <!-- Mahasiswa -->
+            <td>
+              <div class="cell-student">
+                <input type="checkbox" class="row-checkbox">
+                <div class="avatar-circle">
+                  <span>A</span>
+                </div>
+                <div class="student-text">
+                  <!-- gunakan nama yang sudah ada -->
+                  <div class="student-name" th:text="${syarat.nama}">Nama Mahasiswa
+                  </div>
+                  <!-- NPM -->
+                  <div class="student-id">i20001</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- email -->
+            <td class="cell-email">
+              email@student.unpar.com
+            </td>
+
+            <!-- status -->
+            <td>
+              <span class="badge" th:classappend="${syarat.terpenuhi} ? ' badge-fulfilled' : ' badge-unfulfilled'" th:text="${syarat.labelStatus}">
+                TERPENUHI
+              </span>
+            </td>
+
+            <!-- edit & delete -->
+            <td class="cell-actions">
+              <button class="btn-icon" type="button" title="Hapus">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+              <button class="btn-icon" type="button" title="Edit" th:onclick="'location.href=\'/admin/persyaratan/edit/\' + ' + ${syarat.id}">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- PANEL NOTIF -->
+  <div th:replace="~{Layout/panelnotif}"></div>
+
 </body>
+
 </html>
