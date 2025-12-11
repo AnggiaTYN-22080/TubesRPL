@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Mahasiswa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+</head>
+
+<body>
+
+    <!-- sidebar -->
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+    </div>
+
+    <!-- header -->
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="form-page">
+        <div class="form-container">
+            <!-- tab Mahasiswa / Dosen di atas -->
+            <div class="form-tab-nav">
+                <a href="#" class="form-tab-link active">Mahasiswa</a>
+                <a href="#" class="form-tab-link">Dosen</a>
+            </div>
+
+            <div class="form-title">Tambah Mahasiswa</div>
+
+            <div class="form-card">
+                <form th:action="@{/admin/mahasiswa/simpan}" method="post">
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input id="nama" name="nama" type="text" class="form-input" placeholder="Nama Mahasiswa" th:value="${mahasiswa?.nama}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="npm">NPM</label>
+                        <input id="npm" name="npm" type="text" class="form-input" placeholder="NPM" th:value="${mahasiswa?.npm}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" class="form-input" placeholder="alamat email" th:value="${mahasiswa?.email}">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
+
+</body>
+
+</html>
