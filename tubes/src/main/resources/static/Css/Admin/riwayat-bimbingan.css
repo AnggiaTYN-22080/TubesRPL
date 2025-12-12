@@ -121,34 +121,6 @@ body {
     justify-content: center;
 }
 
-/* search */
-.history-search-wrapper {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.history-search-box {
-    display: flex;
-    align-items: center;
-    background-color: #f4f4f4;
-    border-radius: 999px;
-    padding: 6px 14px;
-    min-width: 210px;
-}
-
-.history-search-icon {
-    font-size: 13px;
-    color: #6b7280;
-    margin-right: 6px;
-}
-
-.history-search-input {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 13px;
-}
-
 /* table */
 .history-table-wrapper {
     margin-top: 8px;
@@ -219,7 +191,6 @@ body {
 }
 
 /* detail bimbingan */
-
 .detail-content {
     max-width: 980px;
 }
@@ -357,4 +328,101 @@ body {
 
 .btn-primary:hover {
     background-color: #0f172a;
+}
+
+/* layout 2 kolom: kiri form, kanan catatan */
+.detail-layout{
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: start;
+}
+
+.detail-grid{
+  display: grid;
+  grid-template-columns: minmax(680px, 1fr) 420px;
+  gap: 28px;
+  align-items: start;
+}
+
+.detail-left .detail-field,
+.detail-left .detail-two-col{
+  width: 100%;
+}
+
+.detail-two-col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.detail-field{
+  margin-bottom: 18px;
+}
+
+.detail-input{
+  width: 100%;
+  height: 44px;
+}
+
+/* KANAN */
+.detail-right{
+  position: relative;
+}
+
+.catatan-card{
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+
+  overflow: hidden;
+}
+
+.catatan-title{
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.catatan-frame{
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;           
+  background: #fff;
+}
+
+.catatan-input{
+  width: 100%;
+  height: 360px;
+  border: 0;
+  outline: none;
+  padding: 12px;
+  font-size: 13px;
+  resize: none;
+  display: block;             
+  box-sizing: border-box;
+}
+
+
+.catatan-input{
+  width: 100%;
+  height: 360px;       
+  resize: none;        
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px){
+  .detail-grid{
+    grid-template-columns: 1fr;
+  }
+  .catatan-input{
+    height: 260px;
+  }
 }

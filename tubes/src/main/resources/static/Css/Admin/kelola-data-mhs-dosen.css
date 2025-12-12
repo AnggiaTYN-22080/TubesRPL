@@ -1,7 +1,10 @@
+/* ===== base ===== */
+* { box-sizing: border-box; }
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111827;
 }
 
 /* sidebar dan header */
@@ -73,242 +76,97 @@ body {
     color: black;
 }
 
-/* content main */
-.content-area {
-    margin-left: 60px;
-    padding: 32px 40px;
-    box-sizing: border-box;
+
+/* content */
+.content-area{
+  margin-left:60px;
+  padding:32px 40px;
 }
 
-.page-container {
-    max-width: 1000px;
-    margin: 0 auto;
+.page-container{
+  max-width: 980px;
+  margin: 0 auto;
 }
 
-/* tab nav mahasiswa dan dosen */
-.tab-nav {
-    display: flex;
-    justify-content: center;
-    gap: 56px;
-    margin-bottom: 24px;
-    font-size: 14px;
+/* menu halaman */
+.page-menu{
+  padding-top: 12px;
 }
 
-.tab-link {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: #6b7280;
-    font-weight: 500;
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-    transition: color 0.15s ease, border-color 0.15s ease;
+.menu-title{
+  text-align:center;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 36px 0 34px;
 }
 
-.tab-link.active {
-    color: #111827;
-    border-color: #111827;
+.menu-cards{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
 }
 
-/* toolbar */
-.toolbar-row {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 16px;
+/* card clickable */
+.menu-card{
+  display:flex;
+  gap:22px;
+  align-items:center;
+  padding:22px 24px;
+  border:1px solid #e5e7eb;
+  border-radius: 10px;
+  background:#fff;
+  text-decoration:none;
+  color:inherit;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
 
-.btn-primary {
-    background-color: #0040d8;
-    color: #ffffff;
-    border: none;
-    padding: 8px 28px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
-    transition: background 0.15s ease, transform 0.1s ease;
+.menu-card:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+  border-color:#d1d5db;
 }
 
-.btn-primary:hover {
-    background-color: #0032aa;
-    transform: translateY(-1px);
+.menu-icon{
+  width:78px;
+  height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#fff;
+  flex: 0 0 78px;
 }
 
-/* card dan table */
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+.menu-icon i{
+  font-size: 54px;
+  color:#111827;
 }
 
-.table-card {
-    padding: 0;
-    overflow: hidden;
+.menu-text{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
 
-.table-users {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+.menu-card-title{
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
 }
 
-.table-users thead {
-    background-color: #f9fafb;
+.menu-card-desc{
+  font-size: 13px;
+  color:#6b7280;
+  line-height: 1.35;
+  max-width: 640px;
 }
 
-.table-users th,
-.table-users td {
-    padding: 12px 20px;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: left;
-}
-
-.table-users th {
-    font-weight: 600;
-    color: #4b5563;
-}
-
-.col-actions {
-    width: 96px;
-    text-align: right;
-}
-
-/* baris table */
-.cell-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.name {
-    font-weight: 600;
-    color: #111827;
-}
-
-.npm {
-    font-size: 12px;
-    color: #6b7280;
-}
-
-.cell-actions {
-    text-align: right;
-    white-space: nowrap;
-}
-
-.btn-icon {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 4px 6px;
-    font-size: 14px;
-    color: #4b5563;
-    transition: color 0.15s ease, transform 0.1s ease;
-}
-
-.btn-icon:hover {
-    color: #111827;
-    transform: translateY(-1px);
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* form pages tambah atau ubah */
-
-.form-page {
-    margin-left: 60px;
-    padding: 32px 40px;
-    box-sizing: border-box;
-}
-
-.form-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.form-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    margin: 32px 0 24px;
-}
-
-.form-card {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    padding: 28px 32px 26px;
-}
-
-/* tab di atas form (Mahasiswa / Dosen) */
-.form-tab-nav {
-    display: flex;
-    justify-content: center;
-    gap: 56px;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.form-tab-link {
-    text-decoration: none;
-    color: #6b7280;
-    font-weight: 500;
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-}
-
-.form-tab-link.active {
-    color: #111827;
-    border-color: #111827;
-}
-
-/* grup input */
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #111827;
-}
-
-.form-input {
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid #e5e7eb;
-    padding: 9px 10px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #0040d8;
-}
-
-/* tombol submit full width */
-.btn-submit {
-    width: 100%;
-    margin-top: 18px;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 0;
-    background-color: #0040d8;
-    color: #ffffff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
-}
-
-.btn-submit:hover {
-    background-color: #0032aa;
-    transform: translateY(-1px);
+/* responsive */
+@media (max-width: 720px){
+  .content-area{ padding: 22px 18px; }
+  .menu-title{ font-size: 22px; margin: 22px 0 18px; }
+  .menu-card{ padding: 16px; gap: 14px; }
+  .menu-icon{ width:56px; height:56px; flex-basis:56px; }
+  .menu-icon i{ font-size: 34px; }
+  .menu-card-title{ font-size: 16px; }
 }
