@@ -50,13 +50,7 @@
         <div class="history-topbar">
             <div class="history-topbar-left">
                 <span class="history-title">Semua Bimbingan</span>
-                <span class="history-count-badge" th:text="${totalBimbingan}">24</span>
-            </div>
-            <div class="history-search-wrapper">
-                <div class="history-search-box">
-                    <i class="fa-solid fa-magnifying-glass history-search-icon"></i>
-                    <input type="text" class="history-search-input" placeholder="Search" name="q">
-                </div>
+                <span class="history-count-badge" th:text="${totalBimbingan}">1</span>
             </div>
         </div>
 
@@ -67,8 +61,6 @@
                     <tr>
                         <th>NAME</th>
                         <th>EMAIL ADDRESS</th>
-                        <th>CREATED</th>
-                        <th>LAST OPENED</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -79,12 +71,8 @@
                             <div class="student-id" th:text="${log.nim}">i22001</div>
                         </td>
                         <td th:text="${log.email}">i22001@unpar.com</td>
-                        <td th:text="${log.tanggalDibuat}">11 Oct 2024</td>
-                        <td th:text="${log.terakhirDibuka}">09/07/2023 at 4:12 pm</td>
                         <td class="cell-more">
-                            <button type="button" class="btn-more"
-                                th:onclick="'location.href=\'/admin/riwayat-bimbingan/detail/\' + ' + ${log.id}">
-                                &#8226;&#8226;&#8226;
+                            <button type="button" class="btn-more" th:onclick="'location.href=\'/admin/riwayat-bimbingan/detail/\' + ' + ${log.id}">
                             </button>
                         </td>
                     </tr>

@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Kelola Jadwal & Ruangan</title>
+    <title>Data Dosen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-jadwal-ruangan.css}"
-        href="../../static/Css/Admin/kelola-jadwal-ruangan.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/data-mahasiswa.css}" href="../../static/Css/Admin/data-mahasiswa.css">
     <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
 
@@ -44,37 +43,44 @@
         </div>
     </div>
 
+    <!-- content -->
     <div class="content-area">
 
-        <h2 class="page-title">Jadwal dan Ruangan</h2>
+        <h1 class="page-title">Data Dosen</h1>
 
-        <!-- tabel jadwal -->
-        <div class="table-wrapper">
-            <table class="jadwal-table">
-                <thead>
-                    <tr>
-                        <th>Dosen</th>
-                        <th>Tanggal</th>
-                        <th>Jam</th>
-                        <th>Ruang</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="jadwal : ${jadwalList}">
-                        <td th:text="${jadwal.dosen}">20160127 Keenan Adiwijaya Leman, S.T., M.T.</td>
-                        <td th:text="${jadwal.tanggal}">Selasa, 9 Oktober 2025</td>
-                        <td th:text="${jadwal.jam}">10.00</td>
-                        <td th:text="${jadwal.ruang}">9211</td>
-                    </tr>
-                </tbody>
+        <div class="layout">
+            <!-- kiri: list dosen -->
+            <div class="left-panel">
+                <div class="list-title">List Dosen</div>
 
-            </table>
+                <div class="list-header">Dosen</div>
+
+                <div class="mhs-rows">
+                    <div class="mhs-row" th:each="m : ${listDosen}">
+                        <div class="mhs-info">
+                            <div class="mhs-name" th:text="${m.nama}">Keenan Adiwijaya Leman, S.T.,M.T.</div>
+                            <div class="mhs-nim" th:text="${m.nim}">20160127</div>
+                        </div>
+                        <input class="mhs-check" type="checkbox" name="selectedDosen" th:value="${m.id}">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- kanan: dropdown + tombol -->
+            <div class="right-panel">
+                <form class="form-siap" th:action="@{/admin/kelola-data/siap-bimbingan}" method="post">
+                    <select id="periode" name="periodeId" class="field-select">
+                        <option value="" selected disabled>Pilih Periode TA</option>
+                        <option th:each="p : ${listPeriode}" th:value="${p.id}" th:text="${p.namaPeriode}">
+                            TA 1 ganjil 2025
+                        </option>
+                    </select>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                </form>
+            </div>
         </div>
-
     </div>
-
-
-    <div th:replace="~{Layout/panelnotif}"></div>
 </body>
 
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Data Mahasiswa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/data-mahasiswa.css}" href="../../static/Css/Admin/data-mahasiswa.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+</head>
+
+<body>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+            alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+    </div>
+
+    <!-- header -->
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- content -->
+    <div class="content-area">
+
+        <h1 class="page-title">Data Mahasiswa</h1>
+
+        <div class="layout">
+            <!-- kiri: list mahasiswa -->
+            <div class="left-panel">
+                <div class="list-title">List Mahasiswa</div>
+
+                <div class="list-header">Mahasiswa</div>
+
+                <div class="mhs-rows">
+                    <div class="mhs-row" th:each="m : ${listMahasiswa}">
+                        <div class="mhs-info">
+                            <div class="mhs-name" th:text="${m.nama}">Bram Matthew Pasaribu</div>
+                            <div class="mhs-nim" th:text="${m.nim}">6182201043</div>
+                        </div>
+                        <input class="mhs-check" type="checkbox" name="selectedMahasiswaIds" th:value="${m.id}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- kanan: dropdown + tombol -->
+            <div class="right-panel">
+                <form class="form-siap" th:action="@{/admin/kelola-data/siap-bimbingan}" method="post">
+                    <select id="periode" name="periodeId" class="field-select">
+                        <option value="" selected disabled>Pilih Periode TA</option>
+                        <option th:each="p : ${listPeriode}" th:value="${p.id}" th:text="${p.namaPeriode}">
+                            TA 1 ganjil 2025
+                        </option>
+                    </select>
+
+                    <select id="pembimbing" name="dosenId" class="field-select">
+                        <option value="" selected disabled>Pilih Dosen Pembimbing</option>
+                        <option th:each="d : ${listDosen}" th:value="${d.id}" th:text="${d.nama}">
+                            Nama Dosen
+                        </option>
+                    </select>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
