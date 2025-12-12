@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<html lang="id" xmlns:th="http://www.thymeleaf.org"></html>
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Dosen</title>
@@ -51,8 +51,8 @@
                     <i class="fa-regular fa-clock"></i>
                 </div>
                 <div class="menu-text">
-                    <h4>Jadwal Bimbingan</h4>
-                    <p>Atur jadwal bimbingan Anda.</p>
+                    <h4>Jadwal</h4>
+                    <p>Atur jadwal Anda.</p>
                 </div>
                 <a href="kelola-jadwal.html" class="menu-link"></a>
             </div>
@@ -65,7 +65,7 @@
                     <h4>Daftar Mahasiswa</h4>
                     <p>Lihat daftar mahasiswa bimbingan.</p>
                 </div>
-                <a href="daftar-mhs.html" class="menu-link"></a>
+                <a th:href="@{/dosen/daftar-mahasiswa}" class="menu-link"></a>
             </div>
         </div>
 

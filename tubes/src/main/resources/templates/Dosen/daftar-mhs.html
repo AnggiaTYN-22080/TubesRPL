@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org"></html>
 <head>
     <meta charset="UTF-8">
     <title>Daftar Mahasiswa</title>
-    <link rel="stylesheet" href="/static/Css/Dosen/listMhs.css">
+    <link rel="stylesheet" href="/Css/Dosen/listMhs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
+    <script src="/js/notif.js" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="/static/Images/LogoUnpar.png" class="sidebar-logo">
+        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
 
-        <a href="#" class="sidebar-icon active" title="Home">
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
             <i class="fa-solid fa-house"></i>
         </a>
 
@@ -29,8 +31,13 @@
         <h3>SIAP Bimbingan</h3>
 
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon"></i>
-            <a href="#" class="logout">Logout</a>
+            <div style="position: relative;">
+                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+                <span th:if="${notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
+            </div>
+            <a href="/logout" class="logout">Logout</a>
         </div>
     </div>
 
@@ -52,40 +59,34 @@
                 </thead>
 
                 <tbody>
-                <tr>
+                <tr th:each="mhs : ${mahasiswaList}">
                     <td>
                         <div class="cell-name">
-                            <div class="name">Anggia Tejaningtyas Yudha Negara</div>
-                            <div class="npm">6182201080</div>
+                            <div class="name" th:text="${mhs.nama}">Anggia Tejaningtyas Yudha Negara</div>
+                            <div class="npm" th:text="${mhs.npm}">6182201080</div>
                         </div>
                     </td>
-                    <td>6182201080@unpar.ac.id</td>
+                    <td th:text="${mhs.email}">6182201080@unpar.ac.id</td>
                     <td class="cell-actions">
-                        <button class="btn-icon" title="Hapus">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                        <button class="btn-detail">Detail</button>
-                    </td>
-                </tr>
+                        <form th:action="@{/dosen/mahasiswa/hapus/{id}(id=${mhs.idMhs})}" method="post"
+                            onsubmit="return confirm('Yakin hapus mahasiswa ini?')">
 
-                <tr>
-                    <td>
-                        <div class="cell-name">
-                            <div class="name">Asep Protein</div>
-                            <div class="npm">6182201180</div>
-                        </div>
-                    </td>
-                    <td>6182201180@unpar.ac.id</td>
-                    <td class="cell-actions">
-                        <button class="btn-icon" title="Hapus">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                        <button class="btn-detail">Detail</button>
+                            <button type="submit" class="btn-icon">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
+
+                        <a th:href="@{/dosen/mahasiswa/detail/{id}(id=${mhs.idMhs})}"
+                            class="btn-detail">
+                            Detail
+                        </a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+        <div th:replace="~{Layout/panelnotif}"></div>
     </div>
 </body>
 </html>
