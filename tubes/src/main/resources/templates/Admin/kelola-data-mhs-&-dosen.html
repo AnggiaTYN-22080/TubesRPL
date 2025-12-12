@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <title>Kelola Data Mahasiswa & Dosen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}"
+        href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
     <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
 
 <body>
     <!-- sidebar -->
     <div class="sidebar">
-        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+            alt="Logo Unpar">
         <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
             <i class="fa-solid fa-house"></i>
         </a>
@@ -44,111 +46,51 @@
 
     <!-- content -->
     <div class="content-area">
-        <div class="page-container">
-            <!-- navbar mahasiswa dosen -->
-            <div class="tab-nav">
-                <button class="tab-link active" data-tab="mahasiswa">Mahasiswa</button>
-                <button class="tab-link" data-tab="dosen">Dosen</button>
-            </div>
-            <!-- tab mahasiswa -->
-            <div id="tab-mahasiswa" class="tab-content active">
-                <!-- Ttombol tambah -->
-                <div class="toolbar-row">
-                    <button type="button" class="btn-primary" th:onclick="'location.href=\'/admin/mahasiswa/tambah\''">
-                        Tambah
-                    </button>
-                </div>
-                <!-- tabel mahasiswa - dosen pembimbing -->
-                <div class="card table-card">
-                    <table class="table-users">
-                        <thead>
-                            <tr>
-                                <th>Mahasiswa</th>
-                                <th>Dosen Pembimbing</th>
-                                <th class="col-actions">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="b : ${daftarBimbingan}">
-                                <td>
-                                    <div class="cell-name">
-                                        <div>
-                                            <div class="name" th:text="${b.namaMahasiswa}">
-                                                Bram Matthew Pasaribu
-                                            </div>
-                                            <div class="npm" th:text="${b.npmMahasiswa}">
-                                                6182101043
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="name" th:text="${b.namaDosen}">
-                                        Keenan Adiwijaya Leman, S.T., M.T.
-                                    </div>
-                                </td>
-                                <td class="cell-actions">
-                                    <button class="btn-icon" title="Hapus" th:onclick="'location.href=\'/admin/bimbingan/hapus/\' + ' + ${b.id}">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                    <button class="btn-icon" title="Edit" th:onclick="'location.href=\'/admin/bimbingan/edit/\' + ' + ${b.id}">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- tab dosen -->
-            <div id="tab-dosen" class="tab-content">
-                <!-- tombol tambah dosen -->
-                <div class="toolbar-row">
-                    <button type="button" class="btn-primary" th:onclick="'location.href=\'/admin/dosen/tambah\''">
-                        Tambah
-                    </button>
-                </div>
-                <!-- tabel dosen - email -->
-                <div class="card table-card">
-                    <table class="table-users">
-                        <thead>
-                            <tr>
-                                <th>Dosen</th>
-                                <th>Email address</th>
-                                <th class="col-actions">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="d : ${daftarDosen}">
-                                <td>
-                                    <div class="cell-name">
-                                        <div>
-                                            <div class="name" th:text="${d.nama}">
-                                                Keenan Adiwijaya Leman, S.T., M.T.
-                                            </div>
-                                            <div class="npm" th:text="${d.kode}">
-                                                20160127
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td th:text="${d.email}">
-                                    KeenanLeman@gmail.com
-                                </td>
-                                <td class="cell-actions">
-                                    <button class="btn-icon" title="Hapus" th:onclick="'location.href=\'/admin/dosen/hapus/\' + ' + ${d.id}">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                    <button class="btn-icon" title="Edit" th:onclick="'location.href=\'/admin/dosen/edit/\' + ' + ${d.id}">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="page-container page-menu">
 
+            <h1 class="menu-title">Kelola Data Mahasiswa, Dosen, & Topik TA</h1>
+
+            <div class="menu-cards">
+                <!-- Card: Data Dosen -->
+                <a th:href="@{/admin/dosen}" href="/admin/dosen" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Dosen</div>
+                        <div class="menu-card-desc">
+                            Kelola data dosen, email, dan informasi terkait.
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card: Data Mahasiswa -->
+                <a th:href="@{/admin/mahasiswa}" href="/admin/mahasiswa" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Mahasiswa</div>
+                        <div class="menu-card-desc">
+                            Kelola data mahasiswa dan informasi akademik.
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card: List Data -->
+                <a th:href="@{/admin/kelola-data/list}" href="/admin/kelola-data/list" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Topik TA</div>
+                        <div class="menu-card-desc">
+                            Lihat daftar data topik TA.
+                        </div>
+                    </div>
+                </a>
             </div>
+
         </div>
     </div>
 
