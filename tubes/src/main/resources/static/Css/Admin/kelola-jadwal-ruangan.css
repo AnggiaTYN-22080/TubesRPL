@@ -1,9 +1,14 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
+/* ===== base ===== */
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111827;
 }
 
+/* sidebar dan header */
 .sidebar {
     width: 60px;
     height: 100vh;
@@ -72,365 +77,69 @@ body {
     color: black;
 }
 
-.content-area {
-    margin-left: 60px;
-    padding: 24px 40px 32px;
-    background: #f5f7fb;
-    min-height: calc(100vh - 60px);
-    box-sizing: border-box;
+/* content */
+.content-area{
+  margin-left: 60px;        
+  padding: 24px 40px 32px;
+  background: #f5f7fb;
+  min-height: calc(100vh - 60px);
 }
 
-.schedule-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.page-title{
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 8px 0 22px;
 }
 
-/* card kalendar bulan */
-
-.calendar-card {
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-    padding: 24px 32px 28px;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+/* bagian table */
+.table-wrapper{
+  max-width: 1120px;
+  margin: 0 auto;
+  background: #ffffff;       
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
 }
 
-.calendar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
+.table-wrapper::before{
+  content: "Tabel Jadwal";
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 6px 4px 12px;
 }
 
-.calendar-month-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #111827;
+/* tabel */
+.jadwal-table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
 }
 
-.calendar-nav-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease, transform 0.1s ease;
+.jadwal-table thead th{
+  background: #f3f4f6;  
+  color: #6b7280;
+  font-weight: 700;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.calendar-nav-btn i {
-    font-size: 16px;
-    color: #6366f1;
+.jadwal-table tbody td{
+  padding: 14px 10px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: top;
 }
 
-.calendar-nav-btn:hover {
-    background: rgba(99, 102, 241, 0.08);
-    transform: translateY(-1px);
+.jadwal-table tbody tr:hover{
+  background: #f9fafb;
 }
 
-.calendar-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9ca3af;
-    margin-bottom: 8px;
-}
-
-.calendar-weekdays span {
-    padding: 4px 0;
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-}
-
-.calendar-day {
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    padding: 10px 0;
-    font-size: 13px;
-    cursor: pointer;
-    color: #374151;
-    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
-}
-
-.calendar-day.muted {
-    color: #d1d5db;
-}
-
-.calendar-day.selected {
-    background: #6366f1;
-    color: #ffffff;
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
-}
-
-.calendar-day:hover:not(.selected) {
-    background: #eef2ff;
-    color: #4f46e5;
-    transform: translateY(-1px);
-}
-
-/* weekly schedule card */
-.week-card {
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-    padding: 20px 24px 24px;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-}
-
-/* header week & hari */
-.week-header {
-    display: grid;
-    grid-template-columns: 80px 1fr 80px;
-    align-items: center;
-    column-gap: 16px;
-    margin-bottom: 16px;
-}
-
-.week-label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #9ca3af;
-}
-
-.week-days {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-}
-
-.week-day {
-    text-align: center;
-    font-size: 12px;
-    color: #9ca3af;
-}
-
-.week-day-date {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 2px;
-}
-
-.week-day-name {
-    font-size: 11px;
-}
-
-.week-day.active .week-day-date,
-.week-day.active .week-day-name {
-    color: #4f46e5;
-    font-weight: 600;
-}
-
-.week-day-date.weekend,
-.week-day-name.weekend {
-    color: #f97316;
-}
-
-.week-selected-date {
-    justify-self: end;
-    text-align: right;
-}
-
-.week-selected-number {
-    font-size: 24px;
-    font-weight: 600;
-    color: #4f46e5;
-    line-height: 1;
-}
-
-.week-selected-text {
-    font-size: 12px;
-    color: #9ca3af;
-}
-
-/* strip ruang tersedia */
-.room-strip {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    column-gap: 12px;
-    align-items: flex-start;
-    margin-bottom: 10px;
-}
-
-.room-strip-label {
-    display: flex;
-    flex-direction: column;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #9ca3af;
-    padding-top: 6px;
-}
-
-/* tombol pill ruangan (pakai daftarRuangan) */
-.room-pill-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.room-pill-btn {
-    border-radius: 999px;
-    border: none;
-    padding: 6px 14px;
-    font-size: 12px;
-    background: #e0ebff;
-    color: #1d4ed8;
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
-}
-
-.room-pill-btn:hover {
-    background: #c7d2fe;
-    transform: translateY(-1px);
-}
-
-/* status ruangan (pakai statusRuangan) */
-.room-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 14px;
-    padding-left: 80px; /* sejajar dengan grid jadwal */
-    font-size: 11px;
-}
-
-.room-legend-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.room-legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: #bbf7d0; /* default: tidak penuh */
-    border: 1px solid #22c55e;
-}
-
-.room-legend-dot.busy {
-    background: #fee2e2;
-    border-color: #ef4444;
-}
-
-/* grid jadwal */
-
-.schedule-grid {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    column-gap: 12px;
-}
-
-/* kolom jam di kiri */
-.time-column {
-    display: grid;
-    grid-template-rows: repeat(12, 40px);
-    font-size: 11px;
-    color: #9ca3af;
-}
-
-.time-cell {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-right: 4px;
-}
-
-.time-cell::after {
-    content: "";
-    position: absolute;
-    right: -8px;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: #e5e7eb;
-}
-
-/* kolom hari-hari (7 kolom) */
-.day-columns {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    column-gap: 8px;
-}
-
-/* masing-masing kolom memakai grid 12 baris (per jam) */
-.day-column {
-    position: relative;
-    display: grid;
-    grid-template-rows: repeat(12, 40px);
-    row-gap: 4px;
-}
-
-/* garis horizontal */
-.day-column::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
-    background-size: 100% 40px;
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* blok jadwal */
-.schedule-block {
-    position: relative;
-    border-radius: 10px;
-    padding: 8px 10px;
-    font-size: 11px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 4px;
-    box-shadow: 0 4px 10px rgba(148, 163, 184, 0.35);
-    z-index: 1;
-}
-
-.block-blue {
-    background: rgba(129, 140, 248, 0.65);
-    color: #111827;
-}
-
-.block-pink {
-    background: rgba(244, 114, 182, 0.60);
-    color: #111827;
-}
-
-.schedule-title {
-    font-weight: 600;
-}
-
-.schedule-sub {
-    font-size: 10px;
-    opacity: 0.85;
-}
-
-.schedule-time {
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.schedule-time::before {
-    content: "\f017";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    font-size: 9px;
+/* responsif */
+@media (max-width: 768px){
+  .content-area{ padding: 18px 16px 24px; }
+  .table-wrapper{ padding: 10px; }
 }
