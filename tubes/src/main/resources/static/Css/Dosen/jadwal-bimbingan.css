@@ -1,0 +1,215 @@
+/* Layout dasar */
+body { margin: 0; font-family: Arial, sans-serif; background-color: #f9f9f9; }
+
+/* Sidebar & Header */
+.sidebar { width: 60px; height: 100vh; background-color: white; border-right: 1px solid #ddd; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; padding-top: 25px; gap: 35px; z-index: 100; }
+.sidebar-logo { width: 40px; margin-bottom: 15px; }
+.sidebar-icon i { font-size: 26px; color: black; }
+.header { margin-left: 60px; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #ddd; background-color: white; }
+.header-right { display: flex; align-items: center; gap: 18px; }
+
+.content { margin-left: 60px; padding: 30px; }
+.card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+/* --- CALENDAR STYLES --- */
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.month-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.month-nav button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 600;
+    color: #777;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day-cell {
+    min-height: 120px;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding: 8px;
+    position: relative;
+    background: white;
+}
+
+/* Kolom Minggu (Pink) */
+.day-cell:nth-child(7n+1) { background-color: #ffeeee; }
+
+.date-number {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: inline-block;
+    width: 25px; height: 25px; text-align: center; line-height: 25px; border-radius: 50%;
+}
+
+.current-day .date-number {
+    background-color: #001db1;
+    color: white;
+}
+
+/* Event Badge */
+.event-badge {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-top: 4px;
+    border-left: 3px solid #0d47a1;
+    cursor: pointer;
+}
+.event-badge.mengajar { background-color: #fff3cd; color: #856404; border-left-color: #ffc107; }
+
+.day-cell.empty { background-color: transparent; }
+.day-cell.empty:nth-child(7n+1) { background-color: #ffeeee; }
+
+
+/* --- MODAL / POPUP STYLES --- */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% dari atas, centered */
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #001db1;
+    font-size: 18px;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+.modal-body p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.modal-body strong {
+    color: #555;
+    display: inline-block;
+    width: 100px; /* Supaya label rapi rata kiri */
+}
+
+/* Status badge di dalam modal */
+.modal-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #e3f2fd;
+    color: #0d47a1;
+}
+
+/* ... CSS sebelumnya ... */
+
+/* Style untuk link "+ X Lainnya" */
+.more-events {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.more-events:hover {
+    background-color: #f0f0f0;
+    color: #001db1;
+}
+
+/* Style item di dalam popup List Harian */
+.list-item-badge {
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #001db1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.list-item-badge:hover {
+    background-color: #e3f2fd;
+}
+
+.list-item-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.list-item-sub {
+    font-size: 11px;
+    color: #666;
+}

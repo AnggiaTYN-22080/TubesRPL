@@ -1,0 +1,41 @@
+/* Container Navigasi */
+.tab-nav-container {
+    margin-left: 60px; /* Offset sidebar */
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center; /* Posisi Tengah */
+    background-color: #f9f9f9; /* Transparan agar menyatu dengan body */
+}
+
+/* Kotak Navigasi (Pill Shape) */
+.tab-nav {
+    padding: 10px 40px;
+    border-radius: 50px; /* Membuat sudut bulat */
+    display: flex;
+    gap: 50px; /* Jarak antar link */
+    align-items: center;
+}
+
+/* Link Tab */
+.tab-link {
+    text-decoration: none;
+    color: #888;
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-link:hover {
+    color: #333;
+}
+
+/* State Aktif (Garis bawah hitam) */
+.tab-link.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
