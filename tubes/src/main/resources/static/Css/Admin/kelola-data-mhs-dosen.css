@@ -1,77 +1,55 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #111827;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
 }
 
-a { text-decoration: none; color: inherit; }
-
-/* SIDEBAR */
-
+/* sidebar dan header */
 .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 68px;
-    background-color: #ffffff;
-    border-right: 1px solid #e5e7eb;
+    width: 60px;
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    gap: 28px;
-    z-index: 15;
+    padding-top: 25px;
+    gap: 35px;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 .sidebar-logo {
     width: 40px;
-    height: 40px;
-    object-fit: contain;
-    margin-bottom: 4px;
-}
-
-.sidebar-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .sidebar-icon i {
-    font-size: 20px;
-    color: #111827;
-    transition: color .2s ease, background-color .2s ease;
+    font-size: 26px;
+    color: black;
+    transition: 0.2s ease;
 }
 
-.sidebar-icon:hover { background-color: #eef2ff; }
-.sidebar-icon.active { background-color: #e0e7ff; }
-.sidebar-icon.active i { color: #1d4ed8; }
+.sidebar-icon:hover i {
+    color: #444;
+}
 
-/* HEADER */
+.sidebar-icon.active i {
+    color: black;
+    font-weight: bold;
+}
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 68px;
-    right: 0;
+    margin-left: 70px;
     height: 60px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 10;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
 }
-
-.app-title { font-size: 18px; font-weight: 600; }
 
 .header-right {
     display: flex;
@@ -81,155 +59,256 @@ a { text-decoration: none; color: inherit; }
 
 .notif-icon {
     font-size: 20px;
-    color: #111827;
+    color: black;
     cursor: pointer;
-    transition: color .2s ease;
+    transition: 0.2s;
 }
 
-.notif-icon:hover { color: #4b5563; }
+.notif-icon:hover {
+    color: #555;
+}
 
-.logout { font-size: 14px; font-weight: 500; }
+.logout {
+    text-decoration: none;
+    color: black;
+}
 
-/* CONTENT */
-
+/* content main */
 .content-area {
-    margin-left: 68px;
-    padding: 72px 48px 32px 48px;
+    margin-left: 60px;
+    padding: 32px 40px;
+    box-sizing: border-box;
 }
 
-.page-title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 24px;
+.page-container {
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* CARD & TAB */
-
-.card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    padding: 24px 24px 20px;
-}
-
-.tab-bar {
+/* tab nav mahasiswa dan dosen */
+.tab-nav {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e5e7eb;
+    gap: 56px;
+    margin-bottom: 24px;
+    font-size: 14px;
 }
 
 .tab-link {
-    padding: 10px 4px;
-    font-size: 14px;
-    font-weight: 500;
+    border: none;
+    background: transparent;
+    cursor: pointer;
     color: #6b7280;
-    position: relative;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.tab-link.active { color: #111827; }
-
-.tab-link.active::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background-color: #1d4ed8;
-    border-radius: 999px;
+.tab-link.active {
+    color: #111827;
+    border-color: #111827;
 }
 
-/* TABLE */
+/* toolbar */
+.toolbar-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+}
 
-.table-admin {
+.btn-primary {
+    background-color: #0040d8;
+    color: #ffffff;
+    border: none;
+    padding: 8px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0032aa;
+    transform: translateY(-1px);
+}
+
+/* card dan table */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.table-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.table-users {
     width: 100%;
     border-collapse: collapse;
+    font-size: 13px;
 }
 
-.table-admin thead tr { background-color: #f9fafb; }
+.table-users thead {
+    background-color: #f9fafb;
+}
 
-.table-admin th,
-.table-admin td {
-    padding: 12px 16px;
-    font-size: 14px;
+.table-users th,
+.table-users td {
+    padding: 12px 20px;
     border-bottom: 1px solid #e5e7eb;
     text-align: left;
 }
 
-.table-admin th {
+.table-users th {
     font-weight: 600;
     color: #4b5563;
 }
 
-.table-admin tbody tr:hover { background-color: #f9fafb; }
-
-.col-checkbox { width: 40px; }
-.col-actions { width: 120px; text-align: right; }
-
-.table-admin input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
+.col-actions {
+    width: 96px;
+    text-align: right;
 }
 
-/* CELL */
-
+/* baris table */
 .cell-name {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-.cell-name .name {
-    font-weight: 500;
-    margin-bottom: 2px;
+.name {
+    font-weight: 600;
+    color: #111827;
 }
 
-.cell-name .npm {
+.npm {
     font-size: 12px;
     color: #6b7280;
 }
 
-/* ACTION BUTTONS */
-
 .cell-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .btn-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
     border: none;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
     cursor: pointer;
-    transition: background-color .15s ease;
-}
-
-.btn-icon i {
+    padding: 4px 6px;
     font-size: 14px;
     color: #4b5563;
+    transition: color 0.15s ease, transform 0.1s ease;
 }
 
-.btn-icon:hover { background-color: #e5e7eb; }
+.btn-icon:hover {
+    color: #111827;
+    transform: translateY(-1px);
+}
 
-.btn-pill {
-    border-radius: 999px;
-    border: 1px solid #d1d5db;
-    background-color: #f9fafb;
-    padding: 6px 14px;
-    font-size: 13px;
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* form pages tambah atau ubah */
+
+.form-page {
+    margin-left: 60px;
+    padding: 32px 40px;
+    box-sizing: border-box;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 32px 0 24px;
+}
+
+.form-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 28px 32px 26px;
+}
+
+/* tab di atas form (Mahasiswa / Dosen) */
+.form-tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-tab-link {
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+}
+
+.form-tab-link.active {
+    color: #111827;
+    border-color: #111827;
+}
+
+/* grup input */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #111827;
+}
+
+.form-input {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    padding: 9px 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #0040d8;
+}
+
+/* tombol submit full width */
+.btn-submit {
+    width: 100%;
+    margin-top: 18px;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 0;
+    background-color: #0040d8;
+    color: #ffffff;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color .15s ease, border-color .15s ease;
+    transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.btn-pill:hover {
-    background-color: #eef2ff;
-    border-color: #c7d2fe;
+.btn-submit:hover {
+    background-color: #0032aa;
+    transform: translateY(-1px);
 }
