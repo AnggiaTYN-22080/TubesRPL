@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
@@ -107,7 +109,8 @@ public class MahasiswaController {
             HttpSession session,
             @RequestParam("tanggal") String tanggal,
             @RequestParam("jamMulai") String jamMulai,
-            @RequestParam("jamSelesai") String jamSelesai
+            @RequestParam("jamSelesai") String jamSelesai,
+            RedirectAttributes redirectAttributes
     ) {
 
         User user = (User) session.getAttribute("currentUser");
@@ -135,6 +138,8 @@ public class MahasiswaController {
         // Kirim notifikasi ke dosen
         notifikasiService.buatNotif(idDosen, "Pengajuan Baru", "Mahasiswa mengajukan bimbingan baru.");
 
+        redirectAttributes.addFlashAttribute("successMessage", "Pengajuan bimbingan berhasil dikirim");
+        
         return "redirect:/mahasiswa/pengajuan";
     }
 

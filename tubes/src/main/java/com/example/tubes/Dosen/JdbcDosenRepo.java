@@ -3,8 +3,13 @@ package com.example.tubes.Dosen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
+import com.example.tubes.Mahasiswa.MahasiswaBimbingan;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -56,4 +61,52 @@ public class JdbcDosenRepo implements DosenRepository {
                 """;
         return jdbcTemplate.queryForObject(sql, Integer.class, idDosen);
     }
+
+    @Override
+    public List<MahasiswaBimbingan> findMahasiswaBimbingan(int idDosen) {
+
+        String sql = """
+            SELECT 
+                m.idMhs,
+                u.name AS nama,
+                m.npm,
+                u.email
+            FROM penugasan_ta p
+            JOIN ta t ON t.idTA = p.idTA
+            JOIN mahasiswa m ON m.idMhs = p.idMhs
+            JOIN users u ON u.idUser = m.idMhs
+            WHERE t.idDosen = ?
+            ORDER BY u.name
+        """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new MahasiswaBimbingan(
+                rs.getInt("idMhs"),
+                rs.getString("nama"),
+                rs.getString("npm"),
+                rs.getString("email")
+            ),
+            idDosen
+        );
+    }
+
+    @Override
+    public List<JadwalBimbingan> findRiwayatBimbinganMahasiswa(int idMhs) {
+        String sql = """
+            SELECT *
+            FROM jadwal_bimbingan
+            WHERE idMhs = ? AND status = 'approved'
+            ORDER BY tanggal DESC
+        """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            JadwalBimbingan j = new JadwalBimbingan();
+            j.setIdJadwal(rs.getInt("idJadwal"));
+            j.setTanggal(rs.getDate("tanggal").toLocalDate());
+            j.setWaktuMulai(rs.getTime("waktuMulai").toLocalTime());
+            j.setWaktuSelesai(rs.getTime("waktuSelesai").toLocalTime());
+            j.setStatus(rs.getString("status"));
+            return j;
+        }, idMhs);
+    }
+
 }

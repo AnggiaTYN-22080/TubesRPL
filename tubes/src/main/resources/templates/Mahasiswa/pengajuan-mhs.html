@@ -39,6 +39,13 @@
             <div class="page-header">
                 <h2>Pengajuan Bimbingan</h2>
             </div>
+            <div th:if="${successMessage}"
+                class="alert alert-success alert-dismissible fade show"
+                role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
             <div class="pengajuan-wrapper">
                 <div class="form-section">
                     <form th:action="@{/mahasiswa/ajukan-bimbingan}" method="post">
@@ -84,5 +91,12 @@
     </div>
 
     <div th:replace="~{Layout/panelnotif}"></div>
+
+    <script>
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) alert.remove();
+        }, 3000);
+    </script>
 </body>
 </html>

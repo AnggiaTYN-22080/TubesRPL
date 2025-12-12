@@ -31,4 +31,9 @@ public class MahasiswaService {
     public int getIdDosenPembimbing(int idMhs) {
         return mahasiswaRepository.findIdDosenPembimbing(idMhs).orElse(0);
     }
+
+    public Optional<Mahasiswa> getMahasiswaById(int idMhs) {
+        return mahasiswaRepository.findByUserId(idMhs);
+    }
+
 }

@@ -111,10 +111,14 @@ body {
 
 .table-mahasiswa tbody td {
     padding: 10px 16px;
+    vertical-align: middle;
+}
+
+.table-mahasiswa tbody tr {
     border-bottom: 1px solid #f0f0f0;
 }
 
-.table-mahasiswa tbody tr:hover td {
+.table-mahasiswa tbody tr:hover {
     background-color: #f8f8f8;
 }
 
@@ -128,8 +132,16 @@ body {
 }
 
 .cell-actions {
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
+
+.cell-actions form {
+    margin: 0;
+}
+
 
 .table-mahasiswa input[type="checkbox"] {
     width: 15px;
@@ -154,16 +166,17 @@ body {
 }
 
 .btn-detail {
-    border: 1px solid #007bff;
+    border: 1px solid #001DB1;
     background: white;
-    color: #007bff;
+    color: #001DB1;
     padding: 4px 12px;
     font-size: 13px;
-    border-radius: 999px;
+    border-radius: 20px;
+    text-decoration: none;
     cursor: pointer;
 }
 
 .btn-detail:hover {
-    background: #007bff;
+    background: #001DB1;
     color: white;
 }

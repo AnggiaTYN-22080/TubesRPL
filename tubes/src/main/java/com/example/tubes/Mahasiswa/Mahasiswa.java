@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mahasiswa {
-    // Dari tabel mahasiswa
     private int idMhs; // FK untuk ke users
     private String npm;
 
