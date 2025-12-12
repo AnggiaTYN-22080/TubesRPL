@@ -50,8 +50,8 @@ public class JadwalBimbinganController {
         // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
-            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing."
-            );
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing.");
         });
 
         return "redirect:/dosen/pengajuan";
@@ -66,8 +66,8 @@ public class JadwalBimbinganController {
         // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
-            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain."
-            );
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain.");
         });
 
         return "redirect:/dosen/pengajuan";

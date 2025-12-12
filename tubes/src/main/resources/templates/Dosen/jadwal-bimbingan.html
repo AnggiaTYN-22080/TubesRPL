@@ -1,11 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Jadwal Bimbingan - Dosen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
+    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-bimbingan.css">
+
+    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
+    
+    <script src="../../static/Js/notif.js" defer></script>
 </head>
 <body>
-    
+
+    <div class="sidebar">
+        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
+        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
+        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
+        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
+    </div>
+
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <div style="position: relative; cursor: pointer;" onclick="openNotif()">
+                <i class="fa-regular fa-bell notif-icon"></i>
+                <span class="notif-badge">3</span>
+            </div>
+            <a href="#" style="text-decoration: none; color: black;">Logout</a>
+        </div>
+    </div>
+
+    <div class="tab-nav-container">
+        <div class="tab-nav">
+            <a href="jadwal-bimbingan.html" class="tab-link active">Jadwal Bimbingan</a>
+            <a href="JadwalMengajar.html" class="tab-link">Jadwal Mengajar</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="card">
+            <div class="calendar-controls">
+                <div class="month-nav">
+                    <button onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <h2 id="month-year-label" style="margin: 0; min-width: 200px; text-align: center;">October 2025</h2>
+                    <button onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="calendar-days">
+                <div>Minggu</div>
+                <div>Senin</div>
+                <div>Selasa</div>
+                <div>Rabu</div>
+                <div>Kamis</div>
+                <div>Jumat</div>
+                <div>Sabtu</div>
+            </div>
+
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+    </div>
+
+    <div id="bimbinganModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detail Bimbingan</h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Mahasiswa</strong> : <span id="mhsName"></span></p>
+                <p><strong>Topik</strong> : <span id="mhsTopic"></span></p>
+                <p><strong>Tanggal</strong> : <span id="mhsDate"></span></p>
+                <p><strong>Waktu</strong> : <span id="mhsTime"></span></p>
+                <div style="margin-top: 20px; text-align: right;">
+                    <span class="modal-badge">Terjadwal</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dayListModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 id="dayListTitle">Jadwal Tanggal ...</h3>
+                <span class="close-btn" onclick="closeDayListModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="dayListContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notif-overlay" class="notif-overlay"></div>
+
+    <div id="notif-panel" class="notif-panel">
+        <i class="fa-solid fa-xmark close-notif-btn" onclick="closeNotif()"></i>
+        <h4>Notifikasi</h4>
+        <div class="notif-list">
+            <div class="notif-item">
+                <strong>Pengajuan Bimbingan</strong>
+                <p>Mahasiswa A mengajukan bimbingan baru.</p>
+                <small>Baru saja</small>
+            </div>
+            <div class="notif-item">
+                <strong>Jadwal Mengajar</strong>
+                <p>Jadwal kuliah Anda besok jam 08:00.</p>
+                <small>1 Jam yang lalu</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ... (Kode Javascript Kalender Anda yang sebelumnya tetap ada disini) ...
+        // ... (Saya persingkat agar tidak kepanjangan, tapi intinya JS kalender jangan dihapus) ...
+        
+        // HANYA TAMBAHAN: Pastikan fungsi openModal() dan openNotif() tidak bentrok ID overlay-nya.
+        // Di file notif.js Anda menggunakan id="notif-overlay".
+        // Di file jadwal-bimbingan.html Anda menggunakan class="modal-overlay" tapi ID beda ("bimbinganModal").
+        // Jadi AMAN.
+        
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const databaseJadwal = [
+            { day: 20, month: 9, year: 2025, title: "10:00 Bram M.", student: "Bram Matthew", topic: "Kompresi LZW", start: "10:00", end: "11:00" },
+            { day: 20, month: 9, year: 2025, title: "10:00 Sarah P.", student: "Sarah Putri", topic: "Analisis Big Data", start: "10:00", end: "11:00" },
+            { day: 20, month: 9, year: 2025, title: "13:00 Budi S.", student: "Budi Santoso", topic: "Keamanan Jaringan", start: "13:00", end: "14:00" },
+            { day: 22, month: 9, year: 2025, title: "13:00 Anggia T.", student: "Anggia Teja", topic: "RPL", start: "13:00", end: "14:00" }
+        ];
+
+        function renderCalendar() {
+            const grid = document.getElementById("calendar-grid");
+            const label = document.getElementById("month-year-label");
+            label.innerText = `${monthNames[currentMonth]} ${currentYear}`;
+            grid.innerHTML = "";
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                let emptyCell = document.createElement("div");
+                emptyCell.className = "day-cell empty";
+                grid.appendChild(emptyCell);
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                let cell = document.createElement("div");
+                cell.className = "day-cell";
+                const today = new Date();
+                if (i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) cell.classList.add("current-day");
+
+                let dateNum = document.createElement("div");
+                dateNum.className = "date-number";
+                dateNum.innerText = i;
+                cell.appendChild(dateNum);
+
+                const eventsToday = databaseJadwal.filter(e => e.day === i && e.month === currentMonth && e.year === currentYear);
+                const MAX_DISPLAY = 2; 
+
+                eventsToday.slice(0, MAX_DISPLAY).forEach(evt => {
+                    let badge = document.createElement("div");
+                    badge.className = "event-badge";
+                    badge.innerText = evt.title;
+                    badge.onclick = (e) => { e.stopPropagation(); openModal(evt); };
+                    cell.appendChild(badge);
+                });
+
+                if (eventsToday.length > MAX_DISPLAY) {
+                    let remaining = eventsToday.length - MAX_DISPLAY;
+                    let moreDiv = document.createElement("div");
+                    moreDiv.className = "more-events";
+                    moreDiv.innerText = `+ ${remaining} Lainnya`;
+                    moreDiv.onclick = (e) => { e.stopPropagation(); openDayListModal(i, eventsToday); };
+                    cell.appendChild(moreDiv);
+                }
+                grid.appendChild(cell);
+            }
+        }
+
+        function openModal(data) {
+            document.getElementById("mhsName").innerText = data.student;
+            document.getElementById("mhsTopic").innerText = data.topic;
+            document.getElementById("mhsDate").innerText = `${data.day} ${monthNames[data.month]} ${data.year}`;
+            document.getElementById("mhsTime").innerText = `${data.start} - ${data.end}`;
+            document.getElementById("bimbinganModal").style.display = "block";
+        }
+        function closeModal() { document.getElementById("bimbinganModal").style.display = "none"; }
+
+        function openDayListModal(day, events) {
+            const container = document.getElementById("dayListContainer");
+            document.getElementById("dayListTitle").innerText = `Jadwal Tanggal ${day} ${monthNames[currentMonth]}`;
+            container.innerHTML = ""; 
+            events.forEach(evt => {
+                let item = document.createElement("div");
+                item.className = "list-item-badge";
+                item.innerHTML = `<div class="list-item-title">${evt.title}</div><div class="list-item-sub">${evt.topic}</div>`;
+                item.onclick = () => { closeDayListModal(); openModal(evt); };
+                container.appendChild(item);
+            });
+            document.getElementById("dayListModal").style.display = "block";
+        }
+        function closeDayListModal() { document.getElementById("dayListModal").style.display = "none"; }
+
+        window.onclick = function(event) {
+            let modal1 = document.getElementById("bimbinganModal");
+            let modal2 = document.getElementById("dayListModal");
+            if (event.target == modal1) closeModal();
+            if (event.target == modal2) closeDayListModal();
+        }
+
+        function changeMonth(step) {
+            currentMonth += step;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; } else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        }
+        document.addEventListener("DOMContentLoaded", renderCalendar);
+    </script>
 </body>
 </html>
