@@ -3,6 +3,8 @@ package com.example.tubes.Dosen;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
 import com.example.tubes.Mahasiswa.MahasiswaBimbingan;
 
 import java.util.List;
@@ -29,4 +31,9 @@ public class DosenService {
     public List<MahasiswaBimbingan> getMahasiswaBimbingan(int idDosen) {
         return dosenRepository.findMahasiswaBimbingan(idDosen);
     }
+
+    public List<JadwalBimbingan> getRiwayatBimbinganMahasiswa(int idMhs) {
+        return dosenRepository.findRiwayatBimbinganMahasiswa(idMhs);
+    }
+
 }

@@ -93,13 +93,20 @@ public class DosenController {
 
         int idDosen = user.getId();
 
-        List<Notifikasi> notifList = notifService.getNotifByUser(idDosen);
-        model.addAttribute("notifList", notifList);
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+        model.addAttribute("mhs", mahasiswaService.getMahasiswaById(idMhs).orElse(null));
 
-        Mahasiswa mhs = mahasiswaService.getMahasiswaById(idMhs).orElse(null);
-        model.addAttribute("mhs", mhs);
+        model.addAttribute(
+            "riwayatList",
+            dosenService.getRiwayatBimbinganMahasiswa(idMhs)
+        );
+
+        model.addAttribute(
+            "topikTA",
+            mahasiswaService.getTopikTA(idMhs).getOrDefault("TopikTA", "-")
+        );
 
         return "Dosen/detail-mhs";
     }
-
+    
 }

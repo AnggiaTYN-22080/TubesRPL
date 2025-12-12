@@ -54,7 +54,7 @@
         </div>
 
         <div class="topik-info">
-            <h2>Pembangunan Perangkat Lunak Kompresi File dengan Algoritma LZW dan Huffman Coding</h2>
+            <h2 th:text="${topikTA}">Topik TA</h2>
         </div>
 
         <div class="card-bimbingan">
@@ -69,11 +69,17 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>20 Oktober 2025</td>
-                    <td>10.00 - 11.00</td>
-                    <td>Membuat Mock Up</td>
-                    <td style="text-align:center"><button class="btn-detail">Detail</button></td>
+                <tr th:if="${riwayatList.size() == 0}">
+                    <td colspan="4" style="text-align:center;">Belum ada bimbingan</td>
+                </tr>
+                <tr th:each="row : ${riwayatList}">
+                    <td th:text="${#temporals.format(row.tanggal, 'dd MMM yyyy')}"></td>
+                    <td>
+                        <span th:text="${row.waktuMulai}"></span> -
+                        <span th:text="${row.waktuSelesai}"></span>
+                    </td>
+                    <td>-</td>
+                    <td style="text-align:center"><a th:href="@{/dosen/bimbingan/{id}(id=${row.idJadwal})}" class="btn-detail">Detail</a></td>
                 </tr>
                 </tbody>
             </table>
