@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Mahasiswa</title>
-    <link rel="stylesheet" href="/static/Css/Dosen/detail-mhs.css">
+    <link rel="stylesheet" href="/Css/Dosen/detail-mhs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
+    <script src="/js/notif.js" defer></script>
 </head>
 <body>
     <div class="sidebar">
-        <img src="/static/Images/LogoUnpar.png" class="sidebar-logo">
+        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
 
-        <a href="#" class="sidebar-icon active" title="Home">
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
             <i class="fa-solid fa-house"></i>
         </a>
 
@@ -29,23 +31,30 @@
         <h3>SIAP Bimbingan</h3>
 
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon"></i>
-            <a href="#" class="logout">Logout</a>
+            <div style="position: relative;">
+                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+                <span th:if="${notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
+            </div>
+            <a href="/logout" class="logout">Logout</a>
         </div>
     </div>
 
     <div class="content-area">
         <div class="back-btn">
-            <a href="daftar-mhs.html"><i class="fa-solid fa-arrow-left"></i>Kembali ke Daftar Mahasiswa</a>
+            <a th:href="@{/dosen/daftar-mahasiswa}">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Mahasiswa
+            </a>
         </div>
 
         <div class="mhs-info">
-            <h2>Anggia Tejaningtyas Yudha Negara</h3>
-            <p>6182201080@unpar.ac.id</p>
+            <h2 th:text="${mhs.nama}">Nama Mahasiswa</h2>
+            <p th:text="${mhs.email}">6182201080@unpar.ac.id</p>
         </div>
 
         <div class="topik-info">
-            <h2>Pembangunan Perangkat Lunak Kompresi File dengan Algoritma LZW dan Huffman Coding</h2>
+            <h2 th:text="${topikTA}">Topik TA</h2>
         </div>
 
         <div class="card-bimbingan">
@@ -60,15 +69,23 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>20 Oktober 2025</td>
-                    <td>10.00 - 11.00</td>
-                    <td>Membuat Mock Up</td>
-                    <td style="text-align:center"><button class="btn-detail">Detail</button></td>
+                <tr th:if="${riwayatList.size() == 0}">
+                    <td colspan="4" style="text-align:center;">Belum ada bimbingan</td>
+                </tr>
+                <tr th:each="row : ${riwayatList}">
+                    <td th:text="${#temporals.format(row.tanggal, 'dd MMM yyyy')}"></td>
+                    <td>
+                        <span th:text="${row.waktuMulai}"></span> -
+                        <span th:text="${row.waktuSelesai}"></span>
+                    </td>
+                    <td>-</td>
+                    <td style="text-align:center"><a th:href="@{/dosen/bimbingan/{id}(id=${row.idJadwal})}" class="btn-detail">Detail</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+        <div th:replace="~{Layout/panelnotif}"></div>
     </div>
 
 </body>

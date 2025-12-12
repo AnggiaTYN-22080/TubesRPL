@@ -1,94 +1,58 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ===== base ===== */
+* { box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111827;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #111827;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* SIDEBAR */
-
+/* sidebar dan header */
 .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 68px;
-    background-color: #ffffff;
-    border-right: 1px solid #e5e7eb;
+    width: 60px;
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    gap: 28px;
-    z-index: 15;
+    padding-top: 25px;
+    gap: 35px;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 .sidebar-logo {
     width: 40px;
-    height: 40px;
-    object-fit: contain;
-    margin-bottom: 4px;
-}
-
-.sidebar-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .sidebar-icon i {
-    font-size: 20px;
-    color: #111827;
-    transition: color .2s ease, background-color .2s ease;
+    font-size: 26px;
+    color: black;
+    transition: 0.2s ease;
 }
 
-.sidebar-icon:hover {
-    background-color: #eef2ff;
-}
-
-.sidebar-icon.active {
-    background-color: #e0e7ff;
+.sidebar-icon:hover i {
+    color: #444;
 }
 
 .sidebar-icon.active i {
-    color: #1d4ed8;
+    color: black;
+    font-weight: bold;
 }
 
-/* HEADER */
-
 .header {
-    position: fixed;
-    top: 0;
-    left: 68px;
-    right: 0;
+    margin-left: 70px;
     height: 60px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 10;
-}
-
-.app-title {
-    font-size: 18px;
-    font-weight: 600;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
 }
 
 .header-right {
@@ -99,185 +63,83 @@ a {
 
 .notif-icon {
     font-size: 20px;
-    color: #111827;
+    color: black;
     cursor: pointer;
-    transition: color .2s ease;
+    transition: 0.2s;
 }
 
 .notif-icon:hover {
-    color: #4b5563;
+    color: #555;
 }
 
 .logout {
-    font-size: 14px;
-    font-weight: 500;
+    text-decoration: none;
+    color: black;
 }
 
-/* CONTENT AREA */
-
-.content-area {
-    margin-left: 68px;
-    padding: 72px 48px 40px 48px; /* 60 header + 12 jarak */
+/* content */
+.content-area{
+  margin-left: 60px;        
+  padding: 24px 40px 32px;
+  background: #f5f7fb;
+  min-height: calc(100vh - 60px);
 }
 
-/* TITLE */
-
-.page-title {
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: underline;
-    margin-bottom: 28px;
+.page-title{
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 8px 0 22px;
 }
 
-/* SECTION RUANG */
-
-.section-room {
-    margin-bottom: 40px;
+/* bagian table */
+.table-wrapper{
+  max-width: 1120px;
+  margin: 0 auto;
+  background: #ffffff;       
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
 }
 
-/* label "Ruang Tersedia" dengan garis tipis di atas */
-.room-title-row {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 6px;
-    margin-bottom: 10px;
+.table-wrapper::before{
+  content: "Tabel Jadwal";
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 6px 4px 12px;
 }
 
-.section-label {
-    font-size: 14px;
-    font-weight: 600;
+/* tabel */
+.jadwal-table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
 }
 
-/* bar biru "Tambah Ruangan" */
-.room-add-bar {
-    width: 100%;
-    background-color: #0037c1;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 18px;
+.jadwal-table thead th{
+  background: #f3f4f6;  
+  color: #6b7280;
+  font-weight: 700;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* GRID WAKTU & RUANG */
-
-.room-grid-wrapper {
-    background-color: #ffffff;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    padding: 16px 16px 12px;
-    overflow-x: auto;
+.jadwal-table tbody td{
+  padding: 14px 10px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: top;
 }
 
-/* baris header waktu */
-.room-grid-header {
-    display: grid;
-    grid-template-columns: 120px repeat(12, minmax(40px, 1fr));
-    column-gap: 8px;
-    align-items: center;
-    margin-bottom: 12px;
+.jadwal-table tbody tr:hover{
+  background: #f9fafb;
 }
 
-.room-header-label {
-    font-size: 13px;
-}
-
-.time-header {
-    font-size: 11px;
-    color: #6b7280;
-    text-align: center;
-}
-
-/* setiap baris ruangan */
-.room-grid-row {
-    display: grid;
-    grid-template-columns: 120px repeat(12, minmax(40px, 1fr));
-    column-gap: 8px;
-    align-items: center;
-    padding: 6px 0;
-    border-top: 1px solid #f3f4f6;
-}
-
-/* sel label ruangan */
-.room-label-cell {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-/* pill ruangan */
-.room-pill {
-    min-width: 80px;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: none;
-    background-color: #e0edff;
-    color: #1f2937;
-    font-size: 13px;
-    cursor: default;
-}
-
-/* sel slot jam */
-.slot-cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* lingkaran status */
-.slot-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background-color: #d1d5db; /* abu default */
-}
-
-.slot-dot.busy {
-    background-color: #ef4444; /* merah */
-}
-
-/* SECTION TABEL BAWAH */
-
-.section-table {
-    margin-top: 40px;
-}
-
-.table-admin {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-}
-
-.table-admin thead tr {
-    background-color: #f9fafb;
-}
-
-.table-admin th,
-.table-admin td {
-    padding: 12px 16px;
-    font-size: 14px;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: left;
-}
-
-.table-admin th {
-    font-weight: 600;
-    color: #4b5563;
-}
-
-.table-admin tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.table-admin tbody tr:hover {
-    background-color: #f9fafb;
-}
-
-.col-room {
-    font-weight: 600;
+/* responsif */
+@media (max-width: 768px){
+  .content-area{ padding: 18px 16px 24px; }
+  .table-wrapper{ padding: 10px; }
 }

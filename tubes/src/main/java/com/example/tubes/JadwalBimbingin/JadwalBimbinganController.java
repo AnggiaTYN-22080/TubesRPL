@@ -50,8 +50,8 @@ public class JadwalBimbinganController {
         // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
-            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing."
-            );
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda telah DISETUJUI dosen pembimbing.");
         });
 
         return "redirect:/dosen/pengajuan";
@@ -66,10 +66,29 @@ public class JadwalBimbinganController {
         // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
-            notifService.buatNotif(idMhs, "Pengajuan Bimbingan", "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain."
-            );
+            notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
+                    "Pengajuan bimbingan Anda DITOLAK. Silakan ajukan jadwal lain.");
         });
 
         return "redirect:/dosen/pengajuan";
     }
+
+    @GetMapping("/bimbingan/{id}")
+    public String detailBimbingan(
+            @PathVariable int id,
+            HttpSession session,
+            Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("notifList", notifService.getNotifByUser(user.getId()));
+
+        service.getById(id).ifPresent(j -> model.addAttribute("jadwal", j));
+
+        return "Dosen/detail-bimbingan";
+    }
+
 }

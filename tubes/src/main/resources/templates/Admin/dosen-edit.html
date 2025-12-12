@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Data Dosen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard"><i class="fa-solid fa-house"></i></a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen"><i class="fa-solid fa-users"></i></a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan"><i class="fa-solid fa-calendar-days"></i></a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang"><i class="fa-solid fa-list-check"></i></a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA"><i class="fa-solid fa-file-lines"></i></a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan"><i class="fa-regular fa-clock"></i></a>
+    </div>
+
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="form-page">
+        <div class="form-container">
+            <div class="form-tab-nav">
+                <a href="#" class="form-tab-link">Mahasiswa</a>
+                <a href="#" class="form-tab-link active">Dosen</a>
+            </div>
+            <div class="form-title">Ubah Data Dosen</div>
+            <div class="form-card">
+                <form th:action="@{/admin/dosen/update}" method="post">
+                    <input type="hidden" name="id" th:value="${dosen.id}" />
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input id="nama" name="nama" type="text" class="form-input" th:value="${dosen.nama}">
+                    </div>
+                    <div class="form-group">
+                        <label for="kode">Kode Dosen</label>
+                        <input id="kode" name="kode" type="text" class="form-input" th:value="${dosen.kode}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" class="form-input" th:value="${dosen.email}">
+                    </div>
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
+
+</body>
+
+</html>

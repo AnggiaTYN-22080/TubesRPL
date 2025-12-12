@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Bimbingan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/riwayat-bimbingan.css}"
+        href="../../static/Css/Admin/riwayat-bimbingan.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+</head>
+
+<body>
+
+    <!-- sidebar -->
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+            alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+    </div>
+
+    <!-- header -->
+    <div class="header">
+        <div class="header-center">
+            <span class="header-page-title">Detail Bimbingan</span>
+        </div>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- content -->
+    <div class="content-area detail-content">
+        <a th:href="@{/admin/riwayat-bimbingan}" class="detail-back-link">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>Kembali</span>
+        </a>
+        <div class="detail-header-row">
+            <h1 class="detail-title">Detail Bimbingan</h1>
+        </div>
+        <form th:action="@{/admin/riwayat-bimbingan/simpan}" th:object="${bimbingan}" method="post">
+            <div class="detail-grid">
+
+                <!-- KIRI -->
+                <div class="detail-left">
+                    <div class="detail-two-col">
+                        <div class="detail-field">
+                            <label>Nama</label>
+                            <input type="text" class="detail-input" th:field="*{namaMahasiswa}"
+                                placeholder="Olivia Rhye">
+                        </div>
+
+                        <div class="detail-field">
+                            <label>Email Address</label>
+                            <input type="text" class="detail-input" th:field="*{email}" placeholder="i22001@unpar.com">
+                        </div>
+                    </div>
+
+                    <div class="detail-field">
+                        <label>Topik</label>
+                        <input type="text" class="detail-input" th:field="*{topik}"
+                            placeholder="Pembangunan Perangkat Lunak ...">
+                    </div>
+
+                    <div class="detail-field">
+                        <label>Dosen Pembimbing</label>
+                        <input type="text" class="detail-input" th:field="*{dosenPembimbing}"
+                            placeholder="Keenan Adiwijaya Leman, S.T., M.T.">
+                    </div>
+
+                    <div class="detail-field">
+                        <label>Periode TA</label>
+                        <input type="text" class="detail-input" th:field="*{periodeTa}" placeholder="TA1 Ganjil 2025">
+                    </div>
+                </div>
+
+                <!-- KANAN -->
+                <aside class="detail-right">
+                    <div class="catatan-card">
+                        <div class="catatan-title">Catatan Dosen</div>
+
+                        <div class="catatan-frame">
+                            <textarea class="catatan-input" th:field="*{catatanDosen}"
+                                placeholder=""></textarea>
+                        </div>
+                    </div>
+                </aside>
+
+
+            </div>
+        </form>
+
+    </div>
+</body>
+
+</html>

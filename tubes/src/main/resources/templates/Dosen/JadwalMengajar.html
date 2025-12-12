@@ -1,49 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Jadwal Mengajar</title>
-    <link rel="stylesheet" href="/static/Css/Dosen/jadwalAjar.css">
+    <title>Jadwal Mengajar - Dosen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
+    <link rel="stylesheet" href="../../static/Css/Dosen/jadwalAjar.css">
+    
+    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
+    
+    <script src="../../static/Js/notif.js" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="/static/Images/LogoUnpar.png" class="sidebar-logo">
-
-        <a href="#" class="sidebar-icon active" title="Home">
-            <i class="fa-solid fa-house"></i>
-        </a>
-
-        <a href="#" class="sidebar-icon" title="Jadwal">
-            <i class="fa-regular fa-clock"></i>
-        </a>
-
-        <a href="#" class="sidebar-icon" title="Laporan">
-            <i class="fa-regular fa-file-lines"></i>
-        </a>
+        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
+        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
+        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
+        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
     </div>
-
 
     <div class="header">
         <h3>SIAP Bimbingan</h3>
-
         <div class="header-right">
-            <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
-            <a href="#" class="logout">Logout</a>
+            <div style="position: relative; cursor: pointer;" onclick="openNotif()">
+                <i class="fa-regular fa-bell notif-icon"></i>
+                <span class="notif-badge">3</span> 
+            </div>
+            <a href="#" style="text-decoration: none; color: black;">Logout</a>
         </div>
     </div>
 
-    <div id="notif-container"></div>
+    <div class="tab-nav-container">
+        <div class="tab-nav">
+            <a href="jadwal-bimbingan.html" class="tab-link">Jadwal Bimbingan</a>
+            <a href="JadwalMengajar.html" class="tab-link active">Jadwal Mengajar</a>
+        </div>
+    </div>
 
     <div class="content">
         <div class="card">
             <div class="card-header">
-                <h2>Jadwal Mengajar</h2>
-                <button class="btn-edit-main">Ubah Jadwal</button>
+                <h2>Jadwal Mengajar Kuliah</h2>
+                <button style="background-color: #001db1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">
+                    Ubah Jadwal
+                </button>
             </div>
 
-            <table>
+            <table class="table-list">
                 <thead>
                     <tr>
                         <th>Hari</th>
@@ -55,45 +60,45 @@
                 <tbody>
                     <tr>
                         <td>Senin</td>
-                        <td>08.00 - 10.00</td>
+                        <td>08:00 - 10:00</td>
                         <td>Pemrograman Web</td>
-                        <td>C</td>
+                        <td>A</td>
                     </tr>
                     <tr>
-                        <td>Rabu</td>
-                        <td>10.00 - 12.00</td>
+                        <td>Selasa</td>
+                        <td>10:00 - 12:00</td>
+                        <td>Kecerdasan Buatan</td>
+                        <td>B</td>
+                    </tr>
+                    <tr>
+                        <td>Kamis</td>
+                        <td>13:00 - 15:00</td>
                         <td>Basis Data</td>
-                        <td>A</td>
+                        <td>C</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <script>
-        fetch("../Layout/panelNotif.html")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("notif-container").innerHTML = html;
-            });
+    <div id="notif-overlay" class="notif-overlay"></div>
 
-        function openNotif() {
-            const panel = document.getElementById("notif-panel");
-            const overlay = document.getElementById("notif-overlay");
+    <div id="notif-panel" class="notif-panel">
+        <i class="fa-solid fa-xmark close-notif-btn" onclick="closeNotif()"></i>
+        <h4>Notifikasi</h4>
+        <div class="notif-list">
+            <div class="notif-item">
+                <strong>Pengajuan Bimbingan</strong>
+                <p>Mahasiswa A mengajukan bimbingan baru.</p>
+                <small>Baru saja</small>
+            </div>
+            <div class="notif-item">
+                <strong>Jadwal Mengajar</strong>
+                <p>Jadwal kuliah Anda besok jam 08:00.</p>
+                <small>1 Jam yang lalu</small>
+            </div>
+        </div>
+    </div>
 
-            panel.classList.add("open");
-            overlay.style.display = "block";
-
-            overlay.onclick = () => closeNotif();
-        }
-
-        function closeNotif() {
-            const panel = document.getElementById("notif-panel");
-            const overlay = document.getElementById("notif-overlay");
-
-            panel.classList.remove("open");
-            overlay.style.display = "none";
-        }
-    </script>
 </body>
 </html>

@@ -1,118 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Kelola Data Mahasiswa &amp; Dosen</title>
-    <link rel="stylesheet" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Kelola Data Mahasiswa & Dosen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}"
+        href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
+
 <body>
-
-<div class="sidebar">
-    <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
-
-    <a href="DashboardAdmin.html" class="sidebar-icon" title="Home">
-        <i class="fa-solid fa-house"></i>
-    </a>
-    <a href="riwayat-bimbingan.html" class="sidebar-icon" title="Riwayat Bimbingan">
-        <i class="fa-regular fa-clock"></i>
-    </a>
-    <a href="kelola-jadwal-&-ruangan.html" class="sidebar-icon" title="Jadwal &amp; Ruangan">
-        <i class="fa-regular fa-calendar-days"></i>
-    </a>
-    <a href="persyaratan-sidang.html" class="sidebar-icon" title="Persyaratan Sidang">
-        <i class="fa-regular fa-file-circle-check"></i>
-    </a>
-    <a href="kelola-data-mhs-&-dosen.html" class="sidebar-icon active"
-       title="Kelola Data Mhs &amp; Dosen">
-        <i class="fa-regular fa-file-lines"></i>
-    </a>
-    <a href="periode-TA.html" class="sidebar-icon" title="Periode TA">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-    </a>
-</div>
-
-<div class="header">
-    <h3 class="app-title">SIAP Bimbingan</h3>
-
-    <div class="header-right">
-        <i class="fa-regular fa-bell notif-icon"></i>
-        <a href="#" class="logout">Logout</a>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+            alt="Logo Unpar">
+        <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+            <i class="fa-solid fa-users"></i>
+        </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+            <i class="fa-solid fa-calendar-days"></i>
+        </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+            <i class="fa-solid fa-list-check"></i>
+        </a>
+        <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+            <i class="fa-solid fa-file-lines"></i>
+        </a>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+            <i class="fa-regular fa-clock"></i>
+        </a>
     </div>
-</div>
 
-<div class="content-area">
-    <h1 class="page-title">Kelola Data Mahasiswa &amp; Dosen</h1>
-
-    <div class="card">
-        <div class="tab-bar">
-            <a href="#" class="tab-link active">Mahasiswa</a>
-            <a href="#" class="tab-link">Dosen</a>
+    <!-- header -->
+    <div class="header">
+        <h3>SIAP Bimbingan</h3>
+        <div class="header-right">
+            <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+            <a th:href="@{/logout}" class="logout">Logout</a>
         </div>
-
-        <table class="table-admin">
-            <thead>
-            <tr>
-                <th class="col-checkbox"><input type="checkbox"></th>
-                <th>Mahasiswa</th>
-                <th>Email address</th>
-                <th class="col-actions">Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Olivia Rhye</span>
-                        <span class="npm">i220001</span>
-                    </div>
-                </td>
-                <td>i220001@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Phoenix Baker</span>
-                        <span class="npm">i220015</span>
-                    </div>
-                </td>
-                <td>i220015@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>
-                    <div class="cell-name">
-                        <span class="name">Lana Steiner</span>
-                        <span class="npm">i210007</span>
-                    </div>
-                </td>
-                <td>i210007@unpar.com</td>
-                <td class="cell-actions">
-                    <button class="btn-icon" title="Hapus">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
-                    <button class="btn-pill">Edit</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-</div>
+
+    <!-- content -->
+    <div class="content-area">
+        <div class="page-container page-menu">
+
+            <h1 class="menu-title">Kelola Data Mahasiswa, Dosen, & Topik TA</h1>
+
+            <div class="menu-cards">
+                <!-- Card: Data Dosen -->
+                <a th:href="@{/admin/dosen}" href="/admin/dosen" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Dosen</div>
+                        <div class="menu-card-desc">
+                            Kelola data dosen, email, dan informasi terkait.
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card: Data Mahasiswa -->
+                <a th:href="@{/admin/mahasiswa}" href="/admin/mahasiswa" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Mahasiswa</div>
+                        <div class="menu-card-desc">
+                            Kelola data mahasiswa dan informasi akademik.
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card: List Data -->
+                <a th:href="@{/admin/kelola-data/list}" href="/admin/kelola-data/list" class="menu-card">
+                    <div class="menu-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="menu-text">
+                        <div class="menu-card-title">Data Topik TA</div>
+                        <div class="menu-card-desc">
+                            Lihat daftar data topik TA.
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
 
 </body>
+
 </html>

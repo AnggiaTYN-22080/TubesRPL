@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Riwayat Bimbingan</title>
+    <title>Tambah Mahasiswa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/Css/Admin/riwayat-bimbingan.css}" href="../../static/Css/Admin/riwayat-bimbingan.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/kelola-data-mhs-dosen.css}" href="../../static/Css/Admin/kelola-data-mhs-dosen.css">
     <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
 
 <body>
+
     <!-- sidebar -->
     <div class="sidebar">
         <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
@@ -35,52 +36,48 @@
 
     <!-- header -->
     <div class="header">
-        <div class="header-center">
-            <span class="header-page-title">Riwayat Bimbingan</span>
-        </div>
+        <h3>SIAP Bimbingan</h3>
         <div class="header-right">
             <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
             <a th:href="@{/logout}" class="logout">Logout</a>
         </div>
     </div>
 
-    <!-- content -->
-    <div class="content-area">
-        <!-- bar atas: “Semua Bimbingan” + badge + search -->
-        <div class="history-topbar">
-            <div class="history-topbar-left">
-                <span class="history-title">Semua Bimbingan</span>
-                <span class="history-count-badge" th:text="${totalBimbingan}">1</span>
+    <div class="form-page">
+        <div class="form-container">
+            <!-- tab Mahasiswa / Dosen di atas -->
+            <div class="form-tab-nav">
+                <a href="#" class="form-tab-link active">Mahasiswa</a>
+                <a href="#" class="form-tab-link">Dosen</a>
+            </div>
+
+            <div class="form-title">Tambah Mahasiswa</div>
+
+            <div class="form-card">
+                <form th:action="@{/admin/mahasiswa/simpan}" method="post">
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input id="nama" name="nama" type="text" class="form-input" placeholder="Nama Mahasiswa" th:value="${mahasiswa?.nama}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="npm">NPM</label>
+                        <input id="npm" name="npm" type="text" class="form-input" placeholder="NPM" th:value="${mahasiswa?.npm}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" class="form-input" placeholder="alamat email" th:value="${mahasiswa?.email}">
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
             </div>
         </div>
-
-        <!-- tabel riwayat -->
-        <div class="history-table-wrapper">
-            <table class="table-history">
-                <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>EMAIL ADDRESS</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="log : ${riwayatBimbingan}">
-                        <td>
-                            <div class="student-name" th:text="${log.nama}">Olivia Rhye</div>
-                            <div class="student-id" th:text="${log.nim}">i22001</div>
-                        </td>
-                        <td th:text="${log.email}">i22001@unpar.com</td>
-                        <td class="cell-more">
-                            <button type="button" class="btn-more" th:onclick="'location.href=\'/admin/riwayat-bimbingan/detail/\' + ' + ${log.id}">
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
+
+    <div th:replace="~{Layout/panelnotif}"></div>
+
 </body>
 
 </html>
