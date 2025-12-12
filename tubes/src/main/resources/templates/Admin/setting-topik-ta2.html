@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Setting Topik Tugas Besar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/Css/Admin/setting-topik-ta.css}" href="../../static/Css/Admin/setting-topik-ta.css">
+  <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+
+    <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
+      <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
+      <i class="fa-solid fa-users"></i>
+    </a>
+
+    <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
+      <i class="fa-solid fa-calendar-days"></i>
+    </a>
+
+    <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
+      <i class="fa-solid fa-list-check"></i>
+    </a>
+
+    <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
+      <i class="fa-solid fa-file-lines"></i>
+    </a>
+
+    <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
+      <i class="fa-regular fa-clock"></i>
+    </a>
+  </div>
+
+  <div class="header">
+    <div class="header-center">
+      <span class="header-page-title">Setting Topik Tugas Besar</span>
+    </div>
+
+    <div class="header-right">
+      <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+      <a th:href="@{/logout}" class="logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="content-area">
+
+    <div class="tab-nav">
+      <button class="tab-link" data-tab="TA1">TA 1</button>
+      <button class="tab-link active" data-tab="TA2">TA 2</button>
+    </div>
+
+    <section class="section-block">
+      <div class="section-head">
+
+        <div class="head-left">
+          <h4 class="section-title">Penetapan Kode TA, Dosen Pembimbing, & Topik per Mahasiswa</h4>
+
+          <!-- Dropdown Periode -->
+          <div class="periode-wrap">
+            <label class="periode-label" for="periodeId">Periode</label>
+            <select id="periodeId" class="select-periode"
+              onchange="
+                document.getElementById('periodeHiddenAll').value = this.value;
+                document.querySelectorAll('.periodeHiddenRow').forEach(h => h.value = this.value);">
+              <option value="" th:selected="${selectedPeriodeId == null}">Pilih Periode</option>
+              <option th:each="p : ${periodeList}"
+                      th:value="${p.id}"
+                      th:text="${p.nama}"
+                      th:selected="${selectedPeriodeId != null and selectedPeriodeId == p.id}">
+                2025/2026 Ganjil
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <form th:action="@{/admin/topik-ta/simpan-semua}" method="post" class="save-all-wrap">
+          <input type="hidden" id="periodeHiddenAll" name="periodeId" th:value="${selectedPeriodeId}">
+          <button type="submit" class="btn-primary">Simpan Semua</button>
+        </form>
+
+      </div>
+
+      <div class="table-wrapper">
+        <table class="table-main">
+          <thead>
+            <tr>
+              <th>Mahasiswa</th>
+              <th>Kode TA</th>
+              <th>Dosen Pembimbing</th>
+              <th>Topik</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="row, idx : ${mahasiswaList}">
+              <td>
+                <div class="cell-student">
+                  <div class="student-name" th:text="${row.nama}">Bram Matthew Pasaribu</div>
+                  <div class="student-sub" th:text="${row.npm}">6182101043</div>
+                </div>
+              </td>
+
+              <td>
+                <input type="hidden" th:name="|items[${idx.index}].mahasiswaId|" th:value="${row.id}">
+                <input class="input-code" type="text" th:name="|items[${idx.index}].kodeTa|"
+                       placeholder="A/B/C" th:value="${row.kodeTa}">
+              </td>
+
+              <td>
+                <input type="hidden" th:name="|items[${idx.index}].dosenId|" th:value="${row.dosenId}">
+                <input type="text" class="input-dospem" th:value="${row.dosenNama}" placeholder="Nama Dosen" readonly>
+              </td>
+
+              <td>
+                <input class="input-topic" type="text" th:name="|items[${idx.index}].topik|"
+                       placeholder="Tulis topik tugas akhir" th:value="${row.topik}">
+              </td>
+
+              <td class="cell-actions">
+
+                <form th:action="@{/admin/topik-ta/reset}" method="post" class="inline-form">
+                  <input type="hidden" name="mahasiswaId" th:value="${row.id}">
+                  <input type="hidden" class="periodeHiddenRow" name="periodeId" th:value="${selectedPeriodeId}">
+                  <button type="submit" class="btn-icon" aria-label="Reset">
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </form>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <div th:replace="~{Layout/panelnotif}"></div>
+
+</body>
+</html>
