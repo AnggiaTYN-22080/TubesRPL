@@ -18,4 +18,6 @@ public interface JadwalBimbinganRepository {
     Optional<JadwalBimbingan> findById(int idJadwal);
 
     List<JadwalBimbingan> findByMahasiswa(int idMhs);
+
+    void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai, int idRuangan);
 }

@@ -26,4 +26,6 @@ public class JadwalBimbingan {
 
     // Untuk kalender (Fitur Mahasiswa)
     private String namaDosen;
+
+    private String namaRuangan;
 }

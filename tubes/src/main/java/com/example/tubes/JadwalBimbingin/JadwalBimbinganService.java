@@ -37,4 +37,9 @@ public class JadwalBimbinganService {
     public List<JadwalBimbingan> getJadwalByMahasiswa(int idMhs) {
         return repo.findByMahasiswa(idMhs);
     }
+
+    public void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai,
+            int idRuangan) {
+        repo.insertPengajuan(idMhs, idDosen, tanggal, mulai, selesai, idRuangan);
+    }
 }
