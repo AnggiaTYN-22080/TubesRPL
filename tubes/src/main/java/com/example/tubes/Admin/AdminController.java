@@ -33,9 +33,6 @@ public class AdminController {
         model.addAttribute("pengajuanAktif", dashboardService.getPengajuanAktif());
         model.addAttribute("notifList", dashboardService.getNotifList(user.getId()));
 
-        // ⚠️ PENTING: samakan dengan nama file html kamu:
-        // - kalau file kamu: templates/Admin/dashboard.html -> return "Admin/dashboard"
-        // - kalau file kamu: templates/Admin/dashboardAdmin.html -> return "Admin/dashboardAdmin"
         return "Admin/DashboardAdmin";
     }
 

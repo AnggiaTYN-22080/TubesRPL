@@ -28,9 +28,6 @@ public class KelolaJadwalRuanganAdminController {
     @Autowired
     private RuanganService ruanganService;
 
-    // =========================
-    // PAGE (THYMELEAF)
-    // =========================
     @GetMapping("/kelola-jadwal")
     public String kelolaJadwalPage(HttpSession session, Model model) {
         User user = (User) session.getAttribute("currentUser");
@@ -40,16 +37,10 @@ public class KelolaJadwalRuanganAdminController {
         model.addAttribute("user", user);
         model.addAttribute("jadwalList", jadwalList);
 
-        // HTML kamu saat ini hanya pakai jadwalList, tapi list ruangan berguna
-        // kalau nanti kamu tambah dropdown/popup ruangan.
         model.addAttribute("ruanganList", ruanganService.getAll());
 
         return "Admin/kelola-jadwal-&-ruangan";
     }
-
-    // =========================
-    // REST API (OPSIONAL)
-    // =========================
 
     // ---------- RUANGAN CRUD ----------
     @GetMapping("/api/ruangan")
@@ -77,7 +68,6 @@ public class KelolaJadwalRuanganAdminController {
         if (!isAdmin(session))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
 
-        // wajib sesuai DB: namaRuangan, statusRuangan
         if (payload.getNamaRuangan() == null || payload.getNamaRuangan().isBlank()
                 || payload.getStatusRuangan() == null || payload.getStatusRuangan().isBlank()) {
             return ResponseEntity.badRequest().body("namaRuangan dan statusRuangan wajib diisi");

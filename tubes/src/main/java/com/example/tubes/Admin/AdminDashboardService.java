@@ -30,7 +30,6 @@ public class AdminDashboardService {
     }
 
     public List<Notifikasi> getNotifList(int idUser) {
-        // pakai yang sudah ada di project kamu
         return notifikasiRepository.getNotifByUser(idUser);
     }
 }

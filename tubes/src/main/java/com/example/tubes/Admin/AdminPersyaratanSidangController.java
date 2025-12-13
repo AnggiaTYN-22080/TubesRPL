@@ -19,7 +19,6 @@ public class AdminPersyaratanSidangController {
         return user != null && user.getRole() != null && user.getRole().equalsIgnoreCase("admin");
     }
 
-    // TA 1
     @GetMapping("/persyaratan-sidang")
     public String ta1(HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -28,7 +27,6 @@ public class AdminPersyaratanSidangController {
         return "Admin/persyaratan-sidang";
     }
 
-    // TA 2 (INI YANG KAMU BUTUH, karena link kamu /ta2)
     @GetMapping("/persyaratan-sidang/ta2")
     public String ta2(HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";

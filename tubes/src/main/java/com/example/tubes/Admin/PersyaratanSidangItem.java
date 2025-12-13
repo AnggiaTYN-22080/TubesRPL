@@ -11,11 +11,10 @@ public class PersyaratanSidangItem {
     private int idMhs;
     private int idTA;
 
-    private String nama;        // dipakai di HTML: ${syarat.nama}
-    private boolean terpenuhi;  // dipakai di HTML: ${syarat.terpenuhi}
-    private String labelStatus; // dipakai di HTML: ${syarat.labelStatus}
+    private String nama;      
+    private boolean terpenuhi; 
+    private String labelStatus; 
 
-    // opsional (kalau nanti mau tampilkan)
     private String email;
     private String npm;
 }
