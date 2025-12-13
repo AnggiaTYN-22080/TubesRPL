@@ -78,11 +78,10 @@
                 <p><strong>Topik</strong> : <span id="topic"></span></p>
                 <p><strong>Tanggal</strong> : <span id="date"></span></p>
                 <p><strong>Waktu</strong> : <span id="time"></span></p>
-                
                 <p><strong>Ruangan</strong> : <span id="roomName"></span></p> 
                 
                 <div style="margin-top: 20px; text-align: right;">
-                    <span class="modal-badge">Disetujui</span>
+                    <span id="statusBadge" class="modal-badge">Status</span>
                 </div>
             </div>
         </div>
@@ -105,15 +104,13 @@
             month: /*[[${j.tanggal.monthValue - 1}]]*/ 0, 
             year: /*[[${j.tanggal.year}]]*/ 2025,
             
-            // Judul Event di Kalender (Misal: 10:00 Bimbingan)
             title: /*[[${j.waktuMulai} + ' Bimbingan']]*/ 'Bimbingan',
-            
             dosen: /*[[${j.namaDosen}]]*/ 'Dosen Pembimbing',
-            
-            // PERUBAHAN DI SINI: Ambil topik dari database
             topic: /*[[${j.topikTA}]]*/ 'Topik TA', 
-            
             room: /*[[${j.namaRuangan}]]*/ 'Ruangan',
+            
+            // PERUBAHAN 2: Ambil status dari database
+            status: /*[[${j.status}]]*/ 'pending', 
             
             start: /*[[${j.waktuMulai.toString()}]]*/ '10:00',
             end: /*[[${j.waktuSelesai.toString()}]]*/ '11:00'
@@ -165,12 +162,28 @@
 
     function openModal(data) {
         document.getElementById("dosenName").innerText = data.dosen;
-        
         document.getElementById("topic").innerText = data.topic;
-        
         document.getElementById("date").innerText = `${data.day} ${monthNames[data.month]} ${data.year}`;
         document.getElementById("time").innerText = `${data.start} - ${data.end}`;
         document.getElementById("roomName").innerText = data.room;
+        
+        const badge = document.getElementById("statusBadge");
+        
+        badge.className = "modal-badge"; 
+        
+        if (data.status === 'approved') {
+            badge.innerText = "Disetujui";
+            badge.style.backgroundColor = "#e3f2fd"; // Biru muda
+            badge.style.color = "#0d47a1";
+        } else if (data.status === 'rejected') {
+            badge.innerText = "Ditolak";
+            badge.style.backgroundColor = "#ffebee"; // Merah muda
+            badge.style.color = "#c62828";
+        } else {
+            badge.innerText = "Menunggu Persetujuan";
+            badge.style.backgroundColor = "#fff3e0"; // Oranye muda
+            badge.style.color = "#ef6c00";
+        }
         
         document.getElementById("bimbinganModal").style.display = "block";
     }
