@@ -18,6 +18,7 @@ public class JadwalBimbingan {
     private int idRuangan;
 
     // Dipakai untuk halaman pengajuan (Fitur Dosen)
+    private String namaRuangan;
     private String namaMahasiswa;
     private String npm;
 
@@ -27,5 +28,4 @@ public class JadwalBimbingan {
     // Untuk kalender (Fitur Mahasiswa)
     private String namaDosen;
 
-    private String namaRuangan;
 }

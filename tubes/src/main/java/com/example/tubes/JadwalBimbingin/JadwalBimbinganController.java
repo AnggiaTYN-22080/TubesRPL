@@ -31,11 +31,9 @@ public class JadwalBimbinganController {
 
         int idDosen = user.getId();
 
-        // Data pengajuan
         List<JadwalBimbingan> pengajuanList = service.getPengajuanByDosen(idDosen);
         model.addAttribute("pengajuanList", pengajuanList);
 
-        // Notifikasi
         model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
 
         return "Dosen/pengajuan-bimbingan";
@@ -44,10 +42,8 @@ public class JadwalBimbinganController {
     @PostMapping("/pengajuan/{id}/approve")
     public String approve(@PathVariable int id) {
 
-        // Ubah status di jadwal_bimbingan
         service.setStatus(id, "approved");
 
-        // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
             notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
@@ -60,10 +56,8 @@ public class JadwalBimbinganController {
     @PostMapping("/pengajuan/{id}/reject")
     public String reject(@PathVariable int id) {
 
-        // Ubah status di jadwal_bimbingan
         service.setStatus(id, "rejected");
 
-        // Ambil data jadwal untuk cari idMhs
         service.getById(id).ifPresent(j -> {
             int idMhs = j.getIdMhs();
             notifService.buatNotif(idMhs, "Pengajuan Bimbingan",
