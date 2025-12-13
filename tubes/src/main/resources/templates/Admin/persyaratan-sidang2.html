@@ -56,10 +56,12 @@
     <!-- CONTENT -->
     <div class="content-area">
         <!-- navbar TA1 / TA2 -->
-            <div class="tab-nav">
-                <button class="tab-link" data-tab="TA1">TA 1</button>
-                <button class="tab-link active" data-tab="TA2">TA 2</button>
-            </div>
+        <div class="tab-nav">
+            <a th:href="@{/admin/persyaratan-sidang}" class="tab-link">TA 1</a>
+
+            <a th:href="@{/admin/persyaratan-sidang/ta2}" class="tab-link active">TA 2</a>
+        </div>
+
 
         <!-- CARD TABEL -->
         <div class="card table-card">

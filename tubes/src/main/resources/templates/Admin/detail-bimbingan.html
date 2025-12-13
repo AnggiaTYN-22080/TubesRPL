@@ -56,54 +56,52 @@
         <div class="detail-header-row">
             <h1 class="detail-title">Detail Bimbingan</h1>
         </div>
-        <form th:action="@{/admin/riwayat-bimbingan/simpan}" th:object="${bimbingan}" method="post">
+        <form th:object="${detail}">
             <div class="detail-grid">
 
-                <!-- KIRI -->
                 <div class="detail-left">
                     <div class="detail-two-col">
                         <div class="detail-field">
                             <label>Nama</label>
-                            <input type="text" class="detail-input" th:field="*{namaMahasiswa}"
-                                placeholder="Olivia Rhye">
+                            <input type="text" class="detail-input" th:value="*{namaMahasiswa}" readonly>
                         </div>
 
                         <div class="detail-field">
-                            <label>Email Address</label>
-                            <input type="text" class="detail-input" th:field="*{email}" placeholder="i22001@unpar.com">
+                            <label>NPM</label>
+                            <input type="text" class="detail-input" th:value="*{npm}" readonly>
                         </div>
-                    </div>
-
-                    <div class="detail-field">
-                        <label>Topik</label>
-                        <input type="text" class="detail-input" th:field="*{topik}"
-                            placeholder="Pembangunan Perangkat Lunak ...">
                     </div>
 
                     <div class="detail-field">
                         <label>Dosen Pembimbing</label>
-                        <input type="text" class="detail-input" th:field="*{dosenPembimbing}"
-                            placeholder="Keenan Adiwijaya Leman, S.T., M.T.">
+                        <input type="text" class="detail-input" th:value="*{namaDosen}" readonly>
                     </div>
 
                     <div class="detail-field">
-                        <label>Periode TA</label>
-                        <input type="text" class="detail-input" th:field="*{periodeTa}" placeholder="TA1 Ganjil 2025">
+                        <label>Tanggal</label>
+                        <input type="text" class="detail-input" th:value="*{tanggal}" readonly>
+                    </div>
+
+                    <div class="detail-field">
+                        <label>Jam</label>
+                        <input type="text" class="detail-input" th:value="*{jam}" readonly>
+                    </div>
+
+                    <div class="detail-field">
+                        <label>Ruangan</label>
+                        <input type="text" class="detail-input" th:value="*{ruangan}" readonly>
                     </div>
                 </div>
 
-                <!-- KANAN -->
                 <aside class="detail-right">
                     <div class="catatan-card">
                         <div class="catatan-title">Catatan Dosen</div>
 
                         <div class="catatan-frame">
-                            <textarea class="catatan-input" th:field="*{catatanDosen}"
-                                placeholder=""></textarea>
+                            <textarea class="catatan-input" th:text="*{catatan}" readonly></textarea>
                         </div>
                     </div>
                 </aside>
-
 
             </div>
         </form>

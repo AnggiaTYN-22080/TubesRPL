@@ -5,14 +5,16 @@
   <meta charset="UTF-8">
   <title>Setting Topik Tugas Besar</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" th:href="@{/Css/Admin/setting-topik-ta.css}" href="../../static/Css/Admin/setting-topik-ta.css">
+  <link rel="stylesheet" th:href="@{/Css/Admin/setting-topik-ta.css}"
+    href="../../static/Css/Admin/setting-topik-ta.css">
   <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
 
 <body>
 
   <div class="sidebar">
-    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+      alt="Logo Unpar">
 
     <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
       <i class="fa-solid fa-house"></i>
@@ -53,9 +55,10 @@
   <div class="content-area">
 
     <div class="tab-nav">
-      <button class="tab-link" data-tab="TA1">TA 1</button>
-      <button class="tab-link active" data-tab="TA2">TA 2</button>
+      <a th:href="@{/admin/kelola-data/list}" class="tab-link">TA 1</a>
+      <a th:href="@{/admin/kelola-data/list/ta2}" class="tab-link active">TA 2</a>
     </div>
+
 
     <section class="section-block">
       <div class="section-head">
@@ -66,15 +69,12 @@
           <!-- Dropdown Periode -->
           <div class="periode-wrap">
             <label class="periode-label" for="periodeId">Periode</label>
-            <select id="periodeId" class="select-periode"
-              onchange="
+            <select id="periodeId" class="select-periode" onchange="
                 document.getElementById('periodeHiddenAll').value = this.value;
                 document.querySelectorAll('.periodeHiddenRow').forEach(h => h.value = this.value);">
               <option value="" th:selected="${selectedPeriodeId == null}">Pilih Periode</option>
-              <option th:each="p : ${periodeList}"
-                      th:value="${p.id}"
-                      th:text="${p.nama}"
-                      th:selected="${selectedPeriodeId != null and selectedPeriodeId == p.id}">
+              <option th:each="p : ${periodeList}" th:value="${p.id}" th:text="${p.namaPeriode}"
+                th:selected="${selectedPeriodeId != null and selectedPeriodeId == p.id}">
                 2025/2026 Ganjil
               </option>
             </select>
@@ -111,8 +111,8 @@
 
               <td>
                 <input type="hidden" th:name="|items[${idx.index}].mahasiswaId|" th:value="${row.id}">
-                <input class="input-code" type="text" th:name="|items[${idx.index}].kodeTa|"
-                       placeholder="A/B/C" th:value="${row.kodeTa}">
+                <input class="input-code" type="text" th:name="|items[${idx.index}].kodeTa|" placeholder="A/B/C"
+                  th:value="${row.kodeTa}">
               </td>
 
               <td>
@@ -122,7 +122,7 @@
 
               <td>
                 <input class="input-topic" type="text" th:name="|items[${idx.index}].topik|"
-                       placeholder="Tulis topik tugas akhir" th:value="${row.topik}">
+                  placeholder="Tulis topik tugas akhir" th:value="${row.topik}">
               </td>
 
               <td class="cell-actions">
@@ -147,4 +147,5 @@
   <div th:replace="~{Layout/panelnotif}"></div>
 
 </body>
+
 </html>
