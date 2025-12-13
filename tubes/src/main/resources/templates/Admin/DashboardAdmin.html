@@ -1,118 +1,112 @@
 <!DOCTYPE html>
 <html lang="id" xmlns:th="http://www.thymeleaf.org">
-
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin - SIAP Bimbingan</title>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" th:href="@{/Css/Admin/dashboardAdmin.css}" href="../../static/Css/Admin/dashboardAdmin.css">
   <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
+  <script src="/js/notif.js" defer></script>
 </head>
 
 <body>
 
-  <div class="sidebar">
-    <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
-      alt="Logo Unpar">
-
-    <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
-      <i class="fa-solid fa-house"></i>
-    </a>
-
-    <a th:href="@{/admin/kelola-data}" class="sidebar-icon" title="Data Mhs & Dosen">
-      <i class="fa-solid fa-users"></i>
-    </a>
-
-    <a th:href="@{/admin/kelola-jadwal}" class="sidebar-icon" title="Jadwal & Ruangan">
-      <i class="fa-solid fa-calendar-days"></i>
-    </a>
-
-    <a th:href="@{/admin/persyaratan-sidang}" class="sidebar-icon" title="Persyaratan Sidang">
-      <i class="fa-solid fa-list-check"></i>
-    </a>
-
-    <a th:href="@{/admin/periode-ta}" class="sidebar-icon" title="Periode TA">
-      <i class="fa-solid fa-file-lines"></i>
-    </a>
-
-    <a th:href="@{/admin/riwayat-bimbingan}" class="sidebar-icon" title="Riwayat Bimbingan">
-      <i class="fa-regular fa-clock"></i>
-    </a>
-  </div>
-
   <div class="header">
-    <h3>SIAP Bimbingan - Admin</h3>
+    <div class="header-left">
+      <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="header-logo" alt="Logo Unpar">
+      <h3>SIAP Bimbingan - Admin</h3>
+    </div>
+
     <div class="header-right">
-      <i class="fa-regular fa-bell notif-icon" id="notif-toggle"></i>
+      <div class="notif-wrap">
+        <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
+
+        <span class="notif-badge"
+              th:if="${notifList != null and notifList.size() > 0}"
+              th:text="${notifList.size()}"></span>
+      </div>
+
       <a th:href="@{/logout}" class="logout">Logout</a>
     </div>
   </div>
 
   <div class="content-area">
-    <div class="stats-container">
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-title">Total Mahasiswa</div>
-          <p class="stat-value" th:text="${totalMahasiswa}">120</p>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Total Dosen Pembimbing</div>
-          <p class="stat-value" th:text="${totalDosenPembimbing}">18</p>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Pengajuan Bimbingan Aktif</div>
-          <p class="stat-value" th:text="${pengajuanAktif}">24</p>
-        </div>
+    <h2 class="page-title">Dashboard Admin</h2>
+
+    <!-- BOX BIRU -->
+    <div class="stats-wrapper">
+      <div class="stat-card">
+        <p class="stat-label">Total Mahasiswa</p>
+        <div class="stat-value" th:text="${totalMahasiswa}">120</div>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Total Dosen Pembimbing</p>
+        <div class="stat-value" th:text="${totalDosenPembimbing}">18</div>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Pengajuan Bimbingan Aktif</p>
+        <div class="stat-value" th:text="${pengajuanAktif}">24</div>
       </div>
     </div>
 
-    <div class="menu-grid">
-      <a th:href="@{/admin/kelola-data}" class="menu-card">
-        <div class="icon-circle">
-          <i class="fa-solid fa-users"></i>
-        </div>
-        <div class="menu-card-title">Kelola Data Mahasiswa &amp; Dosen</div>
-        <div class="menu-card-desc">Kelola akun mahasiswa dan dosen pembimbing.</div>
-      </a>
+    <h3 class="section-title">Menu</h3>
 
-      <a th:href="@{/admin/kelola-jadwal}" class="menu-card">
-        <div class="icon-circle">
-          <i class="fa-solid fa-calendar-days"></i>
-        </div>
-        <div class="menu-card-title">Kelola Jadwal &amp; Ruangan</div>
-        <div class="menu-card-desc">Atur jadwal bimbingan dan ketersediaan ruangan.</div>
-      </a>
+    <div class="menu-wrapper">
 
-      <a th:href="@{/admin/persyaratan-sidang}" class="menu-card">
-        <div class="icon-circle">
-          <i class="fa-solid fa-list-check"></i>
+      <div class="menu-card">
+        <div class="menu-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="menu-text">
+          <h4>Kelola Data Mahasiswa, Dosen &amp; Topik TA</h4>
+          <p>Kelola data mahasiswa dan dosen pembimbing serta topik TA.</p>
         </div>
-        <div class="menu-card-title">Persyaratan Sidang</div>
-        <div class="menu-card-desc">Kelola dan pantau persyaratan kelulusan sidang.</div>
-      </a>
+        <a th:href="@{/admin/kelola-data}" class="menu-link" aria-label="Kelola Data"></a>
+      </div>
 
-      <a th:href="@{/admin/periode-ta}" class="menu-card">
-        <div class="icon-circle">
-          <i class="fa-solid fa-clock-rotate-left"></i>
+      <div class="menu-card">
+        <div class="menu-icon"><i class="fa-solid fa-calendar-days"></i></div>
+        <div class="menu-text">
+          <h4>Kelola Jadwal &amp; Ruangan</h4>
+          <p>Atur jadwal bimbingan dan ketersediaan ruangan.</p>
         </div>
-        <div class="menu-card-title">Periode Tugas Akhir</div>
-        <div class="menu-card-desc">Atur periode pendaftaran dan pelaksanaan TA.</div>
-      </a>
+        <a th:href="@{/admin/kelola-jadwal}" class="menu-link" aria-label="Kelola Jadwal"></a>
+      </div>
 
-      <a th:href="@{/admin/riwayat-bimbingan}" class="menu-card">
-        <div class="icon-circle">
-          <i class="fa-solid fa-arrow-rotate-right"></i>
+      <div class="menu-card">
+        <div class="menu-icon"><i class="fa-solid fa-list-check"></i></div>
+        <div class="menu-text">
+          <h4>Persyaratan Sidang</h4>
+          <p>Kelola dan pantau persyaratan kelulusan sidang.</p>
         </div>
-        <div class="menu-card-title">Riwayat Bimbingan</div>
-        <div class="menu-card-desc">Lihat catatan riwayat bimbingan mahasiswa.</div>
-      </a>
+        <a th:href="@{/admin/persyaratan-sidang}" class="menu-link" aria-label="Persyaratan Sidang"></a>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-icon"><i class="fa-solid fa-file-lines"></i></div>
+        <div class="menu-text">
+          <h4>Periode Tugas Akhir</h4>
+          <p>Atur periode pendaftaran dan pelaksanaan TA.</p>
+        </div>
+        <a th:href="@{/admin/periode-ta}" class="menu-link" aria-label="Periode TA"></a>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-icon"><i class="fa-regular fa-clock"></i></div>
+        <div class="menu-text">
+          <h4>Riwayat Bimbingan</h4>
+          <p>Lihat catatan riwayat bimbingan mahasiswa.</p>
+        </div>
+        <a th:href="@{/admin/riwayat-bimbingan}" class="menu-link" aria-label="Riwayat Bimbingan"></a>
+      </div>
+
     </div>
+
   </div>
-
-
 
   <div th:replace="~{Layout/panelnotif}"></div>
 
 </body>
-
 </html>
