@@ -75,7 +75,7 @@ public class MahasiswaController {
     }
 
     // jadwal bimbingan calender
-    @GetMapping("/jadwal-bimbingan") // Sesuai href di HTML
+    @GetMapping("/jadwal-bimbingan")
     public String jadwalBimbingan(HttpSession session, Model model) {
         User user = cekLogin(session);
         if (user == null)
@@ -137,16 +137,14 @@ public class MahasiswaController {
         model.addAttribute("user", user);
         model.addAttribute("notifList", notifikasiService.getNotifByUser(user.getId()));
 
-        // --- BAGIAN PENTING: AMBIL DATA DARI DB ---
         List<JadwalKuliah> listJadwal = jadwalKuliahService.getByMhs(user.getId());
         model.addAttribute("listJadwal", listJadwal);
 
         return "Mahasiswa/jadwal";
     }
 
-    // 1. API UNTUK MENGEMBALIKAN DAFTAR RUANGAN (JSON)
     @GetMapping("/api/ruangan-tersedia")
-    @ResponseBody // Penting! Agar return nya JSON, bukan HTML
+    @ResponseBody
     public List<Ruangan> getRuanganTersedia(
             @RequestParam("tanggal") LocalDate tanggal,
             @RequestParam("jamMulai") LocalTime jamMulai,
@@ -154,15 +152,13 @@ public class MahasiswaController {
         return ruanganService.cariRuanganKosong(tanggal, jamMulai, jamSelesai);
     }
 
-    // 2. UPDATE PROSES SUBMIT PENGAJUAN (Tambah idRuangan)
-    @PostMapping("/ajukan-bimbingan") // Sesuaikan URL dengan HTML Anda
+    @PostMapping("/ajukan-bimbingan")
     public String prosesPengajuan(
             HttpSession session,
             @RequestParam("tanggal") LocalDate tanggal,
             @RequestParam("jamMulai") LocalTime jamMulai,
             @RequestParam("jamSelesai") LocalTime jamSelesai,
-            @RequestParam("idRuangan") int idRuangan // <-- TAMBAHAN
-    ) {
+            @RequestParam("idRuangan") int idRuangan) {
         User user = cekLogin(session);
         if (user == null)
             return "redirect:/login";

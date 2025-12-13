@@ -182,20 +182,20 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
     @Override
     public List<JadwalBimbingan> findByMahasiswa(int idMhs) {
-        // UPDATE QUERY:
-        // 1. Tambah LEFT JOIN ke penugasan_ta dan ta untuk ambil topikTA
-        // 2. Select t.topikTA
+        // UPDATE QUERY: Tambahkan LEFT JOIN ke tabel 'bimbingan' dan select b.catatan
         String sql = """
                     SELECT j.*,
                            u.name as namaDosen,
                            r.namaRuangan,
-                           t.topikTA
+                           t.topikTA,
+                           b.catatan
                     FROM jadwal_bimbingan j
                     JOIN dosen d ON j.idDosen = d.idDosen
                     JOIN users u ON d.idDosen = u.idUser
                     LEFT JOIN ruangan r ON j.idRuangan = r.idRuangan
                     LEFT JOIN penugasan_ta pta ON pta.idMhs = j.idMhs
                     LEFT JOIN ta t ON t.idTA = pta.idTA
+                    LEFT JOIN bimbingan b ON b.idJadwal = j.idJadwal
                     WHERE j.idMhs = ?
                     ORDER BY j.tanggal DESC, j.waktuMulai DESC
                 """;
@@ -203,26 +203,25 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
         return jdbc.query(sql, (rs, rowNum) -> {
             JadwalBimbingan j = mapRow(rs);
 
-            // Set Nama Dosen
             try {
                 j.setNamaDosen(rs.getString("namaDosen"));
             } catch (Exception e) {
             }
-
-            // Set Nama Ruangan
             try {
-                String ruang = rs.getString("namaRuangan");
-                j.setNamaRuangan(ruang != null ? ruang : "-");
+                j.setNamaRuangan(rs.getString("namaRuangan"));
             } catch (Exception e) {
-                j.setNamaRuangan("-");
+            }
+            try {
+                j.setTopikTA(rs.getString("topikTA"));
+            } catch (Exception e) {
             }
 
-            // Set Judul Topik
+            // TAMBAHAN: Ambil catatan
             try {
-                String topik = rs.getString("topikTA");
-                j.setTopikTA(topik != null && !topik.isEmpty() ? topik : "Topik belum ditentukan");
+                String cat = rs.getString("catatan");
+                j.setCatatan(cat != null && !cat.isEmpty() ? cat : "-");
             } catch (Exception e) {
-                j.setTopikTA("-");
+                j.setCatatan("-");
             }
 
             return j;

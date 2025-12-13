@@ -28,4 +28,6 @@ public class JadwalBimbingan {
     // Untuk kalender (Fitur Mahasiswa)
     private String namaDosen;
 
+    // Untuk melihat Catatan
+    private String catatan;
 }
