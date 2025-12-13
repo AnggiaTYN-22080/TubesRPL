@@ -78,6 +78,9 @@
                 <p><strong>Topik</strong> : <span id="topic"></span></p>
                 <p><strong>Tanggal</strong> : <span id="date"></span></p>
                 <p><strong>Waktu</strong> : <span id="time"></span></p>
+                
+                <p><strong>Ruangan</strong> : <span id="roomName"></span></p> 
+                
                 <div style="margin-top: 20px; text-align: right;">
                     <span class="modal-badge">Disetujui</span>
                 </div>
@@ -95,21 +98,22 @@
     let currentYear = currentDate.getFullYear();
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-    // DATA DARI DATABASE (Sudah Benar)
     const databaseJadwal = [
         /*[# th:each="j : ${daftarJadwal}"]*/
         {
-            // Ambil Tanggal
             day: /*[[${j.tanggal.dayOfMonth}]]*/ 1, 
             month: /*[[${j.tanggal.monthValue - 1}]]*/ 0, 
             year: /*[[${j.tanggal.year}]]*/ 2025,
             
-            // Judul Event
+            // Judul Event di Kalender (Misal: 10:00 Bimbingan)
             title: /*[[${j.waktuMulai} + ' Bimbingan']]*/ 'Bimbingan',
             
-            // Detail Popup
             dosen: /*[[${j.namaDosen}]]*/ 'Dosen Pembimbing',
-            topic: 'Bimbingan Tugas Akhir', 
+            
+            // PERUBAHAN DI SINI: Ambil topik dari database
+            topic: /*[[${j.topikTA}]]*/ 'Topik TA', 
+            
+            room: /*[[${j.namaRuangan}]]*/ 'Ruangan',
             
             start: /*[[${j.waktuMulai.toString()}]]*/ '10:00',
             end: /*[[${j.waktuSelesai.toString()}]]*/ '11:00'
@@ -161,9 +165,13 @@
 
     function openModal(data) {
         document.getElementById("dosenName").innerText = data.dosen;
+        
         document.getElementById("topic").innerText = data.topic;
+        
         document.getElementById("date").innerText = `${data.day} ${monthNames[data.month]} ${data.year}`;
         document.getElementById("time").innerText = `${data.start} - ${data.end}`;
+        document.getElementById("roomName").innerText = data.room;
+        
         document.getElementById("bimbinganModal").style.display = "block";
     }
 
@@ -180,6 +188,8 @@
         if (currentMonth < 0) { currentMonth = 11; currentYear--; } else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
         renderCalendar();
     }
+
+    
 
     document.addEventListener("DOMContentLoaded", renderCalendar);
 </script>

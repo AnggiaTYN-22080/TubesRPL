@@ -51,50 +51,57 @@
 
             <table class="table-mahasiswa">
                 <thead>
-                <tr>
-                    <th>Mahasiswa</th>
-                    <th>Hari</th>
-                    <th>Tanggal</th>
-                    <th>Jam</th>
-                    <th style="width:150px;">Aksi</th>
-                </tr>
-                </thead>
+    <tr>
+        <th>Mahasiswa</th>
+        <th>Hari</th>
+        <th>Tanggal</th>
+        <th>Jam</th>
+        <th>Ruangan</th> <th style="width:150px;">Aksi</th>
+    </tr>
+        </thead>
 
-                <tbody>
-                <tr th:if="${pengajuanList == null or pengajuanList.size() == 0}">
-                    <td colspan="5" style="text-align:center; padding:20px;">
-                        Tidak ada pengajuan bimbingan
-                    </td>
-                </tr>
-                <tr th:if="${pengajuanList != null}" th:each="p : ${pengajuanList}">
-                    <td>
-                        <div class="cell-name">
+        <tbody>
+            <tr th:if="${pengajuanList == null or pengajuanList.size() == 0}">
+                <td colspan="6" style="text-align:center; padding:20px;">
+                    Tidak ada pengajuan bimbingan
+                </td>
+            </tr>
+
+            <tr th:if="${pengajuanList != null}" th:each="p : ${pengajuanList}">
+                <td>
+                    <div class="cell-name">
                         <div class="name" th:text="${p.namaMahasiswa}">Nama Mahasiswa</div>
                         <div class="npm" th:text="${p.npm}">0000000000</div>
                     </div>
-                    </td>
-                    <td th:text="${#temporals.dayOfWeekName(p.tanggal)}">Senin</td>
+                </td>
+                
+                <td th:text="${#temporals.dayOfWeekName(p.tanggal)}">Senin</td>
 
-                    <td th:text="${#temporals.format(p.tanggal, 'dd-MM-yyyy')}">10-12-2025</td>
+                <td th:text="${#temporals.format(p.tanggal, 'dd-MM-yyyy')}">10-12-2025</td>
 
-                    <td>
-                        <span th:text="${p.waktuMulai}"></span> – 
-                        <span th:text="${p.waktuSelesai}"></span>
-                    </td>
-                    <td class="cell-actions">
-                        <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/reject'}" method="post" style="display:inline;">
-                            <button class="btn-reject" title="Tolak">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        </form>
-                            <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/approve'}" method="post" style="display:inline;">
-                            <button class="btn-accept" title="Terima">
-                                <i class="fa-solid fa-check"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
+                <td>
+                    <span th:text="${p.waktuMulai}"></span> – 
+                    <span th:text="${p.waktuSelesai}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${p.namaRuangan != null ? p.namaRuangan : '-'}">Ruang 101</span>
+                </td>
+
+                <td class="cell-actions">
+                    <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/reject'}" method="post" style="display:inline;">
+                        <button class="btn-reject" title="Tolak">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </form>
+                    <form th:action="@{'/dosen/pengajuan/' + ${p.idJadwal} + '/approve'}" method="post" style="display:inline;">
+                        <button class="btn-accept" title="Terima">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
             </table>
         </div>
     </div>

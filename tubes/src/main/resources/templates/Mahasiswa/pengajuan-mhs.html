@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <label class="form-label">1. Tanggal Bimbingan</label>
-                            <input type="date" name="tanggal" class="custom-input" required>
+                            <input type="date" id="inputTanggal" name="tanggal" class="custom-input" required>
                         </div>
 
                         <div class="form-group">
@@ -60,24 +60,27 @@
                             <div style="display: flex; gap: 12px; align-items: center;">
                                 <div>
                                     <small>Mulai</small>
-                                    <input type="time" name="jamMulai" class="custom-input" style="width: 150px;" required>
+                                    <input type="time" id="inputMulai" name="jamMulai" class="custom-input" style="width: 150px;" required>
                                 </div>
                                 <div>
                                     <small>Selesai</small>
-                                    <input type="time" name="jamSelesai" class="custom-input" style="width: 150px;" required>
+                                    <input type="time" id="inputSelesai" name="jamSelesai" class="custom-input" style="width: 150px;" required>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
-                            <label class="form-label">3. Note (Opsional)</label>
-                            <textarea name="note" class="custom-input" style="height: 100px; resize: none;"></textarea>
-                        </div> -->
+                        <div class="form-group">
+                            <label class="form-label">3. Pilih Ruangan</label>
+                            <select name="idRuangan" id="selectRuangan" class="custom-input" required disabled>
+                                <option value="" selected disabled>-- Pilih Jam Terlebih Dahulu --</option>
+                            </select>
+                            <small id="loadingText" style="display:none; color: blue;">Mencari ruangan kosong...</small>
+                        </div>
 
-                        <div style="overflow: hidden;">
+                        <div style="overflow: hidden; margin-top: 20px;">
                             <button type="submit" class="btn-submit">Submit</button>
                         </div>
-                        </form>
+                    </form>
                 </div>
                 <div class="info-section">
                     <div style="margin-bottom: 20px;">
@@ -93,10 +96,64 @@
     <div th:replace="~{Layout/panelnotif}"></div>
 
     <script>
-        setTimeout(() => {
-            const alert = document.querySelector('.alert');
-            if (alert) alert.remove();
-        }, 3000);
+        const tanggalInput = document.getElementById('inputTanggal');
+        const mulaiInput = document.getElementById('inputMulai');
+        const selesaiInput = document.getElementById('inputSelesai');
+        const ruanganSelect = document.getElementById('selectRuangan');
+        const loadingText = document.getElementById('loadingText');
+
+        function checkAvailability() {
+            const tgl = tanggalInput.value;
+            const mulai = mulaiInput.value;
+            const selesai = selesaiInput.value;
+
+            // Hanya cari jika ketiga data sudah diisi
+            if (tgl && mulai && selesai) {
+                
+                // Validasi sederhana: jam selesai harus > mulai
+                if(mulai >= selesai) {
+                    alert("Jam selesai harus lebih besar dari jam mulai!");
+                    return;
+                }
+
+                loadingText.style.display = 'block';
+                ruanganSelect.disabled = true;
+                ruanganSelect.innerHTML = '<option>Mencari...</option>';
+
+                // Panggil API Backend
+                fetch(`/api/ruangan/tersedia?tanggal=${tgl}&jamMulai=${mulai}&jamSelesai=${selesai}`)                 .then(response => response.json())
+                    .then(data => {
+                        ruanganSelect.innerHTML = '<option value="" disabled selected>-- Pilih Ruangan --</option>';
+                        
+                        if (data.length === 0) {
+                            const option = document.createElement('option');
+                            option.text = "Tidak ada ruangan tersedia di jam ini";
+                            option.disabled = true;
+                            ruanganSelect.add(option);
+                        } else {
+                            data.forEach(ruang => {
+                                const option = document.createElement('option');
+                                option.value = ruang.idRuangan;
+                                option.text = ruang.namaRuangan;
+                                ruanganSelect.add(option);
+                            });
+                            ruanganSelect.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        ruanganSelect.innerHTML = '<option>Error memuat ruangan</option>';
+                    })
+                    .finally(() => {
+                        loadingText.style.display = 'none';
+                    });
+            }
+        }
+
+        // Pasang Event Listener (Setiap kali input berubah, cek ketersediaan)
+        tanggalInput.addEventListener('change', checkAvailability);
+        mulaiInput.addEventListener('change', checkAvailability);
+        selesaiInput.addEventListener('change', checkAvailability);
     </script>
 </body>
 </html>
