@@ -69,5 +69,17 @@ public class JdbcJadwalKuliahRepo implements JadwalKuliahRepository {
             String sqlRelasi = "INSERT INTO jadwalKuliahMahasiswa (idMhs, idJadwalKuliah) VALUES (?, ?)";
             jdbc.update(sqlRelasi, idMhs, newId);
         }
+
+    }
+
+    @Override
+    public void delete(int idJadwalKuliah) {
+        // 1. Hapus dulu relasi di tabel jadwalKuliahMahasiswa
+        String sqlRelasi = "DELETE FROM jadwalKuliahMahasiswa WHERE idJadwalKuliah = ?";
+        jdbc.update(sqlRelasi, idJadwalKuliah);
+
+        // 2. Hapus data di tabel master jadwal_kuliah
+        String sqlMaster = "DELETE FROM jadwal_kuliah WHERE idJadwalKuliah = ?";
+        jdbc.update(sqlMaster, idJadwalKuliah);
     }
 }

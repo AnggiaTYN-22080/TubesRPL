@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/jadwal-kuliah")
@@ -34,6 +35,20 @@ public class JadwalKuliahController {
 
         // Simpan jadwal (Service akan mengurus insert ke 2 tabel)
         jadwalKuliahService.save(user.getId(), jadwalKuliah);
+
+        // Redirect kembali ke halaman list jadwal
+        return "redirect:/mahasiswa/jadwal";
+    }
+
+    @PostMapping("/hapus/{id}")
+    public String hapusJadwal(HttpSession session, @PathVariable("id") int id) {
+        User user = cekLogin(session);
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // Panggil service untuk menghapus
+        jadwalKuliahService.hapusJadwal(id);
 
         // Redirect kembali ke halaman list jadwal
         return "redirect:/mahasiswa/jadwal";

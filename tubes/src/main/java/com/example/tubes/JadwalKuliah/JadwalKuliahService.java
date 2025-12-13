@@ -17,4 +17,9 @@ public class JadwalKuliahService {
     public void save(int idMhs, JadwalKuliah jk) {
         repo.saveCustom(idMhs, jk);
     }
+
+    // Tambahkan method ini
+    public void hapusJadwal(int idJadwalKuliah) {
+        repo.delete(idJadwalKuliah);
+    }
 }

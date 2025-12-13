@@ -6,4 +6,7 @@ public interface JadwalKuliahRepository {
     List<JadwalKuliah> findByMhs(int idMhs);
 
     void saveCustom(int idMhs, JadwalKuliah jk);
+
+    // Tambahkan method ini
+    void delete(int idJadwalKuliah);
 }

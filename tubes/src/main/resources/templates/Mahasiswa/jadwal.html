@@ -28,6 +28,19 @@
         .row-group { display: flex; gap: 15px; }
         .col { flex: 1; }
         body { background-color: #ffffff !important; }
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #dc3545; /* Warna merah */
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.2s;
+            padding: 5px;
+        }
+
+        .btn-delete:hover {
+            color: #a71d2a;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +86,7 @@
                         <th>Waktu</th>
                         <th>Mata Kuliah</th>
                         <th>Kelas</th>
+                        <th style="width: 100px; text-align: center;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,14 +98,19 @@
                         </td>
                         <td th:text="${jk.keterangan}">Pemrograman Web</td>
                         <td th:text="${jk.kelas}">A</td>
+                        
+                        <td style="text-align: center;">
+                            <form th:action="@{/jadwal-kuliah/hapus/{id}(id=${jk.idJadwalKuliah})}" method="post"
+                                  onsubmit="return confirm('Yakin ingin menghapus jadwal ini?');">
+                                <button type="submit" class="btn-delete" title="Hapus">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
-                    <tr th:if="${listJadwal == null or listJadwal.isEmpty()}">
-                        <td colspan="4" style="text-align: center;">Belum ada jadwal kuliah.</td>
-                    </tr>
-                </tbody>
+                    </tbody>
             </table>
-            
-            </div>
+        </div>
     </div>
 
     <div id="addScheduleModal" class="modal-overlay">
