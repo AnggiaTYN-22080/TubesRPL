@@ -1,5 +1,7 @@
 package com.example.tubes.Dosen;
 import com.example.tubes.Auth.User;
+import com.example.tubes.Bimbingan.BimbinganService;
+import com.example.tubes.JadwalBimbingin.JadwalBimbinganService;
 import com.example.tubes.Mahasiswa.MahasiswaService;
 import com.example.tubes.Notifikasi.Notifikasi;
 import com.example.tubes.Notifikasi.NotifikasiService;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/dosen")
@@ -27,6 +31,13 @@ public class DosenController {
 
     @Autowired
     private MahasiswaService mahasiswaService;
+
+    @Autowired
+    private BimbinganService bimbinganService;
+
+    @Autowired
+    private JadwalBimbinganService jadwalService;
+
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
@@ -143,4 +154,44 @@ public class DosenController {
 
         return "Dosen/JadwalMengajar";
     }
+
+    @GetMapping("/bimbingan/{id}")
+    public String detailBimbingan(
+            @PathVariable int id,
+            HttpSession session,
+            Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("notifList",
+                notifService.getNotifByUser(user.getId()));
+
+        model.addAttribute("jadwal",
+                jadwalService.getById(id).orElse(null));
+
+        model.addAttribute("bimbingan",
+                bimbinganService.getByJadwal(id).orElse(null));
+
+        return "Dosen/detail-bimbingan";
+    }
+
+    @PostMapping("/bimbingan/{id}/catatan")
+    public String simpanCatatan(
+            @PathVariable int id,
+            @RequestParam String catatan,
+            HttpSession session) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        bimbinganService.simpanCatatan(id, catatan);
+
+        return "redirect:/dosen/bimbingan/" + id;
+    }
+
 }

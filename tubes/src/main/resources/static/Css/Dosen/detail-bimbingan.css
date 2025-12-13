@@ -73,34 +73,28 @@ body {
     font-weight: 500;
 }
 
-
 .content {
-    margin-left: 70px;
-    padding: 32px 40px;
+    margin-left: 60px;
+    padding: 30px 40px;
 }
 
-.page-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.page-container h4 {
-    margin-bottom: 20px;
+.page-title {
+    font-size: 20px;
     font-weight: 600;
-    color: #374151;
+    margin-bottom: 20px;
 }
 
+/* ===== BOX ===== */
 .detail-box {
-    background-color: #ffffff;
+    background: white;
     border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .detail-row {
     display: flex;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #eee;
 }
 
 .detail-row:last-child {
@@ -108,64 +102,127 @@ body {
 }
 
 .detail-label {
-    width: 30%;
-    padding: 20px;
+    width: 25%;
+    padding: 22px;
     font-weight: 600;
-    background-color: #f9fafb;
-    border-right: 1px solid #e5e7eb;
-    color: #374151;
+    background-color: #fafafa;
+    color: #333;
 }
 
 .detail-value {
-    width: 70%;
+    width: 75%;
+    padding: 22px;
+    color: #444;
+}
+
+/* ===== CATATAN ===== */
+.catatan-container {
+    padding: 24px;
+}
+
+.catatan-box {
+    background-color: #f9fafb;
+    border-radius: 10px;
     padding: 20px;
-    color: #4b5563;
+    min-height: 180px;
+    box-shadow: inset 0 0 0 1px #e0e0e0;
 }
 
-.file-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    background-color: #f9fafb;
-    border: 1px solid #d1d5db;
+.catatan-text {
+    white-space: pre-wrap;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #333;
+}
+
+.catatan-empty {
+    font-style: italic;
+    color: #888;
+}
+
+/* ===== FORM ===== */
+.form-control {
+    font-size: 14px;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #374151;
+    margin-top: 20px;
 }
 
-.detail-row .card {
-    background-color: #f9fafb;
-    border-radius: 8px;
+.file-upload {
+    border: 2px dashed #ddd;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #fafafa;
 }
 
-.detail-row textarea,
-.detail-row p {
-    margin: 0;
-}
-
+/* ===== BUTTON ===== */
 .btn-primary {
-    background-color: #001DB1;
+    background-color: #001db1;
+    color: white;
     border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    margin-top: 20px;
 }
 
 .btn-primary:hover {
-    background-color: #0017a1;
+    background-color: #3252f3;
 }
 
-@media (max-width: 768px) {
-    .detail-row {
-        flex-direction: column;
-    }
+#catatanForm textarea {
+    margin-top: 12px;
+}
 
-    .detail-label,
-    .detail-value {
-        width: 100%;
-        border-right: none;
-    }
+.file-upload {
+    margin-top: 20px;
+}
 
-    .content {
-        padding: 20px;
-    }
+#catatanForm .text-end {
+    margin-top: 20px;
+}
+
+.btn-primary,
+.btn-success {
+    background-color: #001db1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background-color: #3252f3;
+}
+
+.btn-secondary {
+    background-color: #001db1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    margin-top: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #3252f3;
+}
+
+.file-upload {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #fafafa;
+    text-align: center;
+}
+
+.file-upload input[type="file"] {
+    margin-top: 10px;
 }

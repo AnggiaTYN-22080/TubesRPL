@@ -1,93 +1,151 @@
 <!DOCTYPE html>
 <html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Detail Bimbingan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/Css/Dosen/detail-bimbingan.css}">
-    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
-    <script src="/js/notif.js" defer></script>
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+    <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
+<div class="sidebar">
+    <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
 
-    <div class="sidebar">
-        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
+    <a th:href="@{/dosen/dashboard}" class="sidebar-icon active">
+        <i class="fa-solid fa-house"></i>
+    </a>
 
-        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
-            <i class="fa-solid fa-house"></i>
-        </a>
+    <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon">
+        <i class="fa-regular fa-clock"></i>
+    </a>
 
-        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Jadwal">
-            <i class="fa-regular fa-clock"></i>
-        </a>
-
-        <a th:href="@{/dosen/jadwal-bimbingan}" class="sidebar-icon" title="Laporan">
-            <i class="fa-regular fa-file-lines"></i>
-        </a>
-    </div>
-
-    <div class="header">
-        <h3>SIAP Bimbingan</h3>
-
-        <div class="header-right">
-            <div style="position: relative;">
-                <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
-                <span th:if="${notifList.size() > 0}"
-                    class="notif-badge"
-                    th:text="${notifList.size()}"></span>
-            </div>
-            <a href="/logout" class="logout">Logout</a>
-        </div>
-    </div>
-
-<div class="main-wrapper">
-
-    <div class="content">
-        <div class="page-container">
-            <h4 class="text-secondary mb-4">Log Bimbingan Mahasiswa</h4>
-
-            <div class="detail-box">
-                <div class="detail-row">
-                    <div class="detail-label">Jam dan Tanggal</div>
-                    <div class="detail-value">
-                        <div class="fw-bold" th:text="${#temporals.format(jadwal.tanggal,'dd MMMM yyyy')}"></div>
-                        <div class="text-muted">
-                            <span th:text="${jadwal.waktuMulai}"></span> -
-                            <span th:text="${jadwal.waktuSelesai}"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="detail-row">
-                    <div class="detail-label">Materi</div>
-                    <div class="detail-value">Pembuatan Mock Up</div>
-                </div>
-
-                <div class="detail-row">
-                    <div class="detail-label">File TA</div>
-                    <div class="detail-value">
-                        <span class="file-chip"><i class="fas fa-file-pdf me-2"></i>FileMockUp.PDF</span>
-                    </div>
-                </div>
-
-                <div class="detail-row" style="display: block;"> 
-                    <div class="p-4">
-                        <label class="fw-bold mb-2">Catatan Dosen</label>
-                        <div class="card shadow-sm p-3 border-0 bg-light" style="min-height: 150px;">
-                            <p class="text-muted fst-italic">Belum ada catatan.</p>
-                        </div>
-                        <div class="text-end mt-3">
-                            <button class="btn btn-primary px-4" style="background-color: #001DB1;">Edit Catatan</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    <div th:replace="~{Layout/panelnotif}"></div>
+    <a th:href="@{/dosen/jadwal-bimbingan}" class="sidebar-icon">
+        <i class="fa-regular fa-file-lines"></i>
+    </a>
 </div>
+<div class="header">
+    <h3>SIAP Bimbingan</h3>
+
+    <div class="header-right">
+        <div style="position: relative;" onclick="openNotif()">
+            <i class="fa-regular fa-bell notif-icon"></i>
+            <span class="notif-badge"
+                  th:if="${notifList != null and notifList.size() > 0}"
+                  th:text="${notifList.size()}"></span>
+        </div>
+        <a th:href="@{/logout}" class="logout">Logout</a>
+    </div>
+</div>
+<div class="content">
+
+    <h4 class="page-title">Log Bimbingan Mahasiswa</h4>
+
+    <div class="detail-box">
+
+        <!-- JAM & TANGGAL -->
+        <div class="detail-row">
+            <div class="detail-label">Jam dan Tanggal</div>
+            <div class="detail-value">
+                <div class="fw-bold"
+                     th:text="${#temporals.format(jadwal.tanggal,'dd MMMM yyyy')}">
+                </div>
+                <div>
+                    <span th:text="${jadwal.waktuMulai}"></span> -
+                    <span th:text="${jadwal.waktuSelesai}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATATAN DOSEN -->
+        <div class="detail-row" style="display:block">
+            <div class="catatan-container">
+
+                <label class="fw-bold mb-2">Catatan Dosen</label>
+
+                <!-- VIEW MODE -->
+                <div class="catatan-box" id="catatanView">
+
+                    <p th:if="${bimbingan == null}"
+                       class="catatan-empty">
+                        Belum ada catatan.
+                    </p>
+
+                    <p th:if="${bimbingan != null}"
+                       th:text="${bimbingan.catatan}"
+                       class="catatan-text">
+                    </p>
+
+                    <a th:if="${bimbingan != null and bimbingan.fileURL != null}"
+                       th:href="@{${bimbingan.fileURL}}"
+                       target="_blank"
+                       class="file-link">
+                        <i class="fa-solid fa-file"></i> Lihat File
+                    </a>
+                </div>
+
+                <!-- EDIT MODE -->
+                <form th:action="@{/dosen/bimbingan/{id}/catatan(id=${jadwal.idJadwal})}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      id="catatanForm"
+                      style="display:none">
+
+                    <textarea name="catatan"
+                              class="form-control"
+                              rows="8"
+                              placeholder="Tulis catatan bimbingan di sini..."
+                              th:text="${bimbingan != null ? bimbingan.catatan : ''}">
+                    </textarea>
+
+                    <div class="file-upload mt-3">
+                        <label><strong>Upload File TA</strong></label><br>
+                        <input type="file" name="file" accept=".pdf,.doc,.docx">
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            Simpan
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary px-4"
+                                onclick="cancelEdit()">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+
+                <!-- BUTTON -->
+                <div class="text-end mt-3" id="editBtnWrapper">
+                    <button class="btn btn-primary px-4"
+                            onclick="enableEdit()">
+                        Edit Catatan
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- PANEL NOTIF -->
+<div th:replace="~{Layout/panelnotif}"></div>
+
+<!-- SCRIPT -->
+<script>
+function enableEdit() {
+    document.getElementById('catatanView').style.display = 'none';
+    document.getElementById('editBtnWrapper').style.display = 'none';
+    document.getElementById('catatanForm').style.display = 'block';
+}
+
+function cancelEdit() {
+    document.getElementById('catatanForm').style.display = 'none';
+    document.getElementById('catatanView').style.display = 'block';
+    document.getElementById('editBtnWrapper').style.display = 'block';
+}
+</script>
 
 </body>
 </html>
