@@ -10,6 +10,7 @@ import com.example.tubes.Mahasiswa.MahasiswaBimbingan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -109,4 +110,124 @@ public class JdbcDosenRepo implements DosenRepository {
         }, idMhs);
     }
 
+    @Override
+    public List<Map<String, Object>> findJadwalMengajar(int idDosen) {
+
+        String sql = """
+            SELECT 
+                jk.idJadwalKuliah AS idJadwalKuliah,
+                jk.hari AS hari,
+                to_char(jk.jamMulai, 'HH24:MI') AS jamMulai,
+                to_char(jk.jamSelesai, 'HH24:MI') AS jamSelesai,
+                jk.keterangan AS mataKuliah,
+                jk.kelas AS kelas
+            FROM jadwalKuliahDosen jkd
+            JOIN jadwal_kuliah jk ON jk.idJadwalKuliah = jkd.idJadwalKuliah
+            WHERE jkd.idDosen = ?
+            ORDER BY
+                CASE jk.hari
+                    WHEN 'Senin' THEN 1
+                    WHEN 'Selasa' THEN 2
+                    WHEN 'Rabu' THEN 3
+                    WHEN 'Kamis' THEN 4
+                    WHEN 'Jumat' THEN 5
+                    WHEN 'Sabtu' THEN 6
+                    WHEN 'Minggu' THEN 7
+                    ELSE 8
+                END,
+                jk.jamMulai
+        """;
+
+        return jdbcTemplate.queryForList(sql, idDosen);
+    }
+
+    public Optional<Map<String, Object>> findJadwalMengajarById(int idDosen, int idJadwalKuliah) {
+        String sql = """
+            SELECT 
+                jk.idJadwalKuliah AS idJadwalKuliah,
+                jk.hari AS hari,
+                to_char(jk.jamMulai, 'HH24:MI') AS jamMulai,
+                to_char(jk.jamSelesai, 'HH24:MI') AS jamSelesai,
+                jk.keterangan AS mataKuliah,
+                jk.kelas AS kelas
+            FROM jadwalKuliahDosen jkd
+            JOIN jadwal_kuliah jk ON jk.idJadwalKuliah = jkd.idJadwalKuliah
+            WHERE jkd.idDosen = ? AND jk.idJadwalKuliah = ?
+        """;
+
+        try {
+            Map<String, Object> jadwal = jdbcTemplate.queryForMap(sql, idDosen, idJadwalKuliah);
+            return Optional.of(jadwal);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public int tambahJadwalMengajar(int idDosen, String hari, String jamMulai, String jamSelesai, 
+                                     String mataKuliah, String kelas) {
+        // Insert ke jadwal_kuliah dulu
+        String sqlInsertJadwal = """
+            INSERT INTO jadwal_kuliah (hari, jamMulai, jamSelesai, kelas, keterangan)
+            VALUES (?, ?::TIME, ?::TIME, ?, ?)
+            RETURNING idJadwalKuliah
+        """;
+        
+        Integer idJadwalKuliah = jdbcTemplate.queryForObject(
+            sqlInsertJadwal, 
+            Integer.class, 
+            hari, jamMulai, jamSelesai, kelas, mataKuliah
+        );
+
+        // Insert ke jadwalKuliahDosen
+        String sqlInsertRelasi = """
+            INSERT INTO jadwalKuliahDosen (idDosen, idJadwalKuliah)
+            VALUES (?, ?)
+        """;
+        
+        jdbcTemplate.update(sqlInsertRelasi, idDosen, idJadwalKuliah);
+        
+        return idJadwalKuliah;
+    }
+
+    public void ubahJadwalMengajar(int idDosen, int idJadwalKuliah, String hari, 
+                                     String jamMulai, String jamSelesai, 
+                                     String mataKuliah, String kelas) {
+        // Pastikan jadwal ini milik dosen ini
+        String sqlCheck = """
+            SELECT COUNT(*) FROM jadwalKuliahDosen 
+            WHERE idDosen = ? AND idJadwalKuliah = ?
+        """;
+        int count = jdbcTemplate.queryForObject(sqlCheck, Integer.class, idDosen, idJadwalKuliah);
+        
+        if (count > 0) {
+            String sqlUpdate = """
+                UPDATE jadwal_kuliah 
+                SET hari = ?, jamMulai = ?::TIME, jamSelesai = ?::TIME, 
+                    kelas = ?, keterangan = ?
+                WHERE idJadwalKuliah = ?
+            """;
+            jdbcTemplate.update(sqlUpdate, hari, jamMulai, jamSelesai, kelas, mataKuliah, idJadwalKuliah);
+        }
+    }
+
+    public void hapusJadwalMengajar(int idDosen, int idJadwalKuliah) {
+        // Hapus relasi dulu
+        String sqlDeleteRelasi = """
+            DELETE FROM jadwalKuliahDosen 
+            WHERE idDosen = ? AND idJadwalKuliah = ?
+        """;
+        jdbcTemplate.update(sqlDeleteRelasi, idDosen, idJadwalKuliah);
+        
+        // Hapus dari jadwal_kuliah jika tidak ada yang menggunakan lagi
+        String sqlCheckRelasi = """
+            SELECT COUNT(*) FROM jadwalKuliahDosen 
+            WHERE idJadwalKuliah = ?
+        """;
+        int count = jdbcTemplate.queryForObject(sqlCheckRelasi, Integer.class, idJadwalKuliah);
+        
+        if (count == 0) {
+            String sqlDeleteJadwal = "DELETE FROM jadwal_kuliah WHERE idJadwalKuliah = ?";
+            jdbcTemplate.update(sqlDeleteJadwal, idJadwalKuliah);
+        }
+    }
 }

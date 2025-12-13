@@ -72,23 +72,4 @@ public class JadwalBimbinganController {
 
         return "redirect:/dosen/pengajuan";
     }
-
-    @GetMapping("/bimbingan/{id}")
-    public String detailBimbingan(
-            @PathVariable int id,
-            HttpSession session,
-            Model model) {
-
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("notifList", notifService.getNotifByUser(user.getId()));
-
-        service.getById(id).ifPresent(j -> model.addAttribute("jadwal", j));
-
-        return "Dosen/detail-bimbingan";
-    }
-
 }

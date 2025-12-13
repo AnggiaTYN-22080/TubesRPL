@@ -40,3 +40,19 @@ body { margin: 0; font-family: Arial, sans-serif; background-color: #f9f9f9; }
 
 /* Badge jika dibutuhkan */
 .badge { padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+
+.btn-primary {
+    border: 1px solid #001db0;
+    background: #001db0;
+    color: white;
+    padding: 5px 14px;
+    font-size: 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: #3254fb;
+}

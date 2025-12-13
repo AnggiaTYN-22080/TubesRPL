@@ -32,9 +32,26 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
         // Optional: jika query memiliki kolom mahasiswa
         try {
-            j.setNamaMahasiswa(rs.getString("name"));
-            j.setNpm(rs.getString("npm"));
-        } catch (Exception ignored) {
+            String name = rs.getString("name");
+            if (name != null) {
+                j.setNamaMahasiswa(name);
+            }
+            String npm = rs.getString("npm");
+            if (npm != null) {
+                j.setNpm(npm);
+            }
+        } catch (Exception e) {
+            // Field tidak ada di query
+        }
+        
+        // Optional: jika query memiliki topikTA
+        try {
+            String topik = rs.getString("topikTA");
+            if (topik != null) {
+                j.setTopikTA(topik);
+            }
+        } catch (Exception e) {
+            // Field tidak ada di query
         }
 
         return j;
@@ -65,11 +82,18 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     public List<JadwalBimbingan> findByMonth(int idDosen, int year, int month) {
 
         String sql = """
-                    SELECT * FROM jadwal_bimbingan
-                    WHERE idDosen = ?
-                      AND EXTRACT(YEAR FROM tanggal) = ?
-                      AND EXTRACT(MONTH FROM tanggal) = ?
-                    ORDER BY tanggal
+                    SELECT j.*, u.name, m.npm, 
+                           COALESCE(t.topikTA, '-') AS topikTA
+                    FROM jadwal_bimbingan j
+                    JOIN mahasiswa m ON j.idMhs = m.idMhs
+                    JOIN users u ON u.idUser = m.idMhs
+                    LEFT JOIN penugasan_ta pta ON pta.idMhs = m.idMhs
+                    LEFT JOIN ta t ON t.idTA = pta.idTA AND t.idDosen = j.idDosen
+                    WHERE j.idDosen = ?
+                      AND EXTRACT(YEAR FROM j.tanggal) = ?
+                      AND EXTRACT(MONTH FROM j.tanggal) = ?
+                      AND j.status = 'approved'
+                    ORDER BY j.tanggal, j.waktuMulai
                 """;
 
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen, year, month);
