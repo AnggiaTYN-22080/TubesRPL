@@ -6,9 +6,8 @@ import com.example.tubes.JadwalBimbingin.JadwalBimbinganService;
 import com.example.tubes.Mahasiswa.MahasiswaService;
 import com.example.tubes.Notifikasi.Notifikasi;
 import com.example.tubes.Notifikasi.NotifikasiService;
-
+import com.example.tubes.Ruangan.Ruangan;
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dosen")
@@ -61,19 +60,15 @@ public class DosenController {
 
         int idDosen = user.getId();
 
-        // Ambil notifikasi
         List<Notifikasi> notifList = notifService.getNotifByUser(idDosen);
         model.addAttribute("notifList", notifList);
 
-        // Ambil jumlah mahasiswa bimbingan
         int jumlahMahasiswa = dosenService.getJumlahMahasiswa(idDosen);
         model.addAttribute("jumlahMahasiswa", jumlahMahasiswa);
 
-        // Ambil jumlah pengajuan pending
         int totalPengajuan = dosenService.getTotalPengajuan(idDosen);
         model.addAttribute("totalPengajuan", totalPengajuan);
 
-        // Detail user dosen
         model.addAttribute("user", user);
         model.addAttribute("dosenDetail", dosenService.getDosenByUserId(idDosen).orElse(null));
 
@@ -171,6 +166,7 @@ public class DosenController {
                     jadwalMap.put("topik", (j.getTopikTA() != null && !j.getTopikTA().isEmpty()) ? j.getTopikTA() : "-");
                     jadwalMap.put("waktuMulai", j.getWaktuMulai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
                     jadwalMap.put("waktuSelesai", j.getWaktuSelesai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalMap.put("ruangan", (j.getNamaRuangan() != null && !j.getNamaRuangan().isEmpty()) ? j.getNamaRuangan(): "-");
                     jadwalListFormatted.add(jadwalMap);
                 }
             }
@@ -179,7 +175,7 @@ public class DosenController {
         model.addAttribute("jadwalList", jadwalListFormatted);
         model.addAttribute("currentYear", currentYear);
         model.addAttribute("currentMonth", currentMonth);
-        model.addAttribute("currentMonthJS", currentMonth - 1); // JavaScript uses 0-based months
+        model.addAttribute("currentMonthJS", currentMonth - 1); 
 
         return "Dosen/jadwal-bimbingan";
     }
@@ -197,16 +193,13 @@ public class DosenController {
         }
         
         int idDosen = user.getId();
-        
-        // Get current date if not specified
+    
         java.time.LocalDate now = java.time.LocalDate.now();
         int currentYear = (year != null) ? year : now.getYear();
         int currentMonth = (month != null) ? month : now.getMonthValue();
         
-        // Get jadwal bimbingan from database
         List<JadwalBimbingan> jadwalListRaw = jadwalService.getByMonth(idDosen, currentYear, currentMonth);
         
-        // Filter and format data
         List<Map<String, Object>> jadwalListFormatted = new java.util.ArrayList<>();
         if (jadwalListRaw != null) {
             for (JadwalBimbingan j : jadwalListRaw) {
@@ -220,6 +213,7 @@ public class DosenController {
                     jadwalMap.put("topik", (j.getTopikTA() != null && !j.getTopikTA().isEmpty()) ? j.getTopikTA() : "-");
                     jadwalMap.put("waktuMulai", j.getWaktuMulai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
                     jadwalMap.put("waktuSelesai", j.getWaktuSelesai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalMap.put("ruangan", (j.getNamaRuangan() != null && !j.getNamaRuangan().isEmpty()) ? j.getNamaRuangan(): "-");
                     jadwalListFormatted.add(jadwalMap);
                 }
             }
@@ -255,14 +249,11 @@ public class DosenController {
             return "redirect:/login";
         }
 
-        model.addAttribute("notifList",
-                notifService.getNotifByUser(user.getId()));
+        model.addAttribute("notifList", notifService.getNotifByUser(user.getId()));
 
-        model.addAttribute("jadwal",
-                jadwalService.getById(id).orElse(null));
+        model.addAttribute("jadwal", jadwalService.getById(id).orElse(null));
 
-        model.addAttribute("bimbingan",
-                bimbinganService.getByJadwal(id).orElse(null));
+        model.addAttribute("bimbingan", bimbinganService.getByJadwal(id).orElse(null));
 
         return "Dosen/detail-bimbingan";
     }
@@ -299,7 +290,7 @@ public class DosenController {
         
         if (jadwal.isPresent()) {
             model.addAttribute("jadwal", jadwal.get());
-            return "redirect:/dosen/jadwal-mengajar"; // Redirect kembali, data akan diambil di halaman
+            return "redirect:/dosen/jadwal-mengajar";
         }
         
         return "redirect:/dosen/jadwal-mengajar?error=notfound";
@@ -473,6 +464,80 @@ public class DosenController {
         result.add(current.toString());
         
         return result;
+    }
+
+    
+    @GetMapping("/ajukan-bimbingan")
+    public String ajukanBimbinganPage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+        model.addAttribute("mahasiswaList", dosenService.getMahasiswaBimbingan(idDosen));
+
+        return "Dosen/ajukan-bimbingan";
+    }
+
+    @GetMapping("/ruangan-available")
+    @ResponseBody
+    public List<Ruangan> ruanganAvailable(
+            HttpSession session,
+            @RequestParam String tanggal,
+            @RequestParam String mulai,
+            @RequestParam String selesai
+    ) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return List.of();
+        }
+
+        LocalDate tgl = LocalDate.parse(tanggal);
+        LocalTime m = LocalTime.parse(mulai);
+        LocalTime s = LocalTime.parse(selesai);
+
+        return jadwalService.getAvailableRuangan(tgl, m, s);
+    }
+
+    @PostMapping("/ajukan-bimbingan")
+    public String submitAjukanBimbingan(
+            HttpSession session,
+            @RequestParam int idMhs,
+            @RequestParam String tanggal,
+            @RequestParam String jamMulai,
+            @RequestParam String jamSelesai,
+            @RequestParam int idRuangan,
+            RedirectAttributes ra
+    ) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        LocalDate tgl = LocalDate.parse(tanggal);
+        LocalTime mulai = LocalTime.parse(jamMulai);
+        LocalTime selesai = LocalTime.parse(jamSelesai);
+
+        // Insert jadwal bimbingan dari dosen -> biasanya langsung approved
+        // (kalau mau jadi pending juga bisa, tinggal ganti status)
+        jadwalService.insertPengajuanDosen(idMhs, idDosen, idRuangan, tgl, mulai, selesai, "approved");
+
+        // Notif ke mahasiswa
+        notifService.buatNotif(
+                idMhs,
+                "Jadwal Bimbingan",
+                "Dosen mengajukan jadwal bimbingan pada " + tgl + " (" + mulai + " - " + selesai + ")."
+        );
+
+        // Flash message ke dosen
+        ra.addFlashAttribute("successMessage", "Jadwal bimbingan berhasil diajukan & notifikasi terkirim ke mahasiswa.");
+
+        return "redirect:/dosen/ajukan-bimbingan";
     }
 
 }

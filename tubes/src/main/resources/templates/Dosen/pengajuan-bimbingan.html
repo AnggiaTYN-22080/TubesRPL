@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/Css/Dosen/ajubimbingan.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-common.css}">
     <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
@@ -41,8 +42,15 @@
         </div>
     </div>
 
+    <div class="tab-nav-container">
+        <div class="tab-nav">
+            <a th:href="@{/dosen/pengajuan}" class="tab-link active">Pengajuan Bimbingan</a>
+            <a th:href="@{/dosen/ajukan-bimbingan}" class="tab-link">Ajukan Bimbingan</a>
+        </div>
+    </div>
 
     <div class="content-area">
+
         <div class="card">
 
             <div class="list-header">

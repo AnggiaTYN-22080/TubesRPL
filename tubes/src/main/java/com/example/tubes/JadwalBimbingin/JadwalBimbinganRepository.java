@@ -3,7 +3,9 @@ package com.example.tubes.JadwalBimbingin;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;;
+import java.util.Optional;
+
+import com.example.tubes.Ruangan.Ruangan;;
 
 public interface JadwalBimbinganRepository {
 
@@ -16,4 +18,9 @@ public interface JadwalBimbinganRepository {
     void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai);
 
     Optional<JadwalBimbingan> findById(int idJadwal);
+
+    List<Ruangan> findAvailableRuangan(LocalDate tanggal, LocalTime mulai, LocalTime selesai);
+
+    void insertPengajuanDosen(int idMhs, int idDosen, int idRuangan, LocalDate tanggal, LocalTime mulai, LocalTime selesai, String status);
+
 }

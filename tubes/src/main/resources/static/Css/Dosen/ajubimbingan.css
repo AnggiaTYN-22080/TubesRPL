@@ -56,6 +56,12 @@ body {
     gap: 18px;
 }
 
+.header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .notif-icon {
     font-size: 20px;
     color: black;

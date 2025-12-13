@@ -63,7 +63,7 @@
                 <tr>
                     <th style="text-align:left;">Tanggal</th>
                     <th style="text-align:left;">Jam</th>
-                    <th style="text-align:left;">Materi</th>
+                    <th style="text-align:left;">Ruangan</th>
                     <th style="text-align:center; width:100px;">Aksi</th>
                 </tr>
                 </thead>
@@ -78,7 +78,7 @@
                         <span th:text="${row.waktuMulai}"></span> -
                         <span th:text="${row.waktuSelesai}"></span>
                     </td>
-                    <td>-</td>
+                    <td th:text="${row.namaRuangan != null ? row.namaRuangan : '-'}">-</td>
                     <td style="text-align:center"><a th:href="@{/dosen/bimbingan/{id}(id=${row.idJadwal})}" class="btn-detail">Detail</a></td>
                 </tr>
                 </tbody>

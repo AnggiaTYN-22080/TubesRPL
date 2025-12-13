@@ -50,6 +50,12 @@ body {
     background-color: white;
 }
 
+.header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .header-right {
     display: flex;
     align-items: center;
