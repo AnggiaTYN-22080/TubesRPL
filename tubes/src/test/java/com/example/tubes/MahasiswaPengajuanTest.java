@@ -5,9 +5,8 @@ import com.example.tubes.JadwalBimbingin.JadwalBimbinganService;
 import com.example.tubes.Mahasiswa.MahasiswaController;
 import com.example.tubes.Mahasiswa.MahasiswaService;
 import com.example.tubes.Notifikasi.NotifikasiService;
-import com.example.tubes.Ruangan.RuanganService; // Tambahkan ini jika perlu mocking ruangan
-import com.example.tubes.JadwalKuliah.JadwalKuliahService; // Tambahkan ini karena controller memakainya
-
+import com.example.tubes.Ruangan.RuanganService; 
+import com.example.tubes.JadwalKuliah.JadwalKuliahService; 
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpSession;
-// import org.springframework.web.servlet.mvc.support.RedirectAttributes; // Tidak lagi dipakai di controller
+// import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -40,10 +38,10 @@ public class MahasiswaPengajuanTest {
     private NotifikasiService notifikasiService;
 
     @Mock
-    private JadwalKuliahService jadwalKuliahService; // Mock tambahan untuk dependensi controller
+    private JadwalKuliahService jadwalKuliahService; 
 
     @Mock
-    private RuanganService ruanganService; // Mock tambahan untuk dependensi controller
+    private RuanganService ruanganService; 
 
     @InjectMocks
     private MahasiswaController controller;
@@ -60,7 +58,7 @@ public class MahasiswaPengajuanTest {
         MockHttpSession session = new MockHttpSession();
         User user = new User();
         user.setId(2);
-        user.setName("Mahasiswa Test"); // Set nama untuk notifikasi
+        user.setName("Mahasiswa Test");
         user.setRole("mahasiswa");
         session.setAttribute("currentUser", user);
 
@@ -87,12 +85,12 @@ public class MahasiswaPengajuanTest {
 
         // 4b. Verifikasi input ke jadwalService (termasuk idRuangan)
         verify(jadwalService, times(1)).insertPengajuan(
-                2, // idMhs
-                22, // idDosen
+                2,
+                22,
                 tanggal,
                 jamMulai,
                 jamSelesai,
-                idRuangan // Parameter baru
+                idRuangan 
         );
 
         // 4c. Verifikasi notifikasi ke dosen
