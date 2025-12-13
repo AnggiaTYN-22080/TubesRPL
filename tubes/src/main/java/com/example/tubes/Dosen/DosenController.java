@@ -1,6 +1,5 @@
 package com.example.tubes.Dosen;
 import com.example.tubes.Auth.User;
-import com.example.tubes.Mahasiswa.Mahasiswa;
 import com.example.tubes.Mahasiswa.MahasiswaService;
 import com.example.tubes.Notifikasi.Notifikasi;
 import com.example.tubes.Notifikasi.NotifikasiService;
@@ -108,5 +107,40 @@ public class DosenController {
 
         return "Dosen/detail-mhs";
     }
+
+
+    @GetMapping("/jadwal-bimbingan")
+    public String jadwalBimbinganDosen(HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        // Notifikasi
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+
+        // (Nanti) data jadwal akan dimasukkan di sini
+        // model.addAttribute("jadwalList", ...);
+
+        return "Dosen/jadwal-bimbingan";
+    }
     
+    @GetMapping("/jadwal-mengajar")
+    public String jadwalMengajar(HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+        model.addAttribute("jadwalMengajarList", dosenService.getJadwalMengajar(idDosen));
+
+        return "Dosen/JadwalMengajar";
+    }
 }

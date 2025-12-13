@@ -2,6 +2,7 @@
 package com.example.tubes.Dosen;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
@@ -18,4 +19,5 @@ public interface DosenRepository {
 
     List<JadwalBimbingan> findRiwayatBimbinganMahasiswa(int idMhs);
 
+    List<Map<String, Object>> findJadwalMengajar(int idDosen);
 }

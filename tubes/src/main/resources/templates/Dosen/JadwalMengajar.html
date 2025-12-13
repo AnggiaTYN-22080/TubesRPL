@@ -1,104 +1,93 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Jadwal Mengajar - Dosen</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwalAjar.css">
-    
-    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
-    
-    <script src="../../static/Js/notif.js" defer></script>
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-common.css}">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwalAjar.css}">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+
+    <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
 
-    <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
-        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
-        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
-        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
-    </div>
+<div class="sidebar">
+    <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
 
-    <div class="header">
-        <h3>SIAP Bimbingan</h3>
-        <div class="header-right">
-            <div style="position: relative; cursor: pointer;" onclick="openNotif()">
-                <i class="fa-regular fa-bell notif-icon"></i>
-                <span class="notif-badge">3</span> 
-            </div>
-            <a href="#" style="text-decoration: none; color: black;">Logout</a>
+    <a th:href="@{/dosen/dashboard}" class="sidebar-icon" title="Home">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a th:href="@{/dosen/jadwal-bimbingan}" class="sidebar-icon" title="Jadwal">
+        <i class="fa-regular fa-clock"></i>
+    </a>
+
+    <a th:href="@{/dosen/jadwal-mengajar}" class="sidebar-icon active" title="Mengajar">
+        <i class="fa-regular fa-file-lines"></i>
+    </a>
+</div>
+
+<div class="header">
+    <h3>SIAP Bimbingan</h3>
+    <div class="header-right">
+        <div style="position: relative;" onclick="openNotif()">
+            <i class="fa-regular fa-bell notif-icon"></i>
+            <span class="notif-badge"
+                  th:if="${notifList != null and notifList.size() > 0}"
+                  th:text="${notifList.size()}"></span>
         </div>
+        <a th:href="@{/logout}" class="logout">Logout</a>
     </div>
+</div>
 
-    <div class="tab-nav-container">
-        <div class="tab-nav">
-            <a href="jadwal-bimbingan.html" class="tab-link">Jadwal Bimbingan</a>
-            <a href="JadwalMengajar.html" class="tab-link active">Jadwal Mengajar</a>
+<div class="tab-nav-container">
+    <div class="tab-nav">
+        <a th:href="@{/dosen/jadwal-bimbingan}" class="tab-link">Jadwal Bimbingan</a>
+        <a th:href="@{/dosen/jadwal-mengajar}" class="tab-link active">Jadwal Mengajar</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            <h2>Jadwal Mengajar Kuliah</h2>
+            <button class="btn-primary">Ubah Jadwal</button>
         </div>
+
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Hari</th>
+                <th>Waktu</th>
+                <th>Mata Kuliah</th>
+                <th>Kelas</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${jadwalMengajarList == null or #lists.isEmpty(jadwalMengajarList)}">
+                <td colspan="4" style="text-align:center; padding:16px;">
+                    Belum ada jadwal mengajar
+                </td>
+            </tr>
+
+            <tr th:each="j : ${jadwalMengajarList}">
+                <td th:text="${j.hari}">Senin</td>
+                <td>
+                    <span th:text="${j.jamMulai}">08:00</span> - 
+                    <span th:text="${j.jamSelesai}">10:00</span>
+                </td>
+                <td th:text="${j.mataKuliah}">Pemrograman Web</td>
+                <td th:text="${j.kelas}">A</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <div class="content">
-        <div class="card">
-            <div class="card-header">
-                <h2>Jadwal Mengajar Kuliah</h2>
-                <button style="background-color: #001db1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">
-                    Ubah Jadwal
-                </button>
-            </div>
-
-            <table class="table-list">
-                <thead>
-                    <tr>
-                        <th>Hari</th>
-                        <th>Waktu</th>
-                        <th>Mata Kuliah</th>
-                        <th>Kelas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Senin</td>
-                        <td>08:00 - 10:00</td>
-                        <td>Pemrograman Web</td>
-                        <td>A</td>
-                    </tr>
-                    <tr>
-                        <td>Selasa</td>
-                        <td>10:00 - 12:00</td>
-                        <td>Kecerdasan Buatan</td>
-                        <td>B</td>
-                    </tr>
-                    <tr>
-                        <td>Kamis</td>
-                        <td>13:00 - 15:00</td>
-                        <td>Basis Data</td>
-                        <td>C</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="notif-overlay" class="notif-overlay"></div>
-
-    <div id="notif-panel" class="notif-panel">
-        <i class="fa-solid fa-xmark close-notif-btn" onclick="closeNotif()"></i>
-        <h4>Notifikasi</h4>
-        <div class="notif-list">
-            <div class="notif-item">
-                <strong>Pengajuan Bimbingan</strong>
-                <p>Mahasiswa A mengajukan bimbingan baru.</p>
-                <small>Baru saja</small>
-            </div>
-            <div class="notif-item">
-                <strong>Jadwal Mengajar</strong>
-                <p>Jadwal kuliah Anda besok jam 08:00.</p>
-                <small>1 Jam yang lalu</small>
-            </div>
-        </div>
-    </div>
+<div th:replace="~{Layout/panelnotif}"></div>
 
 </body>
 </html>

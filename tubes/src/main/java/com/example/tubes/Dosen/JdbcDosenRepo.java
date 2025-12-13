@@ -10,6 +10,7 @@ import com.example.tubes.Mahasiswa.MahasiswaBimbingan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -109,4 +110,33 @@ public class JdbcDosenRepo implements DosenRepository {
         }, idMhs);
     }
 
+    @Override
+    public List<Map<String, Object>> findJadwalMengajar(int idDosen) {
+
+        String sql = """
+            SELECT 
+                jk.hari AS hari,
+                to_char(jk.jamMulai, 'HH24:MI') AS jamMulai,
+                to_char(jk.jamSelesai, 'HH24:MI') AS jamSelesai,
+                jk.keterangan AS mataKuliah,
+                jk.kelas AS kelas
+            FROM jadwalKuliahDosen jkd
+            JOIN jadwal_kuliah jk ON jk.idJadwalKuliah = jkd.idJadwalKuliah
+            WHERE jkd.idDosen = ?
+            ORDER BY
+                CASE jk.hari
+                    WHEN 'Senin' THEN 1
+                    WHEN 'Selasa' THEN 2
+                    WHEN 'Rabu' THEN 3
+                    WHEN 'Kamis' THEN 4
+                    WHEN 'Jumat' THEN 5
+                    WHEN 'Sabtu' THEN 6
+                    WHEN 'Minggu' THEN 7
+                    ELSE 8
+                END,
+                jk.jamMulai
+        """;
+
+        return jdbcTemplate.queryForList(sql, idDosen);
+    }
 }

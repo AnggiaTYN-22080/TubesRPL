@@ -5,20 +5,28 @@
     <title>Jadwal Bimbingan - Dosen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-bimbingan.css">
-
-    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-common.css}">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-bimbingan.css}">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
     
-    <script src="../../static/Js/notif.js" defer></script>
+    <script src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
-        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
-        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
-        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
+        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
+
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+
+        <a th:href="@{/dosen/jadwal-bimbingan}" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
     </div>
 
     <div class="header">
@@ -28,14 +36,14 @@
                 <i class="fa-regular fa-bell notif-icon"></i>
                 <span class="notif-badge">3</span>
             </div>
-            <a href="#" style="text-decoration: none; color: black;">Logout</a>
+            <a href="/logout" class="logout">Logout</a>
         </div>
     </div>
 
     <div class="tab-nav-container">
         <div class="tab-nav">
-            <a href="jadwal-bimbingan.html" class="tab-link active">Jadwal Bimbingan</a>
-            <a href="JadwalMengajar.html" class="tab-link">Jadwal Mengajar</a>
+            <a th:href="@{/dosen/jadwal-bimbingan}" class="tab-link active">Jadwal Bimbingan</a>
+            <a th:href="@{/dosen/jadwal-mengajar}" class="tab-link">Jadwal Mengajar</a>
         </div>
     </div>
 

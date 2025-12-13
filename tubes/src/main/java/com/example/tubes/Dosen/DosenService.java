@@ -8,6 +8,7 @@ import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
 import com.example.tubes.Mahasiswa.MahasiswaBimbingan;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -36,4 +37,7 @@ public class DosenService {
         return dosenRepository.findRiwayatBimbinganMahasiswa(idMhs);
     }
 
+    public List<Map<String, Object>> getJadwalMengajar(int idDosen) {
+        return dosenRepository.findJadwalMengajar(idDosen);
+    }
 }
