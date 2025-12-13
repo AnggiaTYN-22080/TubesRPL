@@ -84,6 +84,7 @@
                 <p><strong>Topik</strong> : <span id="mhsTopic"></span></p>
                 <p><strong>Tanggal</strong> : <span id="mhsDate"></span></p>
                 <p><strong>Waktu</strong> : <span id="mhsTime"></span></p>
+                <p><strong>Ruangan</strong> : <span id="mhsRuangan"></span></p>
                 <div style="margin-top: 20px; text-align: right;">
                     <span class="modal-badge">Terjadwal</span>
                 </div>
@@ -154,6 +155,7 @@
                         title: waktuMulai + ' ' + namaSingkat,
                         student: nama,
                         topic: topik,
+                        ruangan: j.ruangan || '-',
                         start: waktuMulai,
                         end: waktuSelesai
                     });
@@ -214,6 +216,7 @@
             document.getElementById("mhsTopic").innerText = data.topic;
             document.getElementById("mhsDate").innerText = `${data.day} ${monthNames[data.month]} ${data.year}`;
             document.getElementById("mhsTime").innerText = `${data.start} - ${data.end}`;
+            document.getElementById("mhsRuangan").innerText = data.ruangan || "-";
             document.getElementById("bimbinganModal").style.display = "block";
         }
         function closeModal() { document.getElementById("bimbinganModal").style.display = "none"; }
@@ -269,6 +272,7 @@
                                     title: waktuMulai + ' ' + namaSingkat,
                                     student: nama,
                                     topic: topik,
+                                    ruangan: j.ruangan || '-',
                                     start: waktuMulai,
                                     end: waktuSelesai
                                 });
@@ -293,7 +297,7 @@
                 currentMonth = 0; 
                 currentYear++; 
             }
-            // Load new data and render calendar
+            // Load new data dan render calendar
             loadJadwalData(currentYear, currentMonth, function() {
                 renderCalendar();
             });

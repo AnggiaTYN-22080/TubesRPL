@@ -17,8 +17,7 @@ public class JadwalBimbingan {
     private int idMhs;
     private int idDosen;
     private int idRuangan;
-
-    // Dipakai untuk halaman pengajuan
+    private String namaRuangan;
     private String namaMahasiswa;
     private String npm;
     

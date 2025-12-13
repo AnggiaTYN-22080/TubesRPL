@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
 }
+
 .sidebar {
     width: 60px;                    
     height: 100vh;
@@ -49,17 +50,16 @@ body {
     background-color: white;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
 
 .header h3 {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 18px;
 }
 
 .notif-icon {
@@ -79,51 +79,85 @@ body {
     font-weight: 500;
 }
 
-/* Content Area List */
-.content { margin-left: 60px; padding: 30px; }
-.card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.card-header h2 { margin: 0; font-size: 20px; }
-
-/* Table Style */
-.table-list {
-    width: 100%;
-    border-collapse: collapse;
+.content-area{
+  margin-left: 60px;
+  padding: 20px 30px;
 }
 
-.table-list th, .table-list td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.card{
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  padding: 22px;
 }
 
-.table-list th {
-    background-color: #fafafa;
-    color: #555;
-    font-weight: 600;
+.page-header h2{
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px 0;
 }
 
-/* Badge jika dibutuhkan */
-.badge { padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
-
-.btn-primary {
-    border: 1px solid #001db0;
-    background: #001db0;
-    color: white;
-    padding: 5px 14px;
-    font-size: 13px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: 0.2s;
-    text-decoration: none;
+.pengajuan-wrapper{
+  background: #e3e8f8;
+  border-radius: 10px;
+  padding: 18px;
 }
 
-.btn-primary:hover {
-    background: #3254fb;
+.form-section{
+  background: transparent;
 }
+
+.form-group{
+  margin-bottom: 14px;
+}
+
+.form-label{
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.custom-input{
+  width: 100%;
+  border: 1px solid #d8deee;
+  border-radius: 8px;
+  padding: 10px 12px;
+  outline: none;
+  background: #fff;
+}
+
+.time-row{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.time-input{
+  width: 160px;
+}
+
+.form-hint{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #667085;
+}
+
+.form-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.btn-submit{
+  background-color: #001db1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 600;
+}
+
+.btn-submit:hover{
+  background-color: #3252f3;
+}
+

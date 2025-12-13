@@ -3,6 +3,8 @@ package com.example.tubes.JadwalBimbingin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.tubes.Ruangan.Ruangan;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -32,5 +34,13 @@ public class JadwalBimbinganService {
 
     public Optional<JadwalBimbingan> getById(int idJadwal) {
         return repo.findById(idJadwal);
+    }
+
+    public List<Ruangan> getAvailableRuangan(LocalDate tanggal, LocalTime mulai, LocalTime selesai){
+        return repo.findAvailableRuangan(tanggal, mulai, selesai);
+    }
+
+    public void insertPengajuanDosen(int idMhs, int idDosen, int idRuangan, LocalDate tanggal, LocalTime mulai, LocalTime selesai, String status) {
+        repo.insertPengajuanDosen(idMhs, idDosen, idRuangan, tanggal, mulai, selesai, status);
     }
 }

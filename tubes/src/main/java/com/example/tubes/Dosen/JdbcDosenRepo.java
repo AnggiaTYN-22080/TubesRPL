@@ -93,10 +93,19 @@ public class JdbcDosenRepo implements DosenRepository {
     @Override
     public List<JadwalBimbingan> findRiwayatBimbinganMahasiswa(int idMhs) {
         String sql = """
-            SELECT *
-            FROM jadwal_bimbingan
-            WHERE idMhs = ? AND status = 'approved'
-            ORDER BY tanggal DESC
+            SELECT 
+                j.idJadwal,
+                j.tanggal,
+                j.waktuMulai,
+                j.waktuSelesai,
+                j.status,
+                j.idRuangan,
+                r.namaRuangan
+            FROM jadwal_bimbingan j
+            JOIN ruangan r ON j.idRuangan = r.idRuangan
+            WHERE j.idMhs = ?
+            AND j.status = 'approved'
+            ORDER BY j.tanggal DESC, j.waktuMulai
         """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
@@ -106,6 +115,8 @@ public class JdbcDosenRepo implements DosenRepository {
             j.setWaktuMulai(rs.getTime("waktuMulai").toLocalTime());
             j.setWaktuSelesai(rs.getTime("waktuSelesai").toLocalTime());
             j.setStatus(rs.getString("status"));
+            j.setIdRuangan(rs.getInt("idRuangan"));
+            j.setNamaRuangan(rs.getString("namaRuangan"));
             return j;
         }, idMhs);
     }
