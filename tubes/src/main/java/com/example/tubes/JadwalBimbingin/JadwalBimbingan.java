@@ -21,4 +21,7 @@ public class JadwalBimbingan {
     // Dipakai untuk halaman pengajuan
     private String namaMahasiswa;
     private String npm;
+    
+    // Untuk kalender
+    private String topikTA;
 }

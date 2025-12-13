@@ -1,20 +1,35 @@
 package com.example.tubes.Dosen;
 import com.example.tubes.Auth.User;
-import com.example.tubes.Mahasiswa.Mahasiswa;
+import com.example.tubes.Bimbingan.BimbinganService;
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
+import com.example.tubes.JadwalBimbingin.JadwalBimbinganService;
 import com.example.tubes.Mahasiswa.MahasiswaService;
 import com.example.tubes.Notifikasi.Notifikasi;
 import com.example.tubes.Notifikasi.NotifikasiService;
 
 import jakarta.servlet.http.HttpSession;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/dosen")
@@ -28,6 +43,13 @@ public class DosenController {
 
     @Autowired
     private MahasiswaService mahasiswaService;
+
+    @Autowired
+    private BimbinganService bimbinganService;
+
+    @Autowired
+    private JadwalBimbinganService jadwalService;
+
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
@@ -108,5 +130,349 @@ public class DosenController {
 
         return "Dosen/detail-mhs";
     }
+
+
+    @GetMapping("/jadwal-bimbingan")
+    public String jadwalBimbinganDosen(
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            HttpSession session, 
+            Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        // Notifikasi
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+
+        // Get current date if not specified
+        java.time.LocalDate now = java.time.LocalDate.now();
+        int currentYear = (year != null) ? year : now.getYear();
+        int currentMonth = (month != null) ? month : now.getMonthValue();
+
+        // Get jadwal bimbingan from database
+        List<JadwalBimbingan> jadwalListRaw = jadwalService.getByMonth(idDosen, currentYear, currentMonth);
+        
+        // Filter and format data for template (with null safety)
+        List<Map<String, Object>> jadwalListFormatted = new java.util.ArrayList<>();
+        if (jadwalListRaw != null) {
+            for (JadwalBimbingan j : jadwalListRaw) {
+                if (j != null && j.getTanggal() != null && j.getWaktuMulai() != null && j.getWaktuSelesai() != null) {
+                    Map<String, Object> jadwalMap = new java.util.HashMap<>();
+                    jadwalMap.put("idJadwal", j.getIdJadwal());
+                    jadwalMap.put("day", j.getTanggal().getDayOfMonth());
+                    jadwalMap.put("month", j.getTanggal().getMonthValue() - 1); // JavaScript uses 0-based months
+                    jadwalMap.put("year", j.getTanggal().getYear());
+                    jadwalMap.put("nama", (j.getNamaMahasiswa() != null && !j.getNamaMahasiswa().isEmpty()) ? j.getNamaMahasiswa() : "Mahasiswa");
+                    jadwalMap.put("topik", (j.getTopikTA() != null && !j.getTopikTA().isEmpty()) ? j.getTopikTA() : "-");
+                    jadwalMap.put("waktuMulai", j.getWaktuMulai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalMap.put("waktuSelesai", j.getWaktuSelesai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalListFormatted.add(jadwalMap);
+                }
+            }
+        }
+        
+        model.addAttribute("jadwalList", jadwalListFormatted);
+        model.addAttribute("currentYear", currentYear);
+        model.addAttribute("currentMonth", currentMonth);
+        model.addAttribute("currentMonthJS", currentMonth - 1); // JavaScript uses 0-based months
+
+        return "Dosen/jadwal-bimbingan";
+    }
     
+    @GetMapping("/api/jadwal-bimbingan")
+    @ResponseBody
+    public List<Map<String, Object>> getJadwalBimbinganAPI(
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
+            HttpSession session) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return new java.util.ArrayList<>();
+        }
+        
+        int idDosen = user.getId();
+        
+        // Get current date if not specified
+        java.time.LocalDate now = java.time.LocalDate.now();
+        int currentYear = (year != null) ? year : now.getYear();
+        int currentMonth = (month != null) ? month : now.getMonthValue();
+        
+        // Get jadwal bimbingan from database
+        List<JadwalBimbingan> jadwalListRaw = jadwalService.getByMonth(idDosen, currentYear, currentMonth);
+        
+        // Filter and format data
+        List<Map<String, Object>> jadwalListFormatted = new java.util.ArrayList<>();
+        if (jadwalListRaw != null) {
+            for (JadwalBimbingan j : jadwalListRaw) {
+                if (j != null && j.getTanggal() != null && j.getWaktuMulai() != null && j.getWaktuSelesai() != null) {
+                    Map<String, Object> jadwalMap = new java.util.HashMap<>();
+                    jadwalMap.put("idJadwal", j.getIdJadwal());
+                    jadwalMap.put("day", j.getTanggal().getDayOfMonth());
+                    jadwalMap.put("month", j.getTanggal().getMonthValue() - 1);
+                    jadwalMap.put("year", j.getTanggal().getYear());
+                    jadwalMap.put("nama", (j.getNamaMahasiswa() != null && !j.getNamaMahasiswa().isEmpty()) ? j.getNamaMahasiswa() : "Mahasiswa");
+                    jadwalMap.put("topik", (j.getTopikTA() != null && !j.getTopikTA().isEmpty()) ? j.getTopikTA() : "-");
+                    jadwalMap.put("waktuMulai", j.getWaktuMulai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalMap.put("waktuSelesai", j.getWaktuSelesai().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
+                    jadwalListFormatted.add(jadwalMap);
+                }
+            }
+        }
+        
+        return jadwalListFormatted;
+    }
+    
+    @GetMapping("/jadwal-mengajar")
+    public String jadwalMengajar(HttpSession session, Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+
+        model.addAttribute("notifList", notifService.getNotifByUser(idDosen));
+        model.addAttribute("jadwalMengajarList", dosenService.getJadwalMengajar(idDosen));
+
+        return "Dosen/JadwalMengajar";
+    }
+
+    @GetMapping("/bimbingan/{id}")
+    public String detailBimbingan(
+            @PathVariable int id,
+            HttpSession session,
+            Model model) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("notifList",
+                notifService.getNotifByUser(user.getId()));
+
+        model.addAttribute("jadwal",
+                jadwalService.getById(id).orElse(null));
+
+        model.addAttribute("bimbingan",
+                bimbinganService.getByJadwal(id).orElse(null));
+
+        return "Dosen/detail-bimbingan";
+    }
+
+    @PostMapping("/bimbingan/{id}/catatan")
+    public String simpanCatatan(
+            @PathVariable int id,
+            @RequestParam String catatan,
+            HttpSession session) {
+
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        bimbinganService.simpanCatatan(id, catatan);
+
+        return "redirect:/dosen/bimbingan/" + id;
+    }
+
+    @GetMapping("/jadwal-mengajar/{idJadwalKuliah}")
+    public String getJadwalMengajarById(
+            @PathVariable int idJadwalKuliah,
+            HttpSession session,
+            Model model) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+        Optional<Map<String, Object>> jadwal = dosenService.getJadwalMengajarById(idDosen, idJadwalKuliah);
+        
+        if (jadwal.isPresent()) {
+            model.addAttribute("jadwal", jadwal.get());
+            return "redirect:/dosen/jadwal-mengajar"; // Redirect kembali, data akan diambil di halaman
+        }
+        
+        return "redirect:/dosen/jadwal-mengajar?error=notfound";
+    }
+
+    @PostMapping("/jadwal-mengajar/tambah")
+    public String tambahJadwalMengajar(
+            @RequestParam String hari,
+            @RequestParam String jamMulai,
+            @RequestParam String jamSelesai,
+            @RequestParam String mataKuliah,
+            @RequestParam String kelas,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+        
+        try {
+            dosenService.tambahJadwalMengajar(idDosen, hari, jamMulai, jamSelesai, mataKuliah, kelas);
+            redirectAttributes.addFlashAttribute("success", "Jadwal berhasil ditambahkan");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Gagal menambahkan jadwal: " + e.getMessage());
+        }
+        
+        return "redirect:/dosen/jadwal-mengajar";
+    }
+
+    @PostMapping("/jadwal-mengajar/ubah/{idJadwalKuliah}")
+    public String ubahJadwalMengajar(
+            @PathVariable int idJadwalKuliah,
+            @RequestParam String hari,
+            @RequestParam String jamMulai,
+            @RequestParam String jamSelesai,
+            @RequestParam String mataKuliah,
+            @RequestParam String kelas,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+        
+        try {
+            dosenService.ubahJadwalMengajar(idDosen, idJadwalKuliah, hari, jamMulai, jamSelesai, mataKuliah, kelas);
+            redirectAttributes.addFlashAttribute("success", "Jadwal berhasil diubah");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Gagal mengubah jadwal: " + e.getMessage());
+        }
+        
+        return "redirect:/dosen/jadwal-mengajar";
+    }
+
+    @PostMapping("/jadwal-mengajar/hapus/{idJadwalKuliah}")
+    public String hapusJadwalMengajar(
+            @PathVariable int idJadwalKuliah,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        int idDosen = user.getId();
+        
+        try {
+            dosenService.hapusJadwalMengajar(idDosen, idJadwalKuliah);
+            redirectAttributes.addFlashAttribute("success", "Jadwal berhasil dihapus");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Gagal menghapus jadwal: " + e.getMessage());
+        }
+        
+        return "redirect:/dosen/jadwal-mengajar";
+    }
+
+    @PostMapping("/jadwal-mengajar/import-csv")
+    public String importJadwalMengajarFromCSV(
+            @RequestParam("file") MultipartFile file,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "File CSV tidak boleh kosong");
+            return "redirect:/dosen/jadwal-mengajar";
+        }
+
+        int idDosen = user.getId();
+        
+        try {
+            List<Map<String, String>> csvData = parseCSV(file);
+            int[] results = dosenService.importJadwalMengajarFromCSV(idDosen, csvData);
+            
+            redirectAttributes.addFlashAttribute("success", 
+                String.format("Import berhasil: %d jadwal ditambahkan, %d gagal", results[0], results[1]));
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Gagal mengimport CSV: " + e.getMessage());
+        }
+        
+        return "redirect:/dosen/jadwal-mengajar";
+    }
+
+    private List<Map<String, String>> parseCSV(MultipartFile file) throws Exception {
+        List<Map<String, String>> data = new ArrayList<>();
+        
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            
+            String line;
+            String[] headers = null;
+            int lineNumber = 0;
+            
+            while ((line = reader.readLine()) != null) {
+                lineNumber++;
+                line = line.trim();
+                
+                if (line.isEmpty()) continue;
+                
+                // Simple CSV parsing (split by comma, handle quotes if needed)
+                List<String> values = parseCSVLine(line);
+                
+                if (lineNumber == 1) {
+                    // Header row
+                    headers = values.toArray(new String[0]);
+                    for (int i = 0; i < headers.length; i++) {
+                        headers[i] = headers[i].trim().toLowerCase();
+                    }
+                } else {
+                    // Data row
+                    if (values.size() == headers.length) {
+                        Map<String, String> row = new HashMap<>();
+                        for (int i = 0; i < headers.length; i++) {
+                            row.put(headers[i], values.get(i).trim());
+                        }
+                        data.add(row);
+                    }
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    private List<String> parseCSVLine(String line) {
+        List<String> result = new ArrayList<>();
+        boolean inQuotes = false;
+        StringBuilder current = new StringBuilder();
+        
+        for (char c : line.toCharArray()) {
+            if (c == '"') {
+                inQuotes = !inQuotes;
+            } else if (c == ',' && !inQuotes) {
+                result.add(current.toString());
+                current = new StringBuilder();
+            } else {
+                current.append(c);
+            }
+        }
+        result.add(current.toString());
+        
+        return result;
+    }
+
 }

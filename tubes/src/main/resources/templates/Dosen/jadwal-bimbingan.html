@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Jadwal Bimbingan - Dosen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-bimbingan.css">
-
-    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-common.css}">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-bimbingan.css}">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
     
-    <script src="../../static/Js/notif.js" defer></script>
+    <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
-        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
-        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
-        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
+        <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
+
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a th:href="@{/dosen/jadwal-bimbingan}"  class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+
+        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
     </div>
 
     <div class="header">
@@ -26,16 +34,18 @@
         <div class="header-right">
             <div style="position: relative; cursor: pointer;" onclick="openNotif()">
                 <i class="fa-regular fa-bell notif-icon"></i>
-                <span class="notif-badge">3</span>
+                <span th:if="${notifList != null and notifList.size() > 0}"
+                    class="notif-badge"
+                    th:text="${notifList.size()}"></span>
             </div>
-            <a href="#" style="text-decoration: none; color: black;">Logout</a>
+            <a th:href="@{/dosen/logout}" class="logout">Logout</a>
         </div>
     </div>
 
     <div class="tab-nav-container">
         <div class="tab-nav">
-            <a href="jadwal-bimbingan.html" class="tab-link active">Jadwal Bimbingan</a>
-            <a href="JadwalMengajar.html" class="tab-link">Jadwal Mengajar</a>
+            <a th:href="@{/dosen/jadwal-bimbingan}" class="tab-link active">Jadwal Bimbingan</a>
+            <a th:href="@{/dosen/jadwal-mengajar}" class="tab-link">Jadwal Mengajar</a>
         </div>
     </div>
 
@@ -113,24 +123,43 @@
     </div>
 
     <script>
-        // ... (Kode Javascript Kalender Anda yang sebelumnya tetap ada disini) ...
-        // ... (Saya persingkat agar tidak kepanjangan, tapi intinya JS kalender jangan dihapus) ...
-        
-        // HANYA TAMBAHAN: Pastikan fungsi openModal() dan openNotif() tidak bentrok ID overlay-nya.
-        // Di file notif.js Anda menggunakan id="notif-overlay".
-        // Di file jadwal-bimbingan.html Anda menggunakan class="modal-overlay" tapi ID beda ("bimbinganModal").
-        // Jadi AMAN.
-        
-        let currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
         const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        const databaseJadwal = [
-            { day: 20, month: 9, year: 2025, title: "10:00 Bram M.", student: "Bram Matthew", topic: "Kompresi LZW", start: "10:00", end: "11:00" },
-            { day: 20, month: 9, year: 2025, title: "10:00 Sarah P.", student: "Sarah Putri", topic: "Analisis Big Data", start: "10:00", end: "11:00" },
-            { day: 20, month: 9, year: 2025, title: "13:00 Budi S.", student: "Budi Santoso", topic: "Keamanan Jaringan", start: "13:00", end: "14:00" },
-            { day: 22, month: 9, year: 2025, title: "13:00 Anggia T.", student: "Anggia Teja", topic: "RPL", start: "13:00", end: "14:00" }
-        ];
+        
+        // Initialize calendar with server data
+        let currentYear = /*[[${currentYear}]]*/ new Date().getFullYear();
+        let currentMonth = /*[[${currentMonthJS}]]*/ new Date().getMonth();
+        let databaseJadwal = [];
+        
+        // Parse server data
+        const serverData = /*[[${jadwalList}]]*/ [];
+        if (serverData && Array.isArray(serverData)) {
+            serverData.forEach(function(j) {
+                if (j && j.day !== undefined && j.month !== undefined && j.year !== undefined) {
+                    const nama = j.nama || 'Mahasiswa';
+                    const topik = j.topik || '-';
+                    const waktuMulai = j.waktuMulai || '00:00';
+                    const waktuSelesai = j.waktuSelesai || '00:00';
+                    
+                    // Format nama untuk title
+                    const namaArr = nama.split(' ');
+                    const namaSingkat = namaArr.length > 0 ? 
+                        namaArr[0] + (namaArr.length > 1 ? ' ' + namaArr[1].charAt(0) + '.' : '') : 
+                        'Mahasiswa';
+                    
+                    databaseJadwal.push({
+                        idJadwal: j.idJadwal || 0,
+                        day: j.day,
+                        month: j.month,
+                        year: j.year,
+                        title: waktuMulai + ' ' + namaSingkat,
+                        student: nama,
+                        topic: topik,
+                        start: waktuMulai,
+                        end: waktuSelesai
+                    });
+                }
+            });
+        }
 
         function renderCalendar() {
             const grid = document.getElementById("calendar-grid");
@@ -210,13 +239,77 @@
             if (event.target == modal1) closeModal();
             if (event.target == modal2) closeDayListModal();
         }
-
+        
+        // Function to load jadwal data from API
+        function loadJadwalData(year, month, callback) {
+            const url = '/dosen/api/jadwal-bimbingan?year=' + year + '&month=' + (month + 1);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    databaseJadwal = [];
+                    if (data && Array.isArray(data)) {
+                        data.forEach(function(j) {
+                            if (j && j.day !== undefined && j.month !== undefined && j.year !== undefined) {
+                                const nama = j.nama || 'Mahasiswa';
+                                const topik = j.topik || '-';
+                                const waktuMulai = j.waktuMulai || '00:00';
+                                const waktuSelesai = j.waktuSelesai || '00:00';
+                                
+                                // Format nama untuk title
+                                const namaArr = nama.split(' ');
+                                const namaSingkat = namaArr.length > 0 ? 
+                                    namaArr[0] + (namaArr.length > 1 ? ' ' + namaArr[1].charAt(0) + '.' : '') : 
+                                    'Mahasiswa';
+                                
+                                databaseJadwal.push({
+                                    idJadwal: j.idJadwal || 0,
+                                    day: j.day,
+                                    month: j.month,
+                                    year: j.year,
+                                    title: waktuMulai + ' ' + namaSingkat,
+                                    student: nama,
+                                    topic: topik,
+                                    start: waktuMulai,
+                                    end: waktuSelesai
+                                });
+                            }
+                        });
+                    }
+                    if (callback) callback();
+                })
+                .catch(error => {
+                    console.error('Error loading jadwal:', error);
+                    databaseJadwal = [];
+                    if (callback) callback();
+                });
+        }
+        
         function changeMonth(step) {
             currentMonth += step;
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; } else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            renderCalendar();
+            if (currentMonth < 0) { 
+                currentMonth = 11; 
+                currentYear--; 
+            } else if (currentMonth > 11) { 
+                currentMonth = 0; 
+                currentYear++; 
+            }
+            // Load new data and render calendar
+            loadJadwalData(currentYear, currentMonth, function() {
+                renderCalendar();
+            });
         }
-        document.addEventListener("DOMContentLoaded", renderCalendar);
+        
+        // Auto-refresh calendar every 30 seconds
+        setInterval(function() {
+            loadJadwalData(currentYear, currentMonth, function() {
+                renderCalendar();
+            });
+        }, 30000);
+        
+        // Initialize on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            renderCalendar();
+        });
     </script>
 </body>
 </html>

@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html lang="id" xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Daftar Mahasiswa</title>
-    <link rel="stylesheet" href="/Css/Dosen/listMhs.css">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/listMhs.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/Css/Layout/panelnotif.css">
-    <script src="/js/notif.js" defer></script>
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+    <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="/Images/LogoUnpar.png" class="sidebar-logo">
+        <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
 
         <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
             <i class="fa-solid fa-house"></i>
         </a>
 
-        <a href="#" class="sidebar-icon" title="Jadwal">
+        <a th:href="@{/dosen/jadwal-bimbingan}"  class="sidebar-icon" title="Jadwal">
             <i class="fa-regular fa-clock"></i>
         </a>
 
-        <a href="#" class="sidebar-icon" title="Laporan">
+        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Laporan">
             <i class="fa-regular fa-file-lines"></i>
         </a>
     </div>
-
 
     <div class="header">
         <h3>SIAP Bimbingan</h3>
@@ -33,11 +32,11 @@
         <div class="header-right">
             <div style="position: relative;">
                 <i class="fa-regular fa-bell notif-icon" onclick="openNotif()"></i>
-                <span th:if="${notifList.size() > 0}"
+                <span th:if="${notifList != null and notifList.size() > 0}"
                     class="notif-badge"
                     th:text="${notifList.size()}"></span>
             </div>
-            <a href="/logout" class="logout">Logout</a>
+            <a th:href="@{/dosen/logout}" class="logout">Logout</a>
         </div>
     </div>
 
