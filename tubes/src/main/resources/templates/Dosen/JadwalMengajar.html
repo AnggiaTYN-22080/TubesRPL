@@ -1,104 +1,328 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Jadwal Mengajar - Dosen</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwal-common.css">
-    <link rel="stylesheet" href="../../static/Css/Dosen/jadwalAjar.css">
-    
-    <link rel="stylesheet" href="../../static/Css/Layout/panelnotif.css">
-    
-    <script src="../../static/Js/notif.js" defer></script>
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwal-common.css}">
+    <link rel="stylesheet" th:href="@{/Css/Dosen/jadwalAjar.css}">
+    <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script th:src="@{/Js/notif.js}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
     <div class="sidebar">
-        <img src="../../static/Images/LogoUnpar.png" class="sidebar-logo">
-        <a href="#" class="sidebar-icon"><i class="fa-solid fa-house"></i></a>
-        <a href="#" class="sidebar-icon active"><i class="fa-regular fa-clock"></i></a>
-        <a href="#" class="sidebar-icon"><i class="fa-regular fa-file-lines"></i></a>
+        <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
+
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a th:href="@{/dosen/jadwal-bimbingan}"  class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
+
+        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
+    </div>
+    
+<div class="header">
+    <h3>SIAP Bimbingan</h3>
+    <div class="header-right">
+        <div style="position: relative;" onclick="openNotif()">
+            <i class="fa-regular fa-bell notif-icon"></i>
+            <span class="notif-badge"
+                  th:if="${notifList != null and notifList.size() > 0}"
+                  th:text="${notifList.size()}"></span>
+        </div>
+        <a th:href="@{/dosen/logout}" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="tab-nav-container">
+    <div class="tab-nav">
+        <a th:href="@{/dosen/jadwal-bimbingan}" class="tab-link">Jadwal Bimbingan</a>
+        <a th:href="@{/dosen/jadwal-mengajar}" class="tab-link active">Jadwal Mengajar</a>
+    </div>
+</div>
+
+<div class="content">
+    <!-- Alert Messages -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <div class="header">
-        <h3>SIAP Bimbingan</h3>
-        <div class="header-right">
-            <div style="position: relative; cursor: pointer;" onclick="openNotif()">
-                <i class="fa-regular fa-bell notif-icon"></i>
-                <span class="notif-badge">3</span> 
+    <div class="card">
+        <div class="card-header">
+            <h2>Jadwal Mengajar Kuliah</h2>
+            <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#modalJadwal" onclick="openModalTambah()">Ubah Jadwal</button>
+        </div>
+
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Hari</th>
+                <th>Waktu</th>
+                <th>Mata Kuliah</th>
+                <th>Kelas</th>
+                <th>Aksi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${jadwalMengajarList == null or #lists.isEmpty(jadwalMengajarList)}">
+                <td colspan="5" style="text-align:center; padding:16px;">
+                    Belum ada jadwal mengajar
+                </td>
+            </tr>
+
+            <tr th:each="j : ${jadwalMengajarList}">
+                <td th:text="${j.hari}">Senin</td>
+                <td>
+                    <span th:text="${j.jamMulai}">08:00</span> - 
+                    <span th:text="${j.jamSelesai}">10:00</span>
+                </td>
+                <td th:text="${j.mataKuliah}">Pemrograman Web</td>
+                <td th:text="${j.kelas}">A</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1" 
+                            th:onclick="'openModalUbah(' + ${j.idJadwalKuliah} + ')'">
+                        <i class="fa-solid fa-edit"></i> Ubah
+                    </button>
+                    <form th:action="@{/dosen/jadwal-mengajar/hapus/{id}(id=${j.idJadwalKuliah})}" 
+                          method="post" style="display:inline;" 
+                          onsubmit="return confirm('Yakin ingin menghapus jadwal ini?');">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fa-solid fa-trash"></i> Hapus
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Popup -->
+<div class="modal fade" id="modalJadwal" tabindex="-1" aria-labelledby="modalJadwalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalJadwalLabel">Kelola Jadwal Mengajar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <a href="#" style="text-decoration: none; color: black;">Logout</a>
+            <div class="modal-body">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3" id="jadwalTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tambah-tab" data-bs-toggle="tab" data-bs-target="#tambah" 
+                                type="button" role="tab">Tambah Jadwal</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ubah-tab" data-bs-toggle="tab" data-bs-target="#ubah" 
+                                type="button" role="tab">Ubah Jadwal</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="import-tab" data-bs-toggle="tab" data-bs-target="#import" 
+                                type="button" role="tab">Import CSV</button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="jadwalTabContent">
+                    <!-- Tab Tambah Jadwal -->
+                    <div class="tab-pane fade show active" id="tambah" role="tabpanel">
+                        <form th:action="@{/dosen/jadwal-mengajar/tambah}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Hari</label>
+                                <select name="hari" class="form-select" required>
+                                    <option value="">Pilih Hari</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                    <option value="Minggu">Minggu</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jam Mulai</label>
+                                    <input type="time" name="jamMulai" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jam Selesai</label>
+                                    <input type="time" name="jamSelesai" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mata Kuliah</label>
+                                <input type="text" name="mataKuliah" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kelas</label>
+                                <input type="text" name="kelas" class="form-control" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab Ubah Jadwal -->
+                    <div class="tab-pane fade" id="ubah" role="tabpanel">
+                        <div id="ubahContent">
+                            <p class="text-muted">Pilih jadwal yang ingin diubah dari tabel atau klik tombol "Ubah" pada baris jadwal.</p>
+                        </div>
+                        <form id="formUbah" action="" method="post" style="display:none;">
+                            <input type="hidden" name="idJadwalKuliah" id="ubahIdJadwalKuliah">
+                            <div class="mb-3">
+                                <label class="form-label">Hari</label>
+                                <select name="hari" id="ubahHari" class="form-select" required>
+                                    <option value="">Pilih Hari</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                    <option value="Minggu">Minggu</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jam Mulai</label>
+                                    <input type="time" name="jamMulai" id="ubahJamMulai" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jam Selesai</label>
+                                    <input type="time" name="jamSelesai" id="ubahJamSelesai" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mata Kuliah</label>
+                                <input type="text" name="mataKuliah" id="ubahMataKuliah" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kelas</label>
+                                <input type="text" name="kelas" id="ubahKelas" class="form-control" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Tab Import CSV -->
+                    <div class="tab-pane fade" id="import" role="tabpanel">
+                        <div class="alert alert-info">
+                            <strong>Format CSV:</strong><br>
+                            File CSV harus memiliki header: <code>hari, jamMulai, jamSelesai, mataKuliah, kelas</code><br>
+                            Contoh:<br>
+                            <code>
+                                hari, jamMulai, jamSelesai, mataKuliah, kelas<br>
+                                Senin, 08:00, 10:00, Pemrograman Web, A<br>
+                                Selasa, 10:00, 12:00, Database, B
+                            </code>
+                        </div>
+                        <form th:action="@{/dosen/jadwal-mengajar/import-csv}" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Pilih File CSV</label>
+                                <input type="file" name="file" class="form-control" accept=".csv" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-success">Import CSV</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="tab-nav-container">
-        <div class="tab-nav">
-            <a href="jadwal-bimbingan.html" class="tab-link">Jadwal Bimbingan</a>
-            <a href="JadwalMengajar.html" class="tab-link active">Jadwal Mengajar</a>
-        </div>
-    </div>
+<script>
+    function openModalTambah() {
+        // Switch to tambah tab
+        const tambahTab = document.getElementById('tambah-tab');
+        const tambahPane = document.getElementById('tambah');
+        bootstrap.Tab.getInstance(tambahTab) || new bootstrap.Tab(tambahTab);
+        tambahTab.click();
+    }
 
-    <div class="content">
-        <div class="card">
-            <div class="card-header">
-                <h2>Jadwal Mengajar Kuliah</h2>
-                <button style="background-color: #001db1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">
-                    Ubah Jadwal
-                </button>
-            </div>
+    function openModalUbah(idJadwalKuliah) {
+        // Open modal first
+        const modal = new bootstrap.Modal(document.getElementById('modalJadwal'));
+        modal.show();
 
-            <table class="table-list">
-                <thead>
-                    <tr>
-                        <th>Hari</th>
-                        <th>Waktu</th>
-                        <th>Mata Kuliah</th>
-                        <th>Kelas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Senin</td>
-                        <td>08:00 - 10:00</td>
-                        <td>Pemrograman Web</td>
-                        <td>A</td>
-                    </tr>
-                    <tr>
-                        <td>Selasa</td>
-                        <td>10:00 - 12:00</td>
-                        <td>Kecerdasan Buatan</td>
-                        <td>B</td>
-                    </tr>
-                    <tr>
-                        <td>Kamis</td>
-                        <td>13:00 - 15:00</td>
-                        <td>Basis Data</td>
-                        <td>C</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        // Switch to ubah tab
+        const ubahTab = document.getElementById('ubah-tab');
+        const ubahTabInstance = bootstrap.Tab.getInstance(ubahTab) || new bootstrap.Tab(ubahTab);
+        ubahTabInstance.show();
 
-    <div id="notif-overlay" class="notif-overlay"></div>
+        // Get jadwal data and populate form
+        fetchJadwalData(idJadwalKuliah);
+    }
 
-    <div id="notif-panel" class="notif-panel">
-        <i class="fa-solid fa-xmark close-notif-btn" onclick="closeNotif()"></i>
-        <h4>Notifikasi</h4>
-        <div class="notif-list">
-            <div class="notif-item">
-                <strong>Pengajuan Bimbingan</strong>
-                <p>Mahasiswa A mengajukan bimbingan baru.</p>
-                <small>Baru saja</small>
-            </div>
-            <div class="notif-item">
-                <strong>Jadwal Mengajar</strong>
-                <p>Jadwal kuliah Anda besok jam 08:00.</p>
-                <small>1 Jam yang lalu</small>
-            </div>
-        </div>
-    </div>
+    function fetchJadwalData(idJadwalKuliah) {
+        // Find the row in the table
+        const rows = document.querySelectorAll('tbody tr');
+        for (let row of rows) {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 0) {
+                const editBtn = cells[4]?.querySelector('button[onclick*="' + idJadwalKuliah + '"]');
+                if (editBtn) {
+                    // Extract data from row
+                    const hari = cells[0].textContent.trim();
+                    const waktu = cells[1].textContent.trim().split(' - ');
+                    const jamMulai = waktu[0].trim();
+                    const jamSelesai = waktu[1]?.trim() || '';
+                    const mataKuliah = cells[2].textContent.trim();
+                    const kelas = cells[3].textContent.trim();
+
+                    // Populate form
+                    document.getElementById('ubahIdJadwalKuliah').value = idJadwalKuliah;
+                    document.getElementById('ubahHari').value = hari;
+                    document.getElementById('ubahJamMulai').value = jamMulai;
+                    document.getElementById('ubahJamSelesai').value = jamSelesai;
+                    document.getElementById('ubahMataKuliah').value = mataKuliah;
+                    document.getElementById('ubahKelas').value = kelas;
+
+                    // Update form action
+                    const form = document.getElementById('formUbah');
+                    form.action = '/dosen/jadwal-mengajar/ubah/' + idJadwalKuliah;
+                    form.style.display = 'block';
+                    document.getElementById('ubahContent').style.display = 'none';
+
+                    break;
+                }
+            }
+        }
+    }
+
+    // Reset form when modal is closed
+    document.getElementById('modalJadwal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('formUbah').style.display = 'none';
+        document.getElementById('ubahContent').style.display = 'block';
+        document.getElementById('formUbah').reset();
+    });
+</script>
+
+<div th:replace="~{Layout/panelnotif}"></div>
 
 </body>
 </html>

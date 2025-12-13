@@ -1,12 +1,77 @@
-/* Layout dasar */
-body { margin: 0; font-family: Arial, sans-serif; background-color: #f9f9f9; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
 
-/* Sidebar & Header */
-.sidebar { width: 60px; height: 100vh; background-color: white; border-right: 1px solid #ddd; position: fixed; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; padding-top: 25px; gap: 35px; z-index: 100; }
-.sidebar-logo { width: 40px; margin-bottom: 15px; }
-.sidebar-icon i { font-size: 26px; color: black; }
-.header { margin-left: 60px; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #ddd; background-color: white; }
-.header-right { display: flex; align-items: center; gap: 18px; }
+.sidebar {
+    width: 60px;                    
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25px;
+    gap: 35px;                      
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-logo {
+    width: 40px;   
+    margin-bottom: 15px;
+}
+
+.sidebar-icon i {
+    font-size: 26px;                
+    color: black;                   
+    transition: 0.2s ease;
+}
+
+.sidebar-icon:hover i {
+    color: #444;                   
+}
+
+.sidebar-icon.active i {
+    color: black;
+    font-weight: bold;
+}
+
+.header {
+    margin-left: 70px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.notif-icon {
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.notif-icon:hover {
+    color: #555;
+}
+
+.logout {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
 
 .content { margin-left: 60px; padding: 30px; }
 .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
