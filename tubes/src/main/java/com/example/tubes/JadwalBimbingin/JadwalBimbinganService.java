@@ -33,4 +33,8 @@ public class JadwalBimbinganService {
     public Optional<JadwalBimbingan> getById(int idJadwal) {
         return repo.findById(idJadwal);
     }
+
+    public List<JadwalBimbingan> getJadwalByMahasiswa(int idMhs) {
+        return repo.findByMahasiswa(idMhs);
+    }
 }

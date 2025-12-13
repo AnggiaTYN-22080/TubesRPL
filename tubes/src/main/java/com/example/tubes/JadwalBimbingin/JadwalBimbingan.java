@@ -2,7 +2,6 @@ package com.example.tubes.JadwalBimbingin;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import lombok.Data;
 
 @Data
@@ -18,10 +17,13 @@ public class JadwalBimbingan {
     private int idDosen;
     private int idRuangan;
 
-    // Dipakai untuk halaman pengajuan
+    // Dipakai untuk halaman pengajuan (Fitur Dosen)
     private String namaMahasiswa;
     private String npm;
-    
-    // Untuk kalender
+
+    // Untuk kalender (Fitur Dosen)
     private String topikTA;
+
+    // Untuk kalender (Fitur Mahasiswa)
+    private String namaDosen;
 }
