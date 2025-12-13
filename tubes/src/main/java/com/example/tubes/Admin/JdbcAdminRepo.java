@@ -17,12 +17,13 @@ public class JdbcAdminRepo implements AdminRepository {
 
     // Mapper untuk mengubah hasil SQL menjadi Object Admin
     private Admin mapRowToAdmin(ResultSet rs, int rowNum) throws SQLException {
-        return new Admin(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("email"),
-                rs.getString("password"));
-    }
+    return new Admin(
+            rs.getInt("id"),
+            rs.getString("nama"),      // <-- ini yang benar (bukan "name")
+            rs.getString("email"),
+            rs.getString("password")
+    );
+}
 
     @Override
     public List<Admin> findAll() {

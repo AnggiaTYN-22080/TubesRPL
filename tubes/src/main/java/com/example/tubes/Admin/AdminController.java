@@ -3,8 +3,6 @@ package com.example.tubes.Admin;
 import com.example.tubes.Auth.User;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,24 +14,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    private AdminDashboardService dashboardService;
+
+    private boolean isAdmin(HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        return user != null && user.getRole() != null && user.getRole().equalsIgnoreCase("admin");
+    }
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
-        // Cek apakah user sudah login dan role-nya ADMIN
+        if (!isAdmin(session)) return "redirect:/login";
+
         User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"ADMIN".equals(user.getRole())) {
-            return "redirect:/login";
-        }
-
-        // Mengambil daftar semua admin dari database
-        List<Admin> listAdmin = adminService.getAllAdmins();
-
-        // 3. Masukkan data ke Model agar bisa dibaca di HTML
         model.addAttribute("user", user);
-        model.addAttribute("admins", listAdmin);
 
-        model.addAttribute("user", user);
-        return "Admin/dashboard"; // Mengarah ke file html: resources/templates/admin/dashboard.html
+        model.addAttribute("totalMahasiswa", dashboardService.getTotalMahasiswa());
+        model.addAttribute("totalDosenPembimbing", dashboardService.getTotalDosenPembimbing());
+        model.addAttribute("pengajuanAktif", dashboardService.getPengajuanAktif());
+        model.addAttribute("notifList", dashboardService.getNotifList(user.getId()));
+
+        // ⚠️ PENTING: samakan dengan nama file html kamu:
+        // - kalau file kamu: templates/Admin/dashboard.html -> return "Admin/dashboard"
+        // - kalau file kamu: templates/Admin/dashboardAdmin.html -> return "Admin/dashboardAdmin"
+        return "Admin/DashboardAdmin";
     }
+
+    
 }
