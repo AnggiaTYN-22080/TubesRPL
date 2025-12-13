@@ -35,7 +35,6 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
                     JOIN mahasiswa m ON u.idUser = m.idMhs
                     WHERE u.idUser = ?
                 """;
-
         try {
             Mahasiswa mhs = jdbcTemplate.queryForObject(sql, this::mapRowToMahasiswa, idUser);
             return Optional.ofNullable(mhs);
@@ -61,7 +60,6 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
 
     @Override
     public Map<String, Object> findNextBimbingan(int idMhs) {
-        // Mengambil jadwal bimbingan mendatang yang statusnya 'approved' atau 'pending'
         String sql = """
                     SELECT tanggal, waktuMulai
                     FROM jadwal_bimbingan
@@ -87,10 +85,8 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
                 WHERE p.idMhs = ?
                 LIMIT 1
                 """;
-
         try {
-            String nama = jdbcTemplate.queryForObject(sql, String.class, idMhs);
-            return Optional.ofNullable(nama);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, String.class, idMhs));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -105,10 +101,8 @@ public class JdbcMahasiswaRepo implements MahasiswaRepository {
                 WHERE p.idMhs = ?
                 LIMIT 1
                 """;
-
         try {
-            Integer id = jdbcTemplate.queryForObject(sql, Integer.class, idMhs);
-            return Optional.ofNullable(id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Integer.class, idMhs));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

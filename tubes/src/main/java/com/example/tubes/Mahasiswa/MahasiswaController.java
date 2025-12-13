@@ -1,7 +1,10 @@
 package com.example.tubes.Mahasiswa;
 
 import com.example.tubes.Auth.User;
+import com.example.tubes.JadwalBimbingin.JadwalBimbingan;
 import com.example.tubes.JadwalBimbingin.JadwalBimbinganService;
+import com.example.tubes.JadwalKuliah.JadwalKuliah;
+import com.example.tubes.JadwalKuliah.JadwalKuliahService;
 import com.example.tubes.Notifikasi.NotifikasiService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.example.tubes.Ruangan.Ruangan;
+import com.example.tubes.Ruangan.RuanganService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 
 @Controller
 @RequestMapping("/mahasiswa")
@@ -27,12 +32,17 @@ public class MahasiswaController {
     private MahasiswaService mahasiswaService;
 
     @Autowired
-    NotifikasiService notifikasiService;
+    private NotifikasiService notifikasiService;
 
     @Autowired
     private JadwalBimbinganService jadwalService;
 
-    // Helper untuk cek login
+    @Autowired
+    private JadwalKuliahService jadwalKuliahService;
+
+    @Autowired
+    private RuanganService ruanganService;
+
     private User cekLogin(HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
         if (user == null || !"mahasiswa".equalsIgnoreCase(user.getRole())) {
@@ -47,10 +57,9 @@ public class MahasiswaController {
         if (user == null)
             return "redirect:/login";
 
-        // Ambil Data
+        // Ambil Data Mahasiswa
         Mahasiswa mhsDetail = mahasiswaService.getMahasiswaByUserId(user.getId()).orElse(null);
 
-        // Cek null pointer jika data belum lengkap
         if (mhsDetail != null) {
             Map<String, Object> topik = mahasiswaService.getTopikTA(mhsDetail.getIdMhs());
             Map<String, Object> nextBimbingan = mahasiswaService.getNextBimbingan(mhsDetail.getIdMhs());
@@ -65,15 +74,24 @@ public class MahasiswaController {
         return "Mahasiswa/dashboard-mhs";
     }
 
-    @GetMapping("/jadwal")
-    public String jadwal(HttpSession session, Model model) {
+    // jadwal bimbingan calender
+    @GetMapping("/jadwal-bimbingan")
+    public String jadwalBimbingan(HttpSession session, Model model) {
         User user = cekLogin(session);
         if (user == null)
             return "redirect:/login";
 
+        int idMhs = user.getId();
+
+        // Mengambil semua jadwal bimbingan (Approved/Pending)
+        // Method 'getJadwalByMahasiswa' ada di Service JadwalBimbingan (Lihat poin 6 di
+        // bawah)
+        List<JadwalBimbingan> daftarJadwal = jadwalService.getJadwalByMahasiswa(idMhs);
+
+        model.addAttribute("daftarJadwal", daftarJadwal);
         model.addAttribute("user", user);
-        model.addAttribute("notifList", notifikasiService.getNotifByUser(user.getId()));
-        // Nanti bisa tambah logic ambil data jadwal disini
+        model.addAttribute("notifList", notifikasiService.getNotifByUser(idMhs));
+
         return "Mahasiswa/jadwal-mhs";
     }
 
@@ -83,9 +101,14 @@ public class MahasiswaController {
         if (user == null)
             return "redirect:/login";
 
+        int idMhs = user.getId();
+
+        List<JadwalBimbingan> riwayatList = jadwalService.getJadwalByMahasiswa(idMhs);
+
+        model.addAttribute("riwayatList", riwayatList);
         model.addAttribute("user", user);
-        model.addAttribute("notifList", notifikasiService.getNotifByUser(user.getId()));
-        // Nanti bisa tambah logic ambil data riwayat disini
+        model.addAttribute("notifList", notifikasiService.getNotifByUser(idMhs));
+
         return "Mahasiswa/riwayat-bimbingan";
     }
 
@@ -97,50 +120,58 @@ public class MahasiswaController {
 
         int idMhs = user.getId();
 
-        mahasiswaService.getNamaDosenPembimbing(idMhs).ifPresent(nama -> model.addAttribute("namaDosenPembimbing", nama));
+        mahasiswaService.getNamaDosenPembimbing(idMhs)
+                .ifPresent(nama -> model.addAttribute("namaDosenPembimbing", nama));
 
         model.addAttribute("user", user);
         model.addAttribute("notifList", notifikasiService.getNotifByUser(user.getId()));
         return "Mahasiswa/pengajuan-mhs";
     }
 
-    @PostMapping("/ajukan-bimbingan")
-    public String ajukanBimbingan(
-            HttpSession session,
-            @RequestParam("tanggal") String tanggal,
-            @RequestParam("jamMulai") String jamMulai,
-            @RequestParam("jamSelesai") String jamSelesai,
-            RedirectAttributes redirectAttributes
-    ) {
-
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null || !"mahasiswa".equalsIgnoreCase(user.getRole())) {
+    @GetMapping("/jadwal")
+    public String jadwalKuliah(HttpSession session, Model model) {
+        User user = cekLogin(session);
+        if (user == null)
             return "redirect:/login";
-        }
 
-        int idMhs = user.getId();
+        model.addAttribute("user", user);
+        model.addAttribute("notifList", notifikasiService.getNotifByUser(user.getId()));
 
-        // Cari dosen pembimbing mahasiswa
-        Optional<String> namaDosen = mahasiswaService.getNamaDosenPembimbing(idMhs);
+        List<JadwalKuliah> listJadwal = jadwalKuliahService.getByMhs(user.getId());
+        model.addAttribute("listJadwal", listJadwal);
 
-        // Dapatkan ID dosennya juga
-        int idDosen = mahasiswaService.getIdDosenPembimbing(idMhs);
-
-        // Simpan ke database
-        jadwalService.insertPengajuan(
-                idMhs,
-                idDosen,
-                LocalDate.parse(tanggal),
-                LocalTime.parse(jamMulai),
-                LocalTime.parse(jamSelesai)
-        );
-
-        // Kirim notifikasi ke dosen
-        notifikasiService.buatNotif(idDosen, "Pengajuan Baru", "Mahasiswa mengajukan bimbingan baru.");
-
-        redirectAttributes.addFlashAttribute("successMessage", "Pengajuan bimbingan berhasil dikirim");
-        
-        return "redirect:/mahasiswa/pengajuan";
+        return "Mahasiswa/jadwal";
     }
 
+    @GetMapping("/api/ruangan-tersedia")
+    @ResponseBody
+    public List<Ruangan> getRuanganTersedia(
+            @RequestParam("tanggal") LocalDate tanggal,
+            @RequestParam("jamMulai") LocalTime jamMulai,
+            @RequestParam("jamSelesai") LocalTime jamSelesai) {
+        return ruanganService.cariRuanganKosong(tanggal, jamMulai, jamSelesai);
+    }
+
+    @PostMapping("/ajukan-bimbingan")
+    public String prosesPengajuan(
+            HttpSession session,
+            @RequestParam("tanggal") LocalDate tanggal,
+            @RequestParam("jamMulai") LocalTime jamMulai,
+            @RequestParam("jamSelesai") LocalTime jamSelesai,
+            @RequestParam("idRuangan") int idRuangan) {
+        User user = cekLogin(session);
+        if (user == null)
+            return "redirect:/login";
+
+        int idMhs = user.getId();
+        int idDosen = mahasiswaService.getIdDosenPembimbing(idMhs);
+
+        // Update method insertPengajuan di Service Anda untuk menerima idRuangan juga
+        jadwalService.insertPengajuan(idMhs, idDosen, tanggal, jamMulai, jamSelesai, idRuangan);
+
+        notifikasiService.buatNotif(idDosen, "Pengajuan Bimbingan",
+                "Mahasiswa " + user.getName() + " mengajukan jadwal baru.");
+
+        return "redirect:/mahasiswa/riwayat";
+    }
 }

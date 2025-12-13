@@ -45,14 +45,14 @@ public class DosenService {
         return dosenRepository.findJadwalMengajarById(idDosen, idJadwalKuliah);
     }
 
-    public int tambahJadwalMengajar(int idDosen, String hari, String jamMulai, String jamSelesai, 
-                                     String mataKuliah, String kelas) {
+    public int tambahJadwalMengajar(int idDosen, String hari, String jamMulai, String jamSelesai,
+            String mataKuliah, String kelas) {
         return dosenRepository.tambahJadwalMengajar(idDosen, hari, jamMulai, jamSelesai, mataKuliah, kelas);
     }
 
-    public void ubahJadwalMengajar(int idDosen, int idJadwalKuliah, String hari, 
-                                     String jamMulai, String jamSelesai, 
-                                     String mataKuliah, String kelas) {
+    public void ubahJadwalMengajar(int idDosen, int idJadwalKuliah, String hari,
+            String jamMulai, String jamSelesai,
+            String mataKuliah, String kelas) {
         dosenRepository.ubahJadwalMengajar(idDosen, idJadwalKuliah, hari, jamMulai, jamSelesai, mataKuliah, kelas);
     }
 
@@ -63,7 +63,7 @@ public class DosenService {
     public int[] importJadwalMengajarFromCSV(int idDosen, List<Map<String, String>> csvData) {
         int successCount = 0;
         int failCount = 0;
-        
+
         for (Map<String, String> row : csvData) {
             try {
                 // Handle various column name formats (case insensitive, with/without spaces)
@@ -72,12 +72,12 @@ public class DosenService {
                 String jamSelesai = getValueIgnoreCase(row, "jamselesai", "jam selesai");
                 String mataKuliah = getValueIgnoreCase(row, "matakuliah", "mata kuliah", "keterangan");
                 String kelas = getValueIgnoreCase(row, "kelas");
-                
-                if (hari != null && !hari.isEmpty() && 
-                    jamMulai != null && !jamMulai.isEmpty() && 
-                    jamSelesai != null && !jamSelesai.isEmpty() && 
-                    mataKuliah != null && !mataKuliah.isEmpty() && 
-                    kelas != null && !kelas.isEmpty()) {
+
+                if (hari != null && !hari.isEmpty() &&
+                        jamMulai != null && !jamMulai.isEmpty() &&
+                        jamSelesai != null && !jamSelesai.isEmpty() &&
+                        mataKuliah != null && !mataKuliah.isEmpty() &&
+                        kelas != null && !kelas.isEmpty()) {
                     tambahJadwalMengajar(idDosen, hari, jamMulai, jamSelesai, mataKuliah, kelas);
                     successCount++;
                 } else {
@@ -87,10 +87,10 @@ public class DosenService {
                 failCount++;
             }
         }
-        
-        return new int[]{successCount, failCount};
+
+        return new int[] { successCount, failCount };
     }
-    
+
     private String getValueIgnoreCase(Map<String, String> map, String... keys) {
         for (String key : keys) {
             for (Map.Entry<String, String> entry : map.entrySet()) {

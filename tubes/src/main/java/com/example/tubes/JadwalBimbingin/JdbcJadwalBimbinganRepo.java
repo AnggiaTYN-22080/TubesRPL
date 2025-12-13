@@ -17,6 +17,7 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
+    // Method mapRow milik rekan Anda (JANGAN DIUBAH)
     private JadwalBimbingan mapRow(ResultSet rs) throws SQLException {
         JadwalBimbingan j = new JadwalBimbingan();
 
@@ -38,25 +39,19 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
         // Optional: jika query memiliki kolom mahasiswa
         try {
             String name = rs.getString("name");
-            if (name != null) {
+            if (name != null)
                 j.setNamaMahasiswa(name);
-            }
             String npm = rs.getString("npm");
-            if (npm != null) {
+            if (npm != null)
                 j.setNpm(npm);
-            }
         } catch (Exception e) {
-            // Field tidak ada di query
         }
-        
-        // Optional: jika query memiliki topikTA
+
         try {
             String topik = rs.getString("topikTA");
-            if (topik != null) {
+            if (topik != null)
                 j.setTopikTA(topik);
-            }
         } catch (Exception e) {
-            // Field tidak ada di query
         }
 
         return j;
@@ -64,17 +59,39 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
     @Override
     public List<JadwalBimbingan> findPengajuanByDosen(int idDosen) {
-
+        // Update Query: Tambahkan JOIN ke tabel ruangan dan select namaRuangan
         String sql = """
-                        SELECT j.*, u.name, m.npm
-                        FROM jadwal_bimbingan j
-                        JOIN mahasiswa m ON j.idMhs = m.idMhs
-                        JOIN users u ON u.idUser = m.idMhs
-                        WHERE j.idDosen = ? AND j.status = 'pending'
-                        ORDER BY j.tanggal ASC
+                    SELECT j.*, u.name, m.npm, r.namaRuangan
+                    FROM jadwal_bimbingan j
+                    JOIN mahasiswa m ON j.idMhs = m.idMhs
+                    JOIN users u ON u.idUser = m.idMhs
+                    LEFT JOIN ruangan r ON j.idRuangan = r.idRuangan
+                    WHERE j.idDosen = ? AND j.status = 'pending'
+                    ORDER BY j.tanggal ASC, j.waktuMulai ASC
                 """;
 
-        return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen);
+        return jdbc.query(sql, (rs, rowNum) -> {
+            // Gunakan mapRow dasar
+            JadwalBimbingan j = mapRow(rs);
+
+            // Set data tambahan manual
+            try {
+                j.setNamaMahasiswa(rs.getString("name"));
+            } catch (Exception e) {
+            }
+            try {
+                j.setNpm(rs.getString("npm"));
+            } catch (Exception e) {
+            }
+
+            // Set Nama Ruangan
+            try {
+                j.setNamaRuangan(rs.getString("namaRuangan"));
+            } catch (Exception e) {
+            }
+
+            return j;
+        }, idDosen);
     }
 
     @Override
@@ -85,10 +102,9 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
     @Override
     public List<JadwalBimbingan> findByMonth(int idDosen, int year, int month) {
-
         String sql = """
-                    SELECT j.*, 
-                        u.name, 
+                    SELECT j.*,
+                        u.name,
                         m.npm,
                         COALESCE(t.topikTA, '-') AS topikTA,
                         r.namaRuangan
@@ -104,7 +120,6 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
                     AND j.status = 'approved'
                     ORDER BY j.tanggal, j.waktuMulai
                 """;
-
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen, year, month);
     }
 
@@ -114,24 +129,14 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
                 INSERT INTO jadwal_bimbingan (idMhs, idDosen, tanggal, waktuMulai, waktuSelesai, status)
                 VALUES (?, ?, ?, ?, ?, 'pending')
                 """;
-
         jdbc.update(sql, idMhs, idDosen, tanggal, mulai, selesai);
     }
 
     @Override
     public Optional<JadwalBimbingan> findById(int idJadwal) {
-
-        String sql = """
-                SELECT * FROM jadwal_bimbingan
-                WHERE idJadwal = ?
-                """;
-
+        String sql = "SELECT * FROM jadwal_bimbingan WHERE idJadwal = ?";
         try {
-            JadwalBimbingan j = jdbc.queryForObject(
-                    sql,
-                    (rs, rowNum) -> mapRow(rs),
-                    idJadwal
-            );
+            JadwalBimbingan j = jdbc.queryForObject(sql, (rs, rowNum) -> mapRow(rs), idJadwal);
             return Optional.ofNullable(j);
         } catch (Exception e) {
             return Optional.empty();
@@ -142,18 +147,18 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     public List<Ruangan> findAvailableRuangan(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
 
         String sql = """
-            SELECT r.idRuangan, r.namaRuangan
-            FROM ruangan r
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM jadwal_bimbingan j
-                WHERE j.idRuangan = r.idRuangan
-                AND j.tanggal = ?
-                AND j.status IN ('pending','approved')
-                AND (j.waktuMulai < ? AND j.waktuSelesai > ?)
-            )
-            ORDER BY r.namaRuangan
-        """;
+                    SELECT r.idRuangan, r.namaRuangan
+                    FROM ruangan r
+                    WHERE NOT EXISTS (
+                        SELECT 1
+                        FROM jadwal_bimbingan j
+                        WHERE j.idRuangan = r.idRuangan
+                        AND j.tanggal = ?
+                        AND j.status IN ('pending','approved')
+                        AND (j.waktuMulai < ? AND j.waktuSelesai > ?)
+                    )
+                    ORDER BY r.namaRuangan
+                """;
 
         return jdbc.query(sql, (rs, rowNum) -> {
             Ruangan r = new Ruangan();
@@ -165,13 +170,72 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
     @Override
     public void insertPengajuanDosen(int idMhs, int idDosen, int idRuangan,
-                                    LocalDate tanggal, LocalTime mulai, LocalTime selesai, String status) {
+            LocalDate tanggal, LocalTime mulai, LocalTime selesai, String status) {
 
         String sql = """
-            INSERT INTO jadwal_bimbingan (idMhs, idDosen, idRuangan, tanggal, waktuMulai, waktuSelesai, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """;
+                    INSERT INTO jadwal_bimbingan (idMhs, idDosen, idRuangan, tanggal, waktuMulai, waktuSelesai, status)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """;
 
         jdbc.update(sql, idMhs, idDosen, idRuangan, tanggal, mulai, selesai, status);
+    }
+
+    @Override
+    public List<JadwalBimbingan> findByMahasiswa(int idMhs) {
+        // UPDATE QUERY: Tambahkan LEFT JOIN ke tabel 'bimbingan' dan select b.catatan
+        String sql = """
+                    SELECT j.*,
+                           u.name as namaDosen,
+                           r.namaRuangan,
+                           t.topikTA,
+                           b.catatan
+                    FROM jadwal_bimbingan j
+                    JOIN dosen d ON j.idDosen = d.idDosen
+                    JOIN users u ON d.idDosen = u.idUser
+                    LEFT JOIN ruangan r ON j.idRuangan = r.idRuangan
+                    LEFT JOIN penugasan_ta pta ON pta.idMhs = j.idMhs
+                    LEFT JOIN ta t ON t.idTA = pta.idTA
+                    LEFT JOIN bimbingan b ON b.idJadwal = j.idJadwal
+                    WHERE j.idMhs = ?
+                    ORDER BY j.tanggal DESC, j.waktuMulai DESC
+                """;
+
+        return jdbc.query(sql, (rs, rowNum) -> {
+            JadwalBimbingan j = mapRow(rs);
+
+            try {
+                j.setNamaDosen(rs.getString("namaDosen"));
+            } catch (Exception e) {
+            }
+            try {
+                j.setNamaRuangan(rs.getString("namaRuangan"));
+            } catch (Exception e) {
+            }
+            try {
+                j.setTopikTA(rs.getString("topikTA"));
+            } catch (Exception e) {
+            }
+
+            // TAMBAHAN: Ambil catatan
+            try {
+                String cat = rs.getString("catatan");
+                j.setCatatan(cat != null && !cat.isEmpty() ? cat : "-");
+            } catch (Exception e) {
+                j.setCatatan("-");
+            }
+
+            return j;
+        }, idMhs);
+    }
+
+    @Override
+    public void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai,
+            int idRuangan) {
+        String sql = """
+                INSERT INTO jadwal_bimbingan (idMhs, idDosen, tanggal, waktuMulai, waktuSelesai, idRuangan, status)
+                VALUES (?, ?, ?, ?, ?, ?, 'pending')
+                """;
+
+        jdbc.update(sql, idMhs, idDosen, tanggal, mulai, selesai, idRuangan);
     }
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class Ruangan {
     private int idRuangan;
     private String namaRuangan;
+    private String statusRuangan;
 }

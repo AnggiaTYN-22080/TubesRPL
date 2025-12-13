@@ -36,11 +36,21 @@ public class JadwalBimbinganService {
         return repo.findById(idJadwal);
     }
 
-    public List<Ruangan> getAvailableRuangan(LocalDate tanggal, LocalTime mulai, LocalTime selesai){
+    public List<Ruangan> getAvailableRuangan(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
         return repo.findAvailableRuangan(tanggal, mulai, selesai);
     }
 
-    public void insertPengajuanDosen(int idMhs, int idDosen, int idRuangan, LocalDate tanggal, LocalTime mulai, LocalTime selesai, String status) {
+    public void insertPengajuanDosen(int idMhs, int idDosen, int idRuangan, LocalDate tanggal, LocalTime mulai,
+            LocalTime selesai, String status) {
         repo.insertPengajuanDosen(idMhs, idDosen, idRuangan, tanggal, mulai, selesai, status);
+    }
+
+    public List<JadwalBimbingan> getJadwalByMahasiswa(int idMhs) {
+        return repo.findByMahasiswa(idMhs);
+    }
+
+    public void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai,
+            int idRuangan) {
+        repo.insertPengajuan(idMhs, idDosen, tanggal, mulai, selesai, idRuangan);
     }
 }

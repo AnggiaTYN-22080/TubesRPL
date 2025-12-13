@@ -11,22 +11,21 @@ public class NotifikasiRepository {
 
     @Autowired
     private JdbcTemplate jdbc;
-    
 
     public void insertNotif(int idUser, String tipe, String keterangan) {
         String sql = """
-            INSERT INTO notifikasi (idUser, tipeNotif, keterangan)
-            VALUES (?, ?, ?)
-        """;
+                    INSERT INTO notifikasi (idUser, tipeNotif, keterangan)
+                    VALUES (?, ?, ?)
+                """;
         jdbc.update(sql, idUser, tipe, keterangan);
     }
 
     public List<Notifikasi> getNotifByUser(int idUser) {
         String sql = """
-            SELECT * FROM notifikasi
-            WHERE idUser = ?
-            ORDER BY waktu DESC
-        """;
+                    SELECT * FROM notifikasi
+                    WHERE idUser = ?
+                    ORDER BY waktu DESC
+                """;
 
         return jdbc.query(sql, (rs, rowNum) -> {
             Notifikasi n = new Notifikasi();
