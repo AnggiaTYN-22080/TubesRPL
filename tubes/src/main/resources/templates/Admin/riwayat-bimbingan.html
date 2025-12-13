@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <title>Riwayat Bimbingan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/Css/Admin/riwayat-bimbingan.css}" href="../../static/Css/Admin/riwayat-bimbingan.css">
+    <link rel="stylesheet" th:href="@{/Css/Admin/riwayat-bimbingan.css}"
+        href="../../static/Css/Admin/riwayat-bimbingan.css">
     <link rel="stylesheet" th:href="@{/Css/Layout/panelnotif.css}" href="../../static/Css/Layout/panelnotif.css">
 </head>
 
 <body>
     <!-- sidebar -->
     <div class="sidebar">
-        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo" alt="Logo Unpar">
+        <img th:src="@{/Images/LogoUnpar.png}" src="../../static/Images/LogoUnpar.png" class="sidebar-logo"
+            alt="Logo Unpar">
         <a th:href="@{/admin/dashboard}" class="sidebar-icon" title="Dashboard">
             <i class="fa-solid fa-house"></i>
         </a>
@@ -65,17 +67,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="log : ${riwayatBimbingan}">
+                    <tr th:each="r : ${riwayatList}">
                         <td>
-                            <div class="student-name" th:text="${log.nama}">Olivia Rhye</div>
-                            <div class="student-id" th:text="${log.nim}">i22001</div>
+                            <a th:href="@{/admin/detail-bimbingan/{id}(id=${r.idJadwal})}"
+                                th:text="${r.namaMahasiswa}"></a>
                         </td>
-                        <td th:text="${log.email}">i22001@unpar.com</td>
-                        <td class="cell-more">
-                            <button type="button" class="btn-more" th:onclick="'location.href=\'/admin/riwayat-bimbingan/detail/\' + ' + ${log.id}">
-                            </button>
-                        </td>
+                        <td th:text="${r.npm}"></td>
                     </tr>
+
                 </tbody>
             </table>
         </div>

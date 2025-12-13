@@ -56,10 +56,11 @@
     <div class="content-area">
 
         <!-- navbar TA1 / TA2 -->
-            <div class="tab-nav">
-                <button class="tab-link" data-tab="TA1">TA 1</button>
-                <button class="tab-link active" data-tab="TA2">TA 2</button>
-            </div>
+        <div class="tab-nav">
+            <a th:href="@{/admin/periode-ta}" class="tab-link">TA 1</a>
+            <a th:href="@{/admin/periode-ta/ta2}" class="tab-link active">TA 2</a>
+        </div>
+
 
         <!-- ATUR PERIODE TA -->
         <section class="section-periode">
@@ -95,7 +96,8 @@
         <section class="section-periode section-add">
             <h4 class="section-title">Tambah Periode</h4>
 
-            <form th:action="@{/admin/periode-ta/simpan}" method="post">
+            <form th:action="@{/admin/periode-ta/simpan}" th:object="${periodeForm}" method="post">
+
                 <div class="period-card">
                     <!-- Nama periode -->
                     <input type="text" class="input-period-name" placeholder="TA1 ganjil 2025" th:field="*{nama}" />

@@ -17,58 +17,16 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
     @Autowired
     private JdbcTemplate jdbc;
 
-    private JadwalBimbingan mapRow(ResultSet rs) throws SQLException {
-        JadwalBimbingan j = new JadwalBimbingan();
-
-        j.setIdJadwal(rs.getInt("idJadwal"));
-        j.setTanggal(rs.getDate("tanggal").toLocalDate());
-        j.setWaktuMulai(rs.getTime("waktuMulai").toLocalTime());
-        j.setWaktuSelesai(rs.getTime("waktuSelesai").toLocalTime());
-        j.setStatus(rs.getString("status"));
-
-        j.setIdMhs(rs.getInt("idMhs"));
-        j.setIdDosen(rs.getInt("idDosen"));
-        j.setIdRuangan(rs.getInt("idRuangan"));
-
-        // Optional: jika query memiliki kolom mahasiswa
-        try {
-            String name = rs.getString("name");
-            if (name != null) {
-                j.setNamaMahasiswa(name);
-            }
-            String npm = rs.getString("npm");
-            if (npm != null) {
-                j.setNpm(npm);
-            }
-        } catch (Exception e) {
-            // Field tidak ada di query
-        }
-        
-        // Optional: jika query memiliki topikTA
-        try {
-            String topik = rs.getString("topikTA");
-            if (topik != null) {
-                j.setTopikTA(topik);
-            }
-        } catch (Exception e) {
-            // Field tidak ada di query
-        }
-
-        return j;
-    }
-
     @Override
     public List<JadwalBimbingan> findPengajuanByDosen(int idDosen) {
-
         String sql = """
-                        SELECT j.*, u.name, m.npm
-                        FROM jadwal_bimbingan j
-                        JOIN mahasiswa m ON j.idMhs = m.idMhs
-                        JOIN users u ON u.idUser = m.idMhs
-                        WHERE j.idDosen = ? AND j.status = 'pending'
-                        ORDER BY j.tanggal ASC
+                SELECT jb.*, u.name AS namaMahasiswa, m.npm
+                FROM jadwal_bimbingan jb
+                LEFT JOIN mahasiswa m ON jb.idMhs = m.idMhs
+                LEFT JOIN users u ON m.idMhs = u.idUser
+                WHERE jb.idDosen = ?
+                ORDER BY jb.tanggal DESC, jb.waktuMulai DESC
                 """;
-
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen);
     }
 
@@ -80,52 +38,108 @@ public class JdbcJadwalBimbinganRepo implements JadwalBimbinganRepository {
 
     @Override
     public List<JadwalBimbingan> findByMonth(int idDosen, int year, int month) {
-
         String sql = """
-                    SELECT j.*, u.name, m.npm, 
-                           COALESCE(t.topikTA, '-') AS topikTA
-                    FROM jadwal_bimbingan j
-                    JOIN mahasiswa m ON j.idMhs = m.idMhs
-                    JOIN users u ON u.idUser = m.idMhs
-                    LEFT JOIN penugasan_ta pta ON pta.idMhs = m.idMhs
-                    LEFT JOIN ta t ON t.idTA = pta.idTA AND t.idDosen = j.idDosen
-                    WHERE j.idDosen = ?
-                      AND EXTRACT(YEAR FROM j.tanggal) = ?
-                      AND EXTRACT(MONTH FROM j.tanggal) = ?
-                      AND j.status = 'approved'
-                    ORDER BY j.tanggal, j.waktuMulai
+                SELECT * FROM jadwal_bimbingan
+                WHERE idDosen = ?
+                  AND EXTRACT(YEAR FROM tanggal) = ?
+                  AND EXTRACT(MONTH FROM tanggal) = ?
+                ORDER BY tanggal, waktuMulai
                 """;
-
         return jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idDosen, year, month);
     }
 
     @Override
     public void insertPengajuan(int idMhs, int idDosen, LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
         String sql = """
-                INSERT INTO jadwal_bimbingan (idMhs, idDosen, tanggal, waktuMulai, waktuSelesai, status)
-                VALUES (?, ?, ?, ?, ?, 'pending')
+                INSERT INTO jadwal_bimbingan (tanggal, waktuMulai, waktuSelesai, status, idMhs, idDosen, idRuangan)
+                VALUES (?, ?, ?, 'pending', ?, ?, NULL)
                 """;
-
-        jdbc.update(sql, idMhs, idDosen, tanggal, mulai, selesai);
+        jdbc.update(sql, tanggal, mulai, selesai, idMhs, idDosen);
     }
 
     @Override
     public Optional<JadwalBimbingan> findById(int idJadwal) {
+        String sql = "SELECT * FROM jadwal_bimbingan WHERE idJadwal = ?";
+        List<JadwalBimbingan> res = jdbc.query(sql, (rs, rowNum) -> mapRow(rs), idJadwal);
+        return res.isEmpty() ? Optional.empty() : Optional.of(res.get(0));
+    }
 
+    // =====================
+    // ADMIN
+    // =====================
+    @Override
+    public List<JadwalBimbingan> findAll() {
         String sql = """
                 SELECT * FROM jadwal_bimbingan
-                WHERE idJadwal = ?
+                ORDER BY tanggal DESC, waktuMulai DESC
+                """;
+        return jdbc.query(sql, (rs, rowNum) -> mapRow(rs));
+    }
+
+    @Override
+    public void updateRuangan(int idJadwal, Integer idRuangan) {
+        String sql = "UPDATE jadwal_bimbingan SET idRuangan = ? WHERE idJadwal = ?";
+        jdbc.update(sql, idRuangan, idJadwal);
+    }
+
+    private JadwalBimbingan mapRow(ResultSet rs) throws SQLException {
+        JadwalBimbingan jb = new JadwalBimbingan();
+        jb.setIdJadwal(rs.getInt("idJadwal"));
+        jb.setTanggal(rs.getDate("tanggal").toLocalDate());
+        jb.setWaktuMulai(rs.getTime("waktuMulai").toLocalTime());
+        jb.setWaktuSelesai(rs.getTime("waktuSelesai").toLocalTime());
+        jb.setStatus(rs.getString("status"));
+
+        // nullable FK
+        int idMhs = rs.getInt("idMhs");
+        jb.setIdMhs(rs.wasNull() ? 0 : idMhs);
+
+        int idDosen = rs.getInt("idDosen");
+        jb.setIdDosen(rs.wasNull() ? 0 : idDosen);
+
+        int idRuangan = rs.getInt("idRuangan");
+        jb.setIdRuangan(rs.wasNull() ? 0 : idRuangan);
+
+        // opsional (kalau query join ada)
+        try {
+            jb.setNamaMahasiswa(rs.getString("namaMahasiswa"));
+            jb.setNpm(rs.getString("npm"));
+        } catch (SQLException ignored) {
+        }
+
+        return jb;
+    }
+
+    @Override
+    public List<AdminJadwalRow> findAllAdminRows() {
+        String sql = """
+                    SELECT
+                        jb.idJadwal,
+                        jb.status,
+                        jb.tanggal,
+                        jb.waktuMulai,
+                        jb.waktuSelesai,
+                        d.nik AS nikDosen,
+                        u.name AS namaDosen,
+                        jb.idRuangan,
+                        r.namaRuangan
+                    FROM jadwal_bimbingan jb
+                    JOIN dosen d ON d.idDosen = jb.idDosen
+                    JOIN users u ON u.idUser = d.idDosen
+                    LEFT JOIN ruangan r ON r.idRuangan = jb.idRuangan
+                    ORDER BY jb.tanggal DESC, jb.waktuMulai DESC
                 """;
 
-        try {
-            JadwalBimbingan j = jdbc.queryForObject(
-                    sql,
-                    (rs, rowNum) -> mapRow(rs),
-                    idJadwal
-            );
-            return Optional.ofNullable(j);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+        return jdbc.query(sql, (rs, rowNum) -> new AdminJadwalRow(
+                rs.getInt("idJadwal"),
+                rs.getString("status"),
+                rs.getDate("tanggal").toLocalDate(),
+                rs.getTime("waktuMulai").toLocalTime(),
+                rs.getTime("waktuSelesai").toLocalTime(),
+                rs.getString("nikDosen"),
+                rs.getString("namaDosen"),
+                (Integer) rs.getObject("idRuangan"),
+                rs.getString("namaRuangan")));
     }
+
 }
