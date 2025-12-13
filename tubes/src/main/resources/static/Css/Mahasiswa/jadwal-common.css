@@ -1,0 +1,37 @@
+/* Container Navigasi (Sama seperti Dosen) */
+.tab-nav-container {
+    margin-left: 60px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.tab-nav {
+    padding: 10px 40px;
+    border-radius: 50px;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.tab-link {
+    text-decoration: none;
+    color: #888;
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-link:hover {
+    color: #333;
+}
+
+.tab-link.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
