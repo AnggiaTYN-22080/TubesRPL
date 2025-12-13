@@ -9,21 +9,22 @@
     <script th:src="@{/Js/notif.js}" defer></script>
 </head>
 <body>
-<div class="sidebar">
-    <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
+    <div class="sidebar">
+        <img th:src="@{/Images/LogoUnpar.png}" class="sidebar-logo">
 
-    <a th:href="@{/dosen/dashboard}" class="sidebar-icon active">
-        <i class="fa-solid fa-house"></i>
-    </a>
+        <a th:href="@{/dosen/dashboard}" class="sidebar-icon active" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
 
-    <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon">
-        <i class="fa-regular fa-clock"></i>
-    </a>
+        <a th:href="@{/dosen/jadwal-bimbingan}"  class="sidebar-icon" title="Jadwal">
+            <i class="fa-regular fa-clock"></i>
+        </a>
 
-    <a th:href="@{/dosen/jadwal-bimbingan}" class="sidebar-icon">
-        <i class="fa-regular fa-file-lines"></i>
-    </a>
-</div>
+        <a th:href="@{/dosen/daftar-mahasiswa}" class="sidebar-icon" title="Laporan">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
+    </div>
+    
 <div class="header">
     <h3>SIAP Bimbingan</h3>
 
@@ -34,7 +35,7 @@
                   th:if="${notifList != null and notifList.size() > 0}"
                   th:text="${notifList.size()}"></span>
         </div>
-        <a th:href="@{/logout}" class="logout">Logout</a>
+        <a th:href="@{/dosen/logout}" class="logout">Logout</a>
     </div>
 </div>
 <div class="content">
@@ -46,7 +47,7 @@
         <!-- JAM & TANGGAL -->
         <div class="detail-row">
             <div class="detail-label">Jam dan Tanggal</div>
-            <div class="detail-value">
+            <div class="detail-value" th:if="${jadwal != null}">
                 <div class="fw-bold"
                      th:text="${#temporals.format(jadwal.tanggal,'dd MMMM yyyy')}">
                 </div>
@@ -54,6 +55,9 @@
                     <span th:text="${jadwal.waktuMulai}"></span> -
                     <span th:text="${jadwal.waktuSelesai}"></span>
                 </div>
+            </div>
+            <div class="detail-value" th:if="${jadwal == null}">
+                Data jadwal tidak ditemukan
             </div>
         </div>
 
@@ -85,7 +89,7 @@
                 </div>
 
                 <!-- EDIT MODE -->
-                <form th:action="@{/dosen/bimbingan/{id}/catatan(id=${jadwal.idJadwal})}"
+                <form th:if="${jadwal != null}" th:action="@{/dosen/bimbingan/{id}/catatan(id=${jadwal.idJadwal})}"
                       method="post"
                       enctype="multipart/form-data"
                       id="catatanForm"
