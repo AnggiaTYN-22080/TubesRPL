@@ -37,13 +37,30 @@
             <table class="table-custom">
                 <thead><tr><th>No</th><th>Tanggal</th><th>Topik / Materi</th><th>Dosen Pembimbing</th><th>Status</th><th style="text-align: center;">Catatan</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>20 Oktober 2025</td>
-                        <td>Revisi Bab 1</td>
-                        <td>Pak Budi</td>
-                        <td><span class="badge badge-success" style="background-color:#d1fae5; color:#065f46;">Selesai</span></td>
-                        <td style="text-align: center;"><a href="#" class="btn-detail">Lihat</a></td>
+                    <tr th:each="riwayat, iterStat : ${riwayatList}">
+                        <td th:text="${iterStat.count}">1</td>
+                        
+                        <td th:text="${riwayat.tanggal}">20 Oktober 2025</td>
+                        
+                        <td>Bimbingan TA</td> 
+                        
+                        <td th:text="${riwayat.namaDosen}">Pak Keenan</td>
+                        
+                        <td>
+                            <span class="badge badge-success" 
+                                th:classappend="${riwayat.status == 'approved' ? 'badge-success' : 'badge-warning'}"
+                                th:text="${riwayat.status}">
+                                Selesai
+                            </span>
+                        </td>
+                        
+                        <td style="text-align: center;">
+                            <a href="#" class="btn-detail">Lihat</a>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${riwayatList.isEmpty()}">
+                        <td colspan="6" style="text-align: center;">Belum ada riwayat bimbingan.</td>
                     </tr>
                 </tbody>
             </table>
